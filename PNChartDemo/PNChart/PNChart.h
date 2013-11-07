@@ -44,8 +44,6 @@ typedef enum {
 
 @property (strong, nonatomic) NSArray * yValues;
 
-@property (nonatomic,strong) CAShapeLayer * chartLine;
-
 @property (strong, nonatomic) PNLineChart * lineChart;
 
 @property (strong, nonatomic) PNBarChart * barChart;
