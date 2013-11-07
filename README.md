@@ -6,7 +6,7 @@ A simple and beautiful chart lib with animation used in Piner for iOS
 
 ## Requirements
 
-PNChart works on iOS 6.0 and later version and is compatible with both ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
+PNChart works on iOS 6.0 and later version and is compatible with ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
 * Foundation.framework
 * UIKit.framework
