@@ -9,7 +9,6 @@
 #import "PNLineChart.h"
 #import "PNColor.h"
 #import "PNChartLabel.h"
-#import <Foundation/Foundation.h>
 
 @implementation PNLineChart
 
@@ -99,7 +98,7 @@
     
     UIBezierPath *progressline = [UIBezierPath bezierPath];
     
-    CGFloat firstValue = [[_yValues firstObject] floatValue];
+    CGFloat firstValue = [_yValues[0] floatValue];
     
     CGFloat xPosition = (xLabelMargin + _xLabelWidth)   ;
     
