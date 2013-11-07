@@ -9,6 +9,7 @@
 #import "PNLineChart.h"
 #import "PNColor.h"
 #import "PNChartLabel.h"
+#import <Foundation/Foundation.h>
 
 @implementation PNLineChart
 
@@ -39,7 +40,7 @@
 
 -(void)setYLabels:(NSArray *)yLabels
 {
-    int max = 0;
+    NSInteger max = 0;
     for (NSString * valueString in yLabels) {
         NSInteger value = [valueString integerValue];
         if (value > max) {
@@ -53,9 +54,8 @@
         max = 5;
     }
     
-    _yValueMax = max;
+    _yValueMax = (int)max;
     
-    NSLog(@"Y Max is %d", _yValueMax );
     float level = max /5.0;
 	
     NSInteger index = 0;
@@ -115,7 +115,6 @@
         NSInteger value = [valueString integerValue];
         
         float grade = (float)value / (float)_yValueMax;
-        NSLog(@"index is %d and value is %d ymax is %d grade is %f",index, value, _yValueMax,grade);
         if (index != 0) {
             
             [progressline addLineToPoint:CGPointMake(index * xPosition  + 30.0+ _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0)];
@@ -125,8 +124,6 @@
             [progressline stroke];
         }
         
-        
-        NSLog(@"Xvalue is %f Y value is %f",index * xPosition  + 30.0+ _xLabelWidth /2.0,  chartCavanHeight - grade * chartCavanHeight + 20.0 );
         index += 1;
     }
     

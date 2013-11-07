@@ -34,7 +34,7 @@
 
 -(void)setYLabels:(NSArray *)yLabels
 {
-    int max = 0;
+    NSInteger max = 0;
     for (NSString * valueString in yLabels) {
         NSInteger value = [valueString integerValue];
         if (value > max) {
@@ -48,7 +48,7 @@
         max = 5;
     }
     
-    _yValueMax = max;
+    _yValueMax = (int)max;
     
     NSLog(@"Y Max is %d", _yValueMax );
 
