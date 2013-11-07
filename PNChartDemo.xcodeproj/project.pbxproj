@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A143B53182B665000332B62 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A143B52182B665000332B62 /* QuartzCore.framework */; };
 		0AF7A868182AA9F6003645C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF7A867182AA9F6003645C4 /* Foundation.framework */; };
 		0AF7A86A182AA9F6003645C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF7A869182AA9F6003645C4 /* CoreGraphics.framework */; };
 		0AF7A86C182AA9F6003645C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF7A86B182AA9F6003645C4 /* UIKit.framework */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A143B52182B665000332B62 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0AF7A864182AA9F6003645C4 /* PNChartDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PNChartDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF7A867182AA9F6003645C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0AF7A869182AA9F6003645C4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A143B53182B665000332B62 /* QuartzCore.framework in Frameworks */,
 				0AF7A86A182AA9F6003645C4 /* CoreGraphics.framework in Frameworks */,
 				0AF7A86C182AA9F6003645C4 /* UIKit.framework in Frameworks */,
 				0AF7A868182AA9F6003645C4 /* Foundation.framework in Frameworks */,
@@ -119,6 +122,7 @@
 		0AF7A866182AA9F6003645C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A143B52182B665000332B62 /* QuartzCore.framework */,
 				0AF7A867182AA9F6003645C4 /* Foundation.framework */,
 				0AF7A869182AA9F6003645C4 /* CoreGraphics.framework */,
 				0AF7A86B182AA9F6003645C4 /* UIKit.framework */,
@@ -513,6 +517,7 @@
 				0AF7A898182AA9F6003645C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0AF7A899182AA9F6003645C4 /* Build configuration list for PBXNativeTarget "PNChartDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +526,7 @@
 				0AF7A89B182AA9F6003645C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

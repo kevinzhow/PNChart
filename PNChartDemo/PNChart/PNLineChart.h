@@ -8,6 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 #define chartMargin     10
 #define xLabelMargin    15
