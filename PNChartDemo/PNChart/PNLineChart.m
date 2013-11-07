@@ -98,7 +98,7 @@
     
     UIBezierPath *progressline = [UIBezierPath bezierPath];
     
-    CGFloat firstValue = [_yValues[0] floatValue];
+    CGFloat firstValue = [[_yValues objectAtIndex:0] floatValue];
     
     CGFloat xPosition = (xLabelMargin + _xLabelWidth)   ;
     

@@ -15,9 +15,21 @@ PNChart works on iOS 6.0 and later version and is compatible with ARC projects. 
 
 You will need LLVM 3.0 or later in order to build PNChart.
 
+
+
+
 ## Usage
 
-Copy the PNChart folder to your project
+### Cocoapods
+
+[CocoaPods](http://cocoapods.org) is the recommended way to add PNChart to your project.
+
+1. Add a pod entry for PNChart to your Podfile `pod 'PNChart', '~> 0.1.5'`
+2. Install the pod(s) by running `pod install`.
+3. Include PNChart wherever you need it with `#import "PNChart.h"`.
+
+
+### Copy the PNChart folder to your project
 
 ```objective-c
   #import "PNChart.h"
@@ -42,3 +54,8 @@ Copy the PNChart folder to your project
 ## License
 
 This code is distributed under the terms and conditions of the [MIT license](LICENSE).
+
+## SpecialThanks
+
+[@lexrus](http://twitter.com/lexrus)  CocoaPods Spec
+
