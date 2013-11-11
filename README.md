@@ -1,6 +1,6 @@
 #PNChart
 
-A simple and beautiful chart lib with animation used in Piner for iOS
+A simple and beautiful chart lib with animation used in [Piner](https://itunes.apple.com/us/app/piner/id637706410) for iOS
 
 [![](http://dl.dropboxusercontent.com/u/1599662/pnchart.png)](http://dl.dropboxusercontent.com/u/1599662/pnchart.png)
 

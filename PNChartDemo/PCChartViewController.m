@@ -29,7 +29,7 @@
 	PNChart * lineChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 75.0, SCREEN_WIDTH, 200.0)];
 	lineChart.backgroundColor = [UIColor clearColor];
 	[lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
-	[lineChart setYValues:@[@"1",@"10",@"2",@"6",@"3"]];
+	[lineChart setYValues:@[@"1",@"240",@"122",@"186",@"300"]];
 	[lineChart strokeChart];
 	[self.chartScrollView addSubview:lineChartLabel];
 	[self.chartScrollView addSubview:lineChart];
@@ -46,7 +46,7 @@
 	barChart.backgroundColor = [UIColor clearColor];
 	barChart.type = PNBarType;
 	[barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
-	[barChart setYValues:@[@"1",@"10",@"2",@"6",@"3"]];
+	[barChart setYValues:@[@"1",@"240",@"122",@"186",@"300"]];
 	[barChart strokeChart];
 	[self.chartScrollView addSubview:barChartLabel];
 	[self.chartScrollView addSubview:barChart];
