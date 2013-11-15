@@ -95,6 +95,7 @@
 
 -(void)strokeChart
 {
+    UIGraphicsBeginImageContext(self.frame.size);
     
     UIBezierPath *progressline = [UIBezierPath bezierPath];
     
@@ -144,7 +145,7 @@
     
     _chartLine.strokeEnd = 1.0;
     
-    
+    UIGraphicsEndImageContext();
 }
 
 
