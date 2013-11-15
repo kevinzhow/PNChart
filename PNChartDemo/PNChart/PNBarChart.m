@@ -58,7 +58,7 @@
 -(void)setXLabels:(NSArray *)xLabels
 {
     _xLabels = xLabels;
-    _xLabelWidth = (self.frame.size.width - chartMargin*2)/5.0;
+    _xLabelWidth = (self.frame.size.width - chartMargin*2)/[xLabels count];
     
     for (NSString * labelText in xLabels) {
         NSInteger index = [xLabels indexOfObject:labelText];

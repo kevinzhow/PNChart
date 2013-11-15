@@ -55,7 +55,7 @@
     
     _yValueMax = (int)max;
     
-    float level = max /5.0;
+    float level = max /[yLabels count];
 	
     NSInteger index = 0;
 	NSInteger num = [yLabels count] + 1;
@@ -75,7 +75,7 @@
 -(void)setXLabels:(NSArray *)xLabels
 {
     _xLabels = xLabels;
-    _xLabelWidth = (self.frame.size.width - chartMargin - 30.0 - ([xLabels count] -1) * xLabelMargin)/5.0;
+    _xLabelWidth = (self.frame.size.width - chartMargin - 30.0 - ([xLabels count] -1) * xLabelMargin)/[xLabels count];
     
     for (NSString * labelText in xLabels) {
         NSInteger index = [xLabels indexOfObject:labelText];
