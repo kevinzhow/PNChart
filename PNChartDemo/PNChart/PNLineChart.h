@@ -11,7 +11,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define chartMargin     10
-#define xLabelMargin    15
 #define yLabelMargin    15
 #define yLabelHeight    11
 

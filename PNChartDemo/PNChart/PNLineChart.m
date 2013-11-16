@@ -75,11 +75,11 @@
 -(void)setXLabels:(NSArray *)xLabels
 {
     _xLabels = xLabels;
-    _xLabelWidth = (self.frame.size.width - chartMargin - 30.0 - ([xLabels count] -1) * xLabelMargin)/[xLabels count];
+    _xLabelWidth = (self.frame.size.width - chartMargin - 30.0)/[xLabels count];
     
     for (NSString * labelText in xLabels) {
         NSInteger index = [xLabels indexOfObject:labelText];
-        PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(index * (xLabelMargin + _xLabelWidth) + 30.0, self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
+        PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(index * _xLabelWidth + 30.0, self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
         [label setTextAlignment:NSTextAlignmentCenter];
         label.text = labelText;
         [self addSubview:label];
@@ -101,7 +101,7 @@
     
     CGFloat firstValue = [[_yValues objectAtIndex:0] floatValue];
     
-    CGFloat xPosition = (xLabelMargin + _xLabelWidth)   ;
+    CGFloat xPosition = _xLabelWidth   ;
     
     CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
     
