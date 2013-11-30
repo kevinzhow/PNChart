@@ -28,6 +28,7 @@
 		0AF7A8B9182AEB80003645C4 /* PNBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8B8182AEB80003645C4 /* PNBar.m */; };
 		0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BB182AEB99003645C4 /* PNChartLabel.m */; };
 		0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BD182AEB99003645C4 /* PNColor.m */; };
+		9F55483E18498E0E004073B5 /* PNCircleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F55483D18498E0E004073B5 /* PNCircleChart.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		0AF7A8BB182AEB99003645C4 /* PNChartLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNChartLabel.m; path = PNChart/PNChartLabel.m; sourceTree = "<group>"; };
 		0AF7A8BC182AEB99003645C4 /* PNColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNColor.h; path = PNChart/PNColor.h; sourceTree = "<group>"; };
 		0AF7A8BD182AEB99003645C4 /* PNColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNColor.m; path = PNChart/PNColor.m; sourceTree = "<group>"; };
+		9F55483C18498E0E004073B5 /* PNCircleChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNCircleChart.h; path = PNChart/PNCircleChart.h; sourceTree = "<group>"; };
+		9F55483D18498E0E004073B5 /* PNCircleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNCircleChart.m; path = PNChart/PNCircleChart.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +192,8 @@
 				0AF7A8B5182ADDEB003645C4 /* PNBarChart.m */,
 				0AF7A8B7182AEB80003645C4 /* PNBar.h */,
 				0AF7A8B8182AEB80003645C4 /* PNBar.m */,
+				9F55483C18498E0E004073B5 /* PNCircleChart.h */,
+				9F55483D18498E0E004073B5 /* PNCircleChart.m */,
 			);
 			name = PNChart;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				0AF7A8B6182ADDEB003645C4 /* PNBarChart.m in Sources */,
 				0AF7A874182AA9F6003645C4 /* main.m in Sources */,
 				0AF7A8B3182AC604003645C4 /* PNLineChart.m in Sources */,
+				9F55483E18498E0E004073B5 /* PNCircleChart.m in Sources */,
 				0AF7A878182AA9F6003645C4 /* PCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
