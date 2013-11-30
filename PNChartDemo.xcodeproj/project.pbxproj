@@ -30,6 +30,7 @@
 		0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BD182AEB99003645C4 /* PNColor.m */; };
 		9F55483E18498E0E004073B5 /* PNCircleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F55483D18498E0E004073B5 /* PNCircleChart.m */; };
 		9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F656B50184A4E34002E5675 /* UICountingLabel.m */; };
+		9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,8 @@
 		9F55483D18498E0E004073B5 /* PNCircleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNCircleChart.m; path = PNChart/PNCircleChart.m; sourceTree = "<group>"; };
 		9F656B4F184A4E34002E5675 /* UICountingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICountingLabel.h; path = PNChart/ThirdPart/UICountingLabel.h; sourceTree = "<group>"; };
 		9F656B50184A4E34002E5675 /* UICountingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UICountingLabel.m; path = PNChart/ThirdPart/UICountingLabel.m; sourceTree = "<group>"; };
+		9FA23B0E184A5944002DBBA4 /* PCChartsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCChartsTableViewController.h; sourceTree = "<group>"; };
+		9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCChartsTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +201,8 @@
 			children = (
 				0AF7A8AD182AAEEF003645C4 /* PCChartViewController.h */,
 				0AF7A8AE182AAEEF003645C4 /* PCChartViewController.m */,
+				9FA23B0E184A5944002DBBA4 /* PCChartsTableViewController.h */,
+				9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */,
 			);
 			name = PCChartViewController;
 			sourceTree = "<group>";
@@ -345,6 +350,7 @@
 				0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */,
 				9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */,
 				0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */,
+				9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */,
 				0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */,
 				0AF7A8B9182AEB80003645C4 /* PNBar.m in Sources */,
 				0AF7A8A1182AAAAA003645C4 /* PNChart.m in Sources */,

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PCChartViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIScrollView *chartScrollView;
+
 
 @end
