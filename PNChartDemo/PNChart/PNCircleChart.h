@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNColor.h"
+
+
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 @interface PNCircleChart : UIView
 
@@ -14,10 +18,11 @@
 - (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current;
 
 @property (nonatomic, strong) UIColor * strokeColor;
-
 @property (nonatomic, strong) NSNumber * total;
 @property (nonatomic, strong) NSNumber * current;
+@property (nonatomic, strong) NSNumber * lineWidth;
 
-
+@property(nonatomic,strong) CAShapeLayer * circle;
+@property(nonatomic,strong) CAShapeLayer * circleBG;
 
 @end

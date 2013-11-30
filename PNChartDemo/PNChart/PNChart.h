@@ -12,12 +12,15 @@
 #import "PNColor.h"
 #import "PNLineChart.h"
 #import "PNBarChart.h"
+#import "PNCircleChart.h"
 
 typedef enum {
 	/** Solid line chart style */
 	PNLineType,
 	/** Bar chart style with bar background color  */
-	PNBarType
+	PNBarType,
+    /** Circle chart  */
+    PNCircleType
 	
 } PNChartType;
 
@@ -48,6 +51,8 @@ typedef enum {
 
 @property (strong, nonatomic) PNBarChart * barChart;
 
+@property (strong, nonatomic) PNCircleChart * circleChart;
+
 /**
  * PNChart chart type. The default is PNLineChart.
  *
@@ -62,6 +67,19 @@ typedef enum {
  */
 
 @property (nonatomic, strong) UIColor * strokeColor;
+
+/**
+ * PNChart circle chart total number.
+ *
+ */
+
+@property (nonatomic, strong) NSNumber * total;
+
+/**
+ * PNChart circle chart current number.
+ *
+ */
+@property (nonatomic, strong) NSNumber * current;
 
 
 @end

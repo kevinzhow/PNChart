@@ -18,6 +18,7 @@
         self.backgroundColor = [UIColor whiteColor];
         self.clipsToBounds = NO;
         self.type = PNLineType;
+        self.strokeColor = PNFreshGreen;
     }
     
     return self;
@@ -43,7 +44,15 @@
 		[_barChart setStrokeColor:_strokeColor];
 		[_barChart strokeChart];
 
-	}
+	}else if (self.type == PNCircleType)
+    {
+        _circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) andTotal:self.total andCurrent:self.current];
+        _circleChart.backgroundColor = [UIColor clearColor];
+        _circleChart.lineWidth = [NSNumber numberWithFloat:8.0];
+        [_circleChart setStrokeColor:_strokeColor];
+        [_circleChart strokeChart];
+        [self addSubview:_circleChart];
+    }
 }
 
 

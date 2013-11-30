@@ -50,6 +50,26 @@
 	[barChart strokeChart];
 	[self.chartScrollView addSubview:barChartLabel];
 	[self.chartScrollView addSubview:barChart];
+    
+    //Add CircleChart
+    
+    
+	UILabel * circleChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 550, SCREEN_WIDTH, 30)];
+	circleChartLabel.text = @"Circle Chart";
+	circleChartLabel.textColor = PNFreshGreen;
+	circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
+	circleChartLabel.textAlignment = NSTextAlignmentCenter;
+	
+	PNChart * circleChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 585.0, SCREEN_WIDTH, 200.0)];
+	circleChart.backgroundColor = [UIColor clearColor];
+	circleChart.type = PNCircleType;
+    circleChart.total = [NSNumber numberWithInt:100];
+    circleChart.current = [NSNumber numberWithInt:60];
+	[circleChart strokeChart];
+	[self.chartScrollView addSubview:circleChartLabel];
+	[self.chartScrollView addSubview:circleChart];
+    
+    [self.chartScrollView setContentSize:CGSizeMake(SCREEN_WIDTH, 900.0)];
 	
 	// Do any additional setup after loading the view.
 }

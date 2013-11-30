@@ -29,6 +29,7 @@
 		0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BB182AEB99003645C4 /* PNChartLabel.m */; };
 		0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BD182AEB99003645C4 /* PNColor.m */; };
 		9F55483E18498E0E004073B5 /* PNCircleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F55483D18498E0E004073B5 /* PNCircleChart.m */; };
+		9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F656B50184A4E34002E5675 /* UICountingLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,8 @@
 		0AF7A8BD182AEB99003645C4 /* PNColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNColor.m; path = PNChart/PNColor.m; sourceTree = "<group>"; };
 		9F55483C18498E0E004073B5 /* PNCircleChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNCircleChart.h; path = PNChart/PNCircleChart.h; sourceTree = "<group>"; };
 		9F55483D18498E0E004073B5 /* PNCircleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNCircleChart.m; path = PNChart/PNCircleChart.m; sourceTree = "<group>"; };
+		9F656B4F184A4E34002E5675 /* UICountingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICountingLabel.h; path = PNChart/ThirdPart/UICountingLabel.h; sourceTree = "<group>"; };
+		9F656B50184A4E34002E5675 /* UICountingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UICountingLabel.m; path = PNChart/ThirdPart/UICountingLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,20 +183,12 @@
 		0AF7A8A2182AAAB3003645C4 /* PNChart */ = {
 			isa = PBXGroup;
 			children = (
-				0AF7A8BA182AEB99003645C4 /* PNChartLabel.h */,
-				0AF7A8BB182AEB99003645C4 /* PNChartLabel.m */,
-				0AF7A8BC182AEB99003645C4 /* PNColor.h */,
-				0AF7A8BD182AEB99003645C4 /* PNColor.m */,
+				9F656B49184A4B90002E5675 /* PNLineChart */,
+				9F656B4A184A4BAC002E5675 /* PNChartUI */,
 				0AF7A89F182AAAAA003645C4 /* PNChart.h */,
 				0AF7A8A0182AAAAA003645C4 /* PNChart.m */,
-				0AF7A8B1182AC604003645C4 /* PNLineChart.h */,
-				0AF7A8B2182AC604003645C4 /* PNLineChart.m */,
-				0AF7A8B4182ADDEB003645C4 /* PNBarChart.h */,
-				0AF7A8B5182ADDEB003645C4 /* PNBarChart.m */,
-				0AF7A8B7182AEB80003645C4 /* PNBar.h */,
-				0AF7A8B8182AEB80003645C4 /* PNBar.m */,
-				9F55483C18498E0E004073B5 /* PNCircleChart.h */,
-				9F55483D18498E0E004073B5 /* PNCircleChart.m */,
+				9F656B48184A4B83002E5675 /* PNBarChart */,
+				9F656B4B184A4BC9002E5675 /* PNCircleChart */,
 			);
 			name = PNChart;
 			sourceTree = "<group>";
@@ -205,6 +200,48 @@
 				0AF7A8AE182AAEEF003645C4 /* PCChartViewController.m */,
 			);
 			name = PCChartViewController;
+			sourceTree = "<group>";
+		};
+		9F656B48184A4B83002E5675 /* PNBarChart */ = {
+			isa = PBXGroup;
+			children = (
+				0AF7A8B4182ADDEB003645C4 /* PNBarChart.h */,
+				0AF7A8B5182ADDEB003645C4 /* PNBarChart.m */,
+				0AF7A8B7182AEB80003645C4 /* PNBar.h */,
+				0AF7A8B8182AEB80003645C4 /* PNBar.m */,
+			);
+			name = PNBarChart;
+			sourceTree = "<group>";
+		};
+		9F656B49184A4B90002E5675 /* PNLineChart */ = {
+			isa = PBXGroup;
+			children = (
+				0AF7A8B1182AC604003645C4 /* PNLineChart.h */,
+				0AF7A8B2182AC604003645C4 /* PNLineChart.m */,
+			);
+			name = PNLineChart;
+			sourceTree = "<group>";
+		};
+		9F656B4A184A4BAC002E5675 /* PNChartUI */ = {
+			isa = PBXGroup;
+			children = (
+				0AF7A8BA182AEB99003645C4 /* PNChartLabel.h */,
+				0AF7A8BB182AEB99003645C4 /* PNChartLabel.m */,
+				0AF7A8BC182AEB99003645C4 /* PNColor.h */,
+				0AF7A8BD182AEB99003645C4 /* PNColor.m */,
+			);
+			name = PNChartUI;
+			sourceTree = "<group>";
+		};
+		9F656B4B184A4BC9002E5675 /* PNCircleChart */ = {
+			isa = PBXGroup;
+			children = (
+				9F656B4F184A4E34002E5675 /* UICountingLabel.h */,
+				9F656B50184A4E34002E5675 /* UICountingLabel.m */,
+				9F55483C18498E0E004073B5 /* PNCircleChart.h */,
+				9F55483D18498E0E004073B5 /* PNCircleChart.m */,
+			);
+			name = PNCircleChart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */,
+				9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */,
 				0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */,
 				0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */,
 				0AF7A8B9182AEB80003645C4 /* PNBar.m in Sources */,
