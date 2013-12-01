@@ -20,9 +20,7 @@
         _total = total;
         _current = current;
         
-        NSLog(@"Total is %f frame is %f",[total floatValue],frame.size.height);
-        
-        UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x,self.center.y - 25.0) radius:50.0 startAngle:DEGREES_TO_RADIANS(270) endAngle:DEGREES_TO_RADIANS(270.01) clockwise:NO];
+        UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x,self.center.y) radius:self.frame.size.height*0.5 startAngle:DEGREES_TO_RADIANS(270) endAngle:DEGREES_TO_RADIANS(270.01) clockwise:NO];
         
         _circle = [CAShapeLayer layer];
         _circle.path = circlePath.CGPath;
@@ -57,7 +55,7 @@
     [gradeLabel setTextAlignment:NSTextAlignmentCenter];
     [gradeLabel setFont:[UIFont boldSystemFontOfSize:13.0f]];
     [gradeLabel setTextColor: PNDeepGrey];
-    [gradeLabel setCenter:CGPointMake(self.center.x,self.center.y - 25.0)];
+    [gradeLabel setCenter:CGPointMake(self.center.x,self.center.y)];
     gradeLabel.method = UILabelCountingMethodEaseInOut;
     gradeLabel.format = @"%d%%";
    

@@ -102,7 +102,7 @@
         circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         circleChartLabel.textAlignment = NSTextAlignmentCenter;
         
-        PNChart * circleChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+        PNChart * circleChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 100.0)];
         circleChart.backgroundColor = [UIColor clearColor];
         circleChart.type = PNCircleType;
         circleChart.total = [NSNumber numberWithInt:100];
