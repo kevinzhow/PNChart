@@ -31,9 +31,10 @@
 
 @property (nonatomic) int yValueMax;
 
-
-
 @property (nonatomic, strong) UIColor * strokeColor;
 
+@property (nonatomic, strong) UIColor * barBackgroundColor;
+
+@property (nonatomic) BOOL showLabel;
 
 @end

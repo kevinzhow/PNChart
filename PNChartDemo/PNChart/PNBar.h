@@ -17,4 +17,6 @@
 
 @property (nonatomic, strong) UIColor * barColor;
 
+-(void)rollBack;
+
 @end

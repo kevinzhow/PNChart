@@ -36,5 +36,6 @@
 
 @property (nonatomic, strong) UIColor * strokeColor;
 
+@property (nonatomic) BOOL showLabel;
 
 @end

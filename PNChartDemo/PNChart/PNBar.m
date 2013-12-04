@@ -57,6 +57,13 @@
     _chartLine.strokeEnd = 1.0;
 }
 
+-(void)rollBack{
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        _chartLine.strokeColor = [UIColor clearColor].CGColor;
+    } completion:nil];
+    
+    
+}
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
@@ -64,7 +71,7 @@
 	//Draw BG
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextSetFillColorWithColor(context, [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1.0].CGColor);
+    CGContextSetFillColorWithColor(context, self.backgroundColor.CGColor);
 	CGContextFillRect(context, rect);
     
 }

@@ -25,6 +25,7 @@
 		_chartLine.fillColor   = [[UIColor whiteColor] CGColor];
 		_chartLine.lineWidth   = 3.0;
 		_chartLine.strokeEnd   = 0.0;
+        _showLabel = YES;
 		[self.layer addSublayer:_chartLine];
     }
     
@@ -34,18 +35,14 @@
 -(void)setYValues:(NSArray *)yValues
 {
     _yValues = yValues;
-    [self setYLabels:yValues];
-}
-
--(void)setYLabels:(NSArray *)yLabels
-{
-    NSInteger max = 0;
-    for (NSString * valueString in yLabels) {
-        NSInteger value = [valueString integerValue];
+    _xLabelWidth = (self.frame.size.width)/[_yValues count];
+    
+    float max = 0;
+    for (NSString * valueString in yValues) {
+        float value = [valueString floatValue];
         if (value > max) {
             max = value;
         }
-        
     }
     
     //Min value for Y label
@@ -53,9 +50,19 @@
         max = 5;
     }
     
-    _yValueMax = (int)max;
+    _yValueMax = (float)max;
     
-    float level = max /[yLabels count];
+    if (_showLabel) {
+        [self setYLabels:yValues];
+    }
+    
+}
+
+-(void)setYLabels:(NSArray *)yLabels
+{
+    
+    
+    float level = _yValueMax /[yLabels count];
 	
     NSInteger index = 0;
 	NSInteger num = [yLabels count] + 1;
@@ -75,15 +82,18 @@
 -(void)setXLabels:(NSArray *)xLabels
 {
     _xLabels = xLabels;
-    _xLabelWidth = (self.frame.size.width - chartMargin - 30.0)/[xLabels count];
     
-    for (NSString * labelText in xLabels) {
-        NSInteger index = [xLabels indexOfObject:labelText];
-        PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(index * _xLabelWidth + 30.0, self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
-        [label setTextAlignment:NSTextAlignmentCenter];
-        label.text = labelText;
-        [self addSubview:label];
+    if(_showLabel){
+        _xLabelWidth = (self.frame.size.width - chartMargin - 30.0)/[xLabels count];
+        for (NSString * labelText in xLabels) {
+            NSInteger index = [xLabels indexOfObject:labelText];
+            PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(index * _xLabelWidth + 30.0, self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
+            [label setTextAlignment:NSTextAlignmentCenter];
+            label.text = labelText;
+            [self addSubview:label];
+        }
     }
+    
     
 }
 
@@ -101,25 +111,29 @@
     
     CGFloat firstValue = [[_yValues objectAtIndex:0] floatValue];
     
-    CGFloat xPosition = _xLabelWidth   ;
-    
-    CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
+    CGFloat xPosition = 0;
+    CGFloat chartCavanHeight = self.frame.size.height - 40.0;
+    if(_showLabel){
+     chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
+     xPosition = _xLabelWidth;
+    }
     
     float grade = (float)firstValue / (float)_yValueMax;
+    
+
     [progressline moveToPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + 20.0)];
     [progressline setLineWidth:3.0];
     [progressline setLineCapStyle:kCGLineCapRound];
     [progressline setLineJoinStyle:kCGLineJoinRound];
     NSInteger index = 0;
     for (NSString * valueString in _yValues) {
-        NSInteger value = [valueString integerValue];
+        float value = [valueString floatValue];
         
         float grade = (float)value / (float)_yValueMax;
         if (index != 0) {
             
-            [progressline addLineToPoint:CGPointMake(index * xPosition  + 30.0+ _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0)];
-            
-            [progressline moveToPoint:CGPointMake(index * xPosition + 30.0 + _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0 )];
+            [progressline addLineToPoint:CGPointMake(index * _xLabelWidth  + 30.0+ _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0)];
+            [progressline moveToPoint:CGPointMake(index * _xLabelWidth + 30.0 + _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0 )];
             
             [progressline stroke];
         }
