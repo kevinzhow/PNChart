@@ -135,11 +135,11 @@
             [progressline addLineToPoint:CGPointMake(index * _xLabelWidth  + 30.0+ _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0)];
             [progressline moveToPoint:CGPointMake(index * _xLabelWidth + 30.0 + _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0 )];
             
-            [progressline stroke];
         }
         
         index += 1;
     }
+    [progressline stroke];
     
     _chartLine.path = progressline.CGPath;
 	if (_strokeColor) {
