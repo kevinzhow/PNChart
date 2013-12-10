@@ -18,14 +18,14 @@
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor whiteColor];
-        self.clipsToBounds = YES;
-		_chartLine = [CAShapeLayer layer];
-		_chartLine.lineCap = kCALineCapRound;
-		_chartLine.lineJoin = kCALineJoinBevel;
-		_chartLine.fillColor   = [[UIColor whiteColor] CGColor];
-		_chartLine.lineWidth   = 3.0;
-		_chartLine.strokeEnd   = 0.0;
-        _showLabel = YES;
+        self.clipsToBounds   = YES;
+        _chartLine           = [CAShapeLayer layer];
+        _chartLine.lineCap   = kCALineCapRound;
+        _chartLine.lineJoin  = kCALineJoinBevel;
+        _chartLine.fillColor = [[UIColor whiteColor] CGColor];
+        _chartLine.lineWidth = 3.0;
+        _chartLine.strokeEnd = 0.0;
+        _showLabel           = YES;
 		[self.layer addSublayer:_chartLine];
     }
     
@@ -157,7 +157,6 @@
     pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
     pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-    pathAnimation.autoreverses = NO;
     [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     
     _chartLine.strokeEnd = 1.0;
