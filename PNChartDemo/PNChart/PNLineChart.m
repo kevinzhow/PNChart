@@ -112,16 +112,17 @@
     CGFloat firstValue = [[_yValues objectAtIndex:0] floatValue];
     
     CGFloat xPosition = 0;
-    CGFloat chartCavanHeight = self.frame.size.height - 40.0;
+    CGFloat xLabelHeight = 20.0;
+    CGFloat chartCavanHeight = self.frame.size.height  - xLabelHeight*2;
     if(_showLabel){
-     chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
-     xPosition = _xLabelWidth;
+        chartCavanHeight = self.frame.size.height - chartMargin * 2  - xLabelHeight*2;
+        xPosition = _xLabelWidth;
     }
     
     float grade = (float)firstValue / (float)_yValueMax;
     
 
-    [progressline moveToPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + 20.0)];
+    [progressline moveToPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + xLabelHeight)];
     [progressline setLineWidth:3.0];
     [progressline setLineCapStyle:kCGLineCapRound];
     [progressline setLineJoinStyle:kCGLineJoinRound];
@@ -132,9 +133,11 @@
         float grade = (float)value / (float)_yValueMax;
         if (index != 0) {
             
-            [progressline addLineToPoint:CGPointMake(index * _xLabelWidth  + 30.0+ _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0)];
-            [progressline moveToPoint:CGPointMake(index * _xLabelWidth + 30.0 + _xLabelWidth /2.0, chartCavanHeight - grade * chartCavanHeight + 20.0 )];
             
+            CGPoint point = CGPointMake(index * _xLabelWidth  + 30.0 + _xLabelWidth /2.0, chartCavanHeight - (grade * chartCavanHeight) + xLabelHeight);
+            
+            [progressline addLineToPoint:point];
+            [progressline moveToPoint:point];
         }
         
         index += 1;
