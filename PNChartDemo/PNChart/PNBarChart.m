@@ -19,9 +19,9 @@
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor whiteColor];
-        self.clipsToBounds = YES;
-        _showLabel = YES;
-        _barBackgroundColor = PNLightGrey;
+        self.clipsToBounds   = YES;
+        _showLabel           = YES;
+        _barBackgroundColor  = PNLightGrey;
     }
     
     return self;
@@ -88,7 +88,7 @@
         float value = [valueString floatValue];
         
         float grade = (float)value / (float)_yValueMax;
-		PNBar * bar = [[PNBar alloc] init];
+		PNBar * bar;
         if (_showLabel) {
             bar = [[PNBar alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin + _xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight - 30.0, _xLabelWidth * 0.5, chartCavanHeight)];
         }else{
@@ -99,12 +99,8 @@
 		bar.grade = grade;
 		[self addSubview:bar];
         
-        
         index += 1;
     }
-    
-  
-    
 }
 
 @end
