@@ -35,6 +35,8 @@
 		[_lineChart setXLabels:_xLabels];
 		[_lineChart setStrokeColor:_strokeColor];
 		[_lineChart strokeChart];
+        _lineChart.delegate = self;
+
 
 	}else if (self.type == PNBarType)
 	{
@@ -87,6 +89,12 @@
 	
 }
 
+-(void)userClickedOnLineKeyPoint:(CGPoint)point andPointIndex:(NSInteger)index{
+    [_delegate userClickedOnLineKeyPoint:point andPointIndex:index];
+}
 
+-(void)userClickedOnLinePoint:(CGPoint)point {
+    [_delegate userClickedOnLinePoint:point];
+}
 
 @end

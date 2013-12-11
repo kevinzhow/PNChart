@@ -82,6 +82,7 @@
 		9F656B50184A4E34002E5675 /* UICountingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UICountingLabel.m; path = PNChart/ThirdPart/UICountingLabel.m; sourceTree = "<group>"; };
 		9FA23B0E184A5944002DBBA4 /* PCChartsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCChartsTableViewController.h; sourceTree = "<group>"; };
 		9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCChartsTableViewController.m; sourceTree = "<group>"; };
+		9FE9CFB818581102005B8223 /* PNChartDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNChartDelegate.h; path = PNChart/PNChartDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +193,7 @@
 				0AF7A8A0182AAAAA003645C4 /* PNChart.m */,
 				9F656B48184A4B83002E5675 /* PNBarChart */,
 				9F656B4B184A4BC9002E5675 /* PNCircleChart */,
+				9FE9CFB818581102005B8223 /* PNChartDelegate.h */,
 			);
 			name = PNChart;
 			sourceTree = "<group>";

@@ -13,6 +13,7 @@
 #import "PNLineChart.h"
 #import "PNBarChart.h"
 #import "PNCircleChart.h"
+#import "PNChartDelegate.h"
 
 typedef enum {
 	/** Solid line chart style */
@@ -25,7 +26,14 @@ typedef enum {
 } PNChartType;
 
 
-@interface PNChart : UIView
+@interface PNChart : UIView<PNChartDelegate>
+
+
+/**
+ * PNChart delegate.
+ */
+
+@property(nonatomic,retain) id<PNChartDelegate> delegate;
 
 /**
  * This method will call and troke the line in animation.

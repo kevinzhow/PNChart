@@ -63,6 +63,7 @@
         [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         [lineChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
         [lineChart strokeChart];
+        lineChart.delegate = self;
         
         [viewController.view addSubview:lineChartLabel];
         [viewController.view addSubview:lineChart];
@@ -115,8 +116,14 @@
         viewController.title = @"Circle Chart";
     }
     
-    
 }
 
+-(void)userClickedOnLineKeyPoint:(CGPoint)point andPointIndex:(NSInteger)index{
+    NSLog(@"Click Key on line %f, %f and index is %d",point.x, point.y,index);
+}
+
+-(void)userClickedOnLinePoint:(CGPoint)point {
+    NSLog(@"Click on line %f, %f",point.x, point.y);
+}
 
 @end

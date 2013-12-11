@@ -26,6 +26,8 @@
         _chartLine.lineWidth = 3.0;
         _chartLine.strokeEnd = 0.0;
         _showLabel           = YES;
+        _pathPoints = [[NSMutableArray alloc] init];
+        self.userInteractionEnabled = YES;
 		[self.layer addSublayer:_chartLine];
     }
     
@@ -94,7 +96,6 @@
         }
     }
     
-    
 }
 
 -(void)setStrokeColor:(UIColor *)strokeColor
@@ -103,11 +104,46 @@
 	_chartLine.strokeColor = [strokeColor CGColor];
 }
 
+-(void)userTouchedOnPoint:(void (^)(NSInteger *))getTouched
+{
+    
+}
+
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self chechPoint:touches withEvent:event];
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self chechPoint:touches withEvent:event];
+}
+
+-(void)chechPoint:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint touchPoint = [touch locationInView:self];
+    CGPathRef originalPath = _progressline.CGPath;
+    CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(originalPath, NULL, 3.0, kCGLineCapRound, kCGLineJoinRound, 3.0);
+    BOOL pathContainsPoint = CGPathContainsPoint(strokedPath, NULL, touchPoint, NO);
+    if (pathContainsPoint)
+    {
+        [_delegate userClickedOnLinePoint:touchPoint];
+        for (NSValue *val in _pathPoints) {
+            CGPoint p = [val CGPointValue];
+            if (p.x + 3.0 > touchPoint.x && p.x - 3.0 < touchPoint.x && p.y + 3.0 > touchPoint.y && p.y - 3.0 < touchPoint.y ) {
+                [_delegate userClickedOnLineKeyPoint:touchPoint andPointIndex:[_pathPoints indexOfObject:val]];
+            }
+        }
+    }
+}
+
 -(void)strokeChart
 {
     UIGraphicsBeginImageContext(self.frame.size);
     
-    UIBezierPath *progressline = [UIBezierPath bezierPath];
+    _progressline = [UIBezierPath bezierPath];
     
     CGFloat firstValue = [[_yValues objectAtIndex:0] floatValue];
     
@@ -122,10 +158,11 @@
     float grade = (float)firstValue / (float)_yValueMax;
     
 
-    [progressline moveToPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + xLabelHeight)];
-    [progressline setLineWidth:3.0];
-    [progressline setLineCapStyle:kCGLineCapRound];
-    [progressline setLineJoinStyle:kCGLineJoinRound];
+    [_progressline moveToPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + xLabelHeight)];
+    [_pathPoints addObject:[NSValue valueWithCGPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + xLabelHeight)]];
+    [_progressline setLineWidth:3.0];
+    [_progressline setLineCapStyle:kCGLineCapRound];
+    [_progressline setLineJoinStyle:kCGLineJoinRound];
     NSInteger index = 0;
     for (NSString * valueString in _yValues) {
         float value = [valueString floatValue];
@@ -135,16 +172,16 @@
             
             
             CGPoint point = CGPointMake(index * _xLabelWidth  + 30.0 + _xLabelWidth /2.0, chartCavanHeight - (grade * chartCavanHeight) + xLabelHeight);
-            
-            [progressline addLineToPoint:point];
-            [progressline moveToPoint:point];
+            [_pathPoints addObject:[NSValue valueWithCGPoint:point]];
+            [_progressline addLineToPoint:point];
+            [_progressline moveToPoint:point];
         }
         
         index += 1;
     }
-    [progressline stroke];
+    [_progressline stroke];
     
-    _chartLine.path = progressline.CGPath;
+    _chartLine.path = _progressline.CGPath;
 	if (_strokeColor) {
 		_chartLine.strokeColor = [_strokeColor CGColor];
 	}else{
