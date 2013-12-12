@@ -23,12 +23,6 @@
 
 - (void)strokeChart;
 
-/**
- * This method will get the index user touched
- */
-
-- (void)userTouchedOnPoint:(void (^)(NSInteger *pointIndex))getTouched;
-
 @property(nonatomic,retain) id<PNChartDelegate> delegate;
 
 @property (strong, nonatomic) NSArray * xLabels;
@@ -41,7 +35,11 @@
 
 @property (nonatomic) CGFloat xLabelWidth;
 
-@property (nonatomic) int yValueMax;
+@property (nonatomic) float yValueMax;
+
+@property (nonatomic) float chartCavanHeight;
+
+@property (nonatomic) float xLabelHeight;
 
 @property (nonatomic,strong) CAShapeLayer * chartLine;
 

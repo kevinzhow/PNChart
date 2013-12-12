@@ -28,6 +28,8 @@
         _showLabel           = YES;
         _pathPoints = [[NSMutableArray alloc] init];
         self.userInteractionEnabled = YES;
+        _xLabelHeight = 20.0;
+        _chartCavanHeight = self.frame.size.height - chartMargin * 2 - _xLabelHeight*2 ;
 		[self.layer addSublayer:_chartLine];
     }
     
@@ -63,15 +65,13 @@
 -(void)setYLabels:(NSArray *)yLabels
 {
     
-    
-    float level = _yValueMax /[yLabels count];
+    float level = _yValueMax / 5.0;
 	
     NSInteger index = 0;
 	NSInteger num = [yLabels count] + 1;
 	while (num > 0) {
-		CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0 ;
-		CGFloat levelHeight = chartCavanHeight /5.0;
-		PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0,chartCavanHeight - index * levelHeight + (levelHeight - yLabelHeight) , 20.0, yLabelHeight)];
+		CGFloat levelHeight = _chartCavanHeight /5.0;
+		PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0,_chartCavanHeight - index * levelHeight + (levelHeight - yLabelHeight) , 20.0, yLabelHeight)];
 		[label setTextAlignment:NSTextAlignmentRight];
 		label.text = [NSString stringWithFormat:@"%1.f",level * index];
 		[self addSubview:label];
@@ -103,12 +103,6 @@
 	_strokeColor = strokeColor;
 	_chartLine.strokeColor = [strokeColor CGColor];
 }
-
--(void)userTouchedOnPoint:(void (^)(NSInteger *))getTouched
-{
-    
-}
-
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -147,19 +141,18 @@
     
     CGFloat firstValue = [[_yValues objectAtIndex:0] floatValue];
     
-    CGFloat xPosition = 0;
-    CGFloat xLabelHeight = 20.0;
-    CGFloat chartCavanHeight = self.frame.size.height  - xLabelHeight*2;
-    if(_showLabel){
-        chartCavanHeight = self.frame.size.height - chartMargin * 2  - xLabelHeight*2;
-        xPosition = _xLabelWidth;
+    CGFloat xPosition = _xLabelWidth;
+    
+    if(!_showLabel){
+        _chartCavanHeight = self.frame.size.height  - _xLabelHeight*2;
+        xPosition = 0;
     }
     
     float grade = (float)firstValue / (float)_yValueMax;
     
 
-    [_progressline moveToPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + xLabelHeight)];
-    [_pathPoints addObject:[NSValue valueWithCGPoint:CGPointMake( xPosition, chartCavanHeight - grade * chartCavanHeight + xLabelHeight)]];
+    [_progressline moveToPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)];
+    [_pathPoints addObject:[NSValue valueWithCGPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)]];
     [_progressline setLineWidth:3.0];
     [_progressline setLineCapStyle:kCGLineCapRound];
     [_progressline setLineJoinStyle:kCGLineJoinRound];
@@ -171,7 +164,7 @@
         if (index != 0) {
             
             
-            CGPoint point = CGPointMake(index * _xLabelWidth  + 30.0 + _xLabelWidth /2.0, chartCavanHeight - (grade * chartCavanHeight) + xLabelHeight);
+            CGPoint point = CGPointMake(index * _xLabelWidth  + 30.0 + _xLabelWidth /2.0, _chartCavanHeight - (grade * _chartCavanHeight) + _xLabelHeight);
             [_pathPoints addObject:[NSValue valueWithCGPoint:point]];
             [_progressline addLineToPoint:point];
             [_progressline moveToPoint:point];
