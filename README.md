@@ -52,7 +52,6 @@ You will need LLVM 3.0 or later in order to build PNChart.
 
   //For BarChart
   PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-  barChart.type = PNBarType;
   [barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
   [barChart setYValues:@[@1,  @10, @2, @6, @3]];
   [barChart strokeChart];
@@ -68,7 +67,6 @@ You will need LLVM 3.0 or later in order to build PNChart.
   //For CircleChart
 
   PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-  circleChart.type = PNCircleType;
   circleChart.total = [NSNumber numberWithInt:100];
   circleChart.current = [NSNumber numberWithInt:60];
   [circleChart strokeChart];
