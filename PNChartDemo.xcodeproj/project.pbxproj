@@ -21,7 +21,6 @@
 		0AF7A889182AA9F6003645C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF7A86B182AA9F6003645C4 /* UIKit.framework */; };
 		0AF7A891182AA9F6003645C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7A88F182AA9F6003645C4 /* InfoPlist.strings */; };
 		0AF7A893182AA9F6003645C4 /* PNChartDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A892182AA9F6003645C4 /* PNChartDemoTests.m */; };
-		0AF7A8A1182AAAAA003645C4 /* PNChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8A0182AAAAA003645C4 /* PNChart.m */; };
 		0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8AE182AAEEF003645C4 /* PCChartViewController.m */; };
 		0AF7A8B3182AC604003645C4 /* PNLineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8B2182AC604003645C4 /* PNLineChart.m */; };
 		0AF7A8B6182ADDEB003645C4 /* PNBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8B5182ADDEB003645C4 /* PNBarChart.m */; };
@@ -63,7 +62,6 @@
 		0AF7A890182AA9F6003645C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0AF7A892182AA9F6003645C4 /* PNChartDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNChartDemoTests.m; sourceTree = "<group>"; };
 		0AF7A89F182AAAAA003645C4 /* PNChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNChart.h; path = PNChart/PNChart.h; sourceTree = "<group>"; };
-		0AF7A8A0182AAAAA003645C4 /* PNChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNChart.m; path = PNChart/PNChart.m; sourceTree = "<group>"; };
 		0AF7A8AD182AAEEF003645C4 /* PCChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCChartViewController.h; sourceTree = "<group>"; };
 		0AF7A8AE182AAEEF003645C4 /* PCChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCChartViewController.m; sourceTree = "<group>"; };
 		0AF7A8B1182AC604003645C4 /* PNLineChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNLineChart.h; path = PNChart/PNLineChart.h; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 				9F656B49184A4B90002E5675 /* PNLineChart */,
 				9F656B4A184A4BAC002E5675 /* PNChartUI */,
 				0AF7A89F182AAAAA003645C4 /* PNChart.h */,
-				0AF7A8A0182AAAAA003645C4 /* PNChart.m */,
 				9F656B48184A4B83002E5675 /* PNBarChart */,
 				9F656B4B184A4BC9002E5675 /* PNCircleChart */,
 				9FE9CFB818581102005B8223 /* PNChartDelegate.h */,
@@ -355,7 +352,6 @@
 				9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */,
 				0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */,
 				0AF7A8B9182AEB80003645C4 /* PNBar.m in Sources */,
-				0AF7A8A1182AAAAA003645C4 /* PNChart.m in Sources */,
 				0AF7A8B6182ADDEB003645C4 /* PNBarChart.m in Sources */,
 				0AF7A874182AA9F6003645C4 /* main.m in Sources */,
 				0AF7A8B3182AC604003645C4 /* PNLineChart.m in Sources */,

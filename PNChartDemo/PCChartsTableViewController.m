@@ -58,11 +58,12 @@
         lineChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         lineChartLabel.textAlignment = NSTextAlignmentCenter;
         
-        PNChart * lineChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+        PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
         lineChart.backgroundColor = [UIColor clearColor];
         [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         [lineChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
         [lineChart strokeChart];
+        
         lineChart.delegate = self;
         
         [viewController.view addSubview:lineChartLabel];
@@ -80,9 +81,8 @@
         barChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         barChartLabel.textAlignment = NSTextAlignmentCenter;
         
-        PNChart * barChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+        PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
         barChart.backgroundColor = [UIColor clearColor];
-        barChart.type = PNBarType;
         [barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         [barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
         [barChart strokeChart];
@@ -103,17 +103,15 @@
         circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         circleChartLabel.textAlignment = NSTextAlignmentCenter;
         
-        PNChart * circleChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 100.0)];
+        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60]];
         circleChart.backgroundColor = [UIColor clearColor];
-        circleChart.type = PNCircleType;
-        circleChart.total = [NSNumber numberWithInt:100];
-        circleChart.current = [NSNumber numberWithInt:60];
+        [circleChart setStrokeColor:PNGreen];
         [circleChart strokeChart];
         
         [viewController.view addSubview:circleChartLabel];
         [viewController.view addSubview:circleChart];
-        
         viewController.title = @"Circle Chart";
+        
     }
     
 }

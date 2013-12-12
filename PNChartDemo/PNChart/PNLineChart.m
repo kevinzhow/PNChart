@@ -39,7 +39,6 @@
 -(void)setYValues:(NSArray *)yValues
 {
     _yValues = yValues;
-    _xLabelWidth = (self.frame.size.width)/[_yValues count];
     
     float max = 0;
     for (NSString * valueString in yValues) {
@@ -94,6 +93,8 @@
             label.text = labelText;
             [self addSubview:label];
         }
+    }else{
+        _xLabelWidth = (self.frame.size.width)/[xLabels count];
     }
     
 }

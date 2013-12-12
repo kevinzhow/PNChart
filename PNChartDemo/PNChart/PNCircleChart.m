@@ -19,7 +19,9 @@
     if (self) {
         _total = total;
         _current = current;
+        _strokeColor = PNFreshGreen;
         
+        _lineWidth = [NSNumber numberWithFloat:8.0];
         UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x,self.center.y) radius:self.frame.size.height*0.5 startAngle:DEGREES_TO_RADIANS(270) endAngle:DEGREES_TO_RADIANS(270.01) clockwise:NO];
         
         _circle               = [CAShapeLayer layer];
