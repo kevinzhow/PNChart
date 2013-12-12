@@ -77,30 +77,21 @@ You will need LLVM 3.0 or later in order to build PNChart.
 
 #### Callback
 
+Currently callback only works on Linechart
+
 ```objective-c
   #import "PNChart.h"
 
 //For LineChart
 
-PNChart * lineChart = [[PNChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-lineChart.backgroundColor = [UIColor clearColor];
-[lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
-[lineChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
-[lineChart strokeChart];
-
 lineChart.delegate = self;
 
-[viewController.view addSubview:lineChartLabel];
-[viewController.view addSubview:lineChart];
-
-viewController.title = @"Line Chart";
 
 ```
 
 ```objective-c
-  #import "PNChart.h"
 
-  //For DelegateMethod
+//For DelegateMethod
 
 
 -(void)userClickedOnLineKeyPoint:(CGPoint)point andPointIndex:(NSInteger)index{
