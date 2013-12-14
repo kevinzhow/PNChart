@@ -8,6 +8,8 @@
 
 #import "PCChartsTableViewController.h"
 #import "PNChart.h"
+#import "PNLineChartData.h"
+#import "PNLineChartDataItem.h"
 
 @interface PCChartsTableViewController ()
 
@@ -61,7 +63,26 @@
         PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
         lineChart.backgroundColor = [UIColor clearColor];
         [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
-        [lineChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
+
+        // Line Chart Nr.1
+        PNLineChartData *data01 = [PNLineChartData new];
+        data01.color = [UIColor redColor];
+        data01.itemCount = lineChart.xLabels.count;
+        data01.getData = ^(NSUInteger item) {
+            CGFloat y = item * 10;
+            return [PNLineChartDataItem dataItemWithY:y];
+        };
+
+        // Line Chart Nr.2
+        PNLineChartData *data02 = [PNLineChartData new];
+        data02.color = [UIColor blueColor];
+        data02.itemCount = lineChart.xLabels.count;
+        data02.getData = ^(NSUInteger item) {
+            CGFloat y = item == 0 ? (item * 5) + 10 : (item * 5);
+            return [PNLineChartDataItem dataItemWithY:y];
+        };
+
+        lineChart.chartData = @[data01, data02];
         [lineChart strokeChart];
         
         lineChart.delegate = self;

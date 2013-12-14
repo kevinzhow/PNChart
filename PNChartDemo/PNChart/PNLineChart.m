@@ -9,61 +9,50 @@
 #import "PNLineChart.h"
 #import "PNColor.h"
 #import "PNChartLabel.h"
+#import "PNLineChartData.h"
+#import "PNLineChartDataItem.h"
 
+
+//------------------------------------------------------------------------------------------------
+// private interface declaration
+//------------------------------------------------------------------------------------------------
+@interface PNLineChart ()
+
+@property (nonatomic,strong) NSMutableArray *chartLineArray; // Array[CAShapeLayer]
+
+- (void)setDefaultValues;
+
+@end
+
+
+//------------------------------------------------------------------------------------------------
+// public interface implementation
+//------------------------------------------------------------------------------------------------
 @implementation PNLineChart
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+#pragma mark initialization
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
     if (self) {
-        // Initialization code
-        self.backgroundColor = [UIColor whiteColor];
-        self.clipsToBounds   = YES;
-        _chartLine           = [CAShapeLayer layer];
-        _chartLine.lineCap   = kCALineCapRound;
-        _chartLine.lineJoin  = kCALineJoinBevel;
-        _chartLine.fillColor = [[UIColor whiteColor] CGColor];
-        _chartLine.lineWidth = 3.0;
-        _chartLine.strokeEnd = 0.0;
-        _showLabel           = YES;
-        _pathPoints = [[NSMutableArray alloc] init];
-        self.userInteractionEnabled = YES;
-        _xLabelHeight = 20.0;
-        _chartCavanHeight = self.frame.size.height - chartMargin * 2 - _xLabelHeight*2 ;
-		[self.layer addSublayer:_chartLine];
+        [self setDefaultValues];
     }
-    
     return self;
 }
 
--(void)setYValues:(NSArray *)yValues
-{
-    _yValues = yValues;
-    
-    float max = 0;
-    for (NSString * valueString in yValues) {
-        float value = [valueString floatValue];
-        if (value > max) {
-            max = value;
-        }
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setDefaultValues];
     }
-    
-    //Min value for Y label
-    if (max < 5) {
-        max = 5;
-    }
-    
-    _yValueMax = (float)max;
-    
-    if (_showLabel) {
-        [self setYLabels:yValues];
-    }
-    
+    return self;
 }
+
+#pragma mark instance methods
 
 -(void)setYLabels:(NSArray *)yLabels
 {
-    
+
     float level = _yValueMax / 5.0;
 	
     NSInteger index = 0;
@@ -99,12 +88,6 @@
     
 }
 
--(void)setStrokeColor:(UIColor *)strokeColor
-{
-	_strokeColor = strokeColor;
-	_chartLine.strokeColor = [strokeColor CGColor];
-}
-
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self chechPoint:touches withEvent:event];
@@ -136,65 +119,132 @@
 
 -(void)strokeChart
 {
-    UIGraphicsBeginImageContext(self.frame.size);
-    
-    _progressline = [UIBezierPath bezierPath];
-    
-    CGFloat firstValue = [[_yValues objectAtIndex:0] floatValue];
-    
-    CGFloat xPosition = _xLabelWidth;
-    
-    if(!_showLabel){
-        _chartCavanHeight = self.frame.size.height  - _xLabelHeight*2;
-        xPosition = 0;
-    }
-    
-    float grade = (float)firstValue / (float)_yValueMax;
-    
+    for (NSUInteger a = 0; a < self.chartData.count; a++) {
+        PNLineChartData *chartData = self.chartData[a];
+        CAShapeLayer *chartLine = (CAShapeLayer *) self.chartLineArray[a];
 
-    [_progressline moveToPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)];
-    [_pathPoints addObject:[NSValue valueWithCGPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)]];
-    [_progressline setLineWidth:3.0];
-    [_progressline setLineCapStyle:kCGLineCapRound];
-    [_progressline setLineJoinStyle:kCGLineJoinRound];
-    NSInteger index = 0;
-    for (NSString * valueString in _yValues) {
-        float value = [valueString floatValue];
-        
-        float grade = (float)value / (float)_yValueMax;
-        if (index != 0) {
-            
-            
-            CGPoint point = CGPointMake(index * _xLabelWidth  + 30.0 + _xLabelWidth /2.0, _chartCavanHeight - (grade * _chartCavanHeight) + _xLabelHeight);
-            [_pathPoints addObject:[NSValue valueWithCGPoint:point]];
-            [_progressline addLineToPoint:point];
-            [_progressline moveToPoint:point];
+        UIGraphicsBeginImageContext(self.frame.size);
+
+        _progressline = [UIBezierPath bezierPath];
+
+        PNLineChartDataItem *firstDataItem = chartData.getData(0);
+        CGFloat firstValue = firstDataItem.y;
+
+        CGFloat xPosition = _xLabelWidth;
+
+        if(!_showLabel){
+            _chartCavanHeight = self.frame.size.height  - _xLabelHeight*2;
+            xPosition = 0;
         }
-        
-        index += 1;
+
+        CGFloat grade = (float)firstValue / _yValueMax;
+
+        [_progressline moveToPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)];
+        [_pathPoints addObject:[NSValue valueWithCGPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)]];
+        [_progressline setLineWidth:3.0];
+        [_progressline setLineCapStyle:kCGLineCapRound];
+        [_progressline setLineJoinStyle:kCGLineJoinRound];
+
+        NSInteger index = 0;
+        for (NSUInteger i = 0; i < chartData.itemCount; i++) {
+
+            PNLineChartDataItem *dataItem = chartData.getData(i);
+            float value = dataItem.y;
+
+            CGFloat innerGrade = value / _yValueMax;
+            if (index != 0) {
+                CGPoint point = CGPointMake(index * _xLabelWidth + 30.0 + _xLabelWidth / 2.0, _chartCavanHeight - (innerGrade * _chartCavanHeight) + _xLabelHeight);
+                [_pathPoints addObject:[NSValue valueWithCGPoint:point]];
+                [_progressline addLineToPoint:point];
+                [_progressline moveToPoint:point];
+            }
+            index += 1;
+        }
+
+        // setup the color of the chart line
+        if (chartData.color) {
+            chartLine.strokeColor = [chartData.color CGColor];
+        }else{
+            chartLine.strokeColor = [PNGreen CGColor];
+        }
+
+        [_progressline stroke];
+
+        chartLine.path = _progressline.CGPath;
+
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        pathAnimation.duration = 1.0;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+        pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+        [chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+
+        chartLine.strokeEnd = 1.0;
+
+        UIGraphicsEndImageContext();
     }
-    [_progressline stroke];
-    
-    _chartLine.path = _progressline.CGPath;
-	if (_strokeColor) {
-		_chartLine.strokeColor = [_strokeColor CGColor];
-	}else{
-		_chartLine.strokeColor = [PNGreen CGColor];
-	}
-    
-    
-    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    pathAnimation.duration = 1.0;
-    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-    pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-    [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-    
-    _chartLine.strokeEnd = 1.0;
-    
-    UIGraphicsEndImageContext();
 }
 
+- (void)setChartData:(NSArray *)data {
+    if (data != _chartData) {
 
+        NSMutableArray *yLabelsArray = [NSMutableArray arrayWithCapacity:data.count];
+        CGFloat yMax = 0.0f;
+
+        // remove all shape layers before adding new ones
+        for (CALayer *layer in self.chartLineArray) {
+            [layer removeFromSuperlayer];
+        }
+        self.chartLineArray = [NSMutableArray arrayWithCapacity:data.count];
+
+        for (PNLineChartData *chartData in data) {
+
+            // create as many chart line layers as there are data-lines
+            CAShapeLayer *chartLine = [CAShapeLayer layer];
+            chartLine.lineCap   = kCALineCapRound;
+            chartLine.lineJoin  = kCALineJoinBevel;
+            chartLine.fillColor = [[UIColor whiteColor] CGColor];
+            chartLine.lineWidth = 3.0;
+            chartLine.strokeEnd = 0.0;
+            [self.layer addSublayer:chartLine];
+            [self.chartLineArray addObject:chartLine];
+
+            for (NSUInteger i = 0; i < chartData.itemCount; i++) {
+                PNLineChartDataItem *dataItem = chartData.getData(i);
+                CGFloat yValue = dataItem.y;
+                [yLabelsArray addObject:[NSString stringWithFormat:@"%2f", yValue]];
+                yMax = fmaxf(yMax, dataItem.y);
+            }
+        }
+
+        // Min value for Y label
+        if (yMax < 5) {
+            yMax = 5.0f;
+        }
+        _yValueMax = yMax;
+
+        _chartData = data;
+
+        if (_showLabel) {
+            [self setYLabels:yLabelsArray];
+        }
+
+        [self setNeedsDisplay];
+    }
+}
+
+#pragma mark private methods
+
+- (void)setDefaultValues {
+    // Initialization code
+    self.backgroundColor = [UIColor whiteColor];
+    self.clipsToBounds   = YES;
+    self.chartLineArray  = [NSMutableArray new];
+    _showLabel           = YES;
+    _pathPoints = [[NSMutableArray alloc] init];
+    self.userInteractionEnabled = YES;
+    _xLabelHeight = 20.0;
+    _chartCavanHeight = self.frame.size.height - chartMargin * 2 - _xLabelHeight*2 ;
+}
 
 @end
