@@ -16,7 +16,7 @@
 @interface PNBarChart : UIView
 
 /**
- * This method will call and troke the line in animation
+ * This method will call and stroke the line in animation
  */
 
 -(void)strokeChart;
