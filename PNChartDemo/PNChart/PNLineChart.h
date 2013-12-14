@@ -29,7 +29,10 @@
 
 @property (strong, nonatomic) NSArray * yLabels;
 
-@property (strong, nonatomic) NSArray * yValues;
+/**
+* Array of `LineChartData` objects, one for each line.
+*/
+@property (strong, nonatomic) NSArray *chartData;
 
 @property (strong, nonatomic) NSMutableArray * pathPoints;
 
@@ -40,10 +43,6 @@
 @property (nonatomic) float chartCavanHeight;
 
 @property (nonatomic) float xLabelHeight;
-
-@property (nonatomic,strong) CAShapeLayer * chartLine;
-
-@property (nonatomic, strong) UIColor * strokeColor;
 
 @property (nonatomic) BOOL showLabel;
 

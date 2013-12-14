@@ -40,7 +40,26 @@ You will need LLVM 3.0 or later in order to build PNChart.
   //For LineChart
   PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
   [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
-  [lineChart setYValues:@[@1, @10, @2, @6, @3]];
+  
+  // Line Chart Nr.1
+  PNLineChartData *data01 = [PNLineChartData new];
+  data01.color = [UIColor redColor];
+  data01.itemCount = lineChart.xLabels.count;
+  data01.getData = ^(NSUInteger item) {
+    CGFloat y = item * 10;
+    return [PNLineChartDataItem dataItemWithY:y];
+  };
+  
+  // Line Chart Nr.2
+  PNLineChartData *data02 = [PNLineChartData new];
+  data02.color = [UIColor blueColor];
+  data02.itemCount = lineChart.xLabels.count;
+  data02.getData = ^(NSUInteger item) {
+    CGFloat y = item == 0 ? (item * 5) + 10 : (item * 5);
+    return [PNLineChartDataItem dataItemWithY:y];
+  };
+  
+  lineChart.chartData = @[data01, data02];
   [lineChart strokeChart];
 
 ```
