@@ -66,7 +66,7 @@
 
         // Line Chart Nr.1
         PNLineChartData *data01 = [PNLineChartData new];
-        data01.color = [UIColor redColor];
+        data01.color = PNFreshGreen;
         data01.itemCount = lineChart.xLabels.count;
         data01.getData = ^(NSUInteger item) {
             CGFloat y = item * 10;
@@ -75,7 +75,7 @@
 
         // Line Chart Nr.2
         PNLineChartData *data02 = [PNLineChartData new];
-        data02.color = [UIColor blueColor];
+        data02.color = PNTwitterColor;
         data02.itemCount = lineChart.xLabels.count;
         data02.getData = ^(NSUInteger item) {
             CGFloat y = item == 0 ? (item * 5) + 10 : (item * 5);
@@ -138,7 +138,7 @@
 }
 
 -(void)userClickedOnLineKeyPoint:(CGPoint)point andPointIndex:(NSInteger)index{
-    NSLog(@"Click Key on line %f, %f and index is %d",point.x, point.y,index);
+    NSLog(@"Click Key on line %f, %f and index is %ld",point.x, point.y,(long)index);
 }
 
 -(void)userClickedOnLinePoint:(CGPoint)point {
