@@ -62,8 +62,10 @@
     
     if (_showLabel) {
         _xLabelWidth = (self.frame.size.width - chartMargin*2)/[xLabels count];
-        for (NSString * labelText in xLabels) {
-            NSInteger index = [xLabels indexOfObject:labelText];
+        
+        for(int index = 0; index < xLabels.count; index++)
+        {
+            NSString* labelText = xLabels[index];
             PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin), self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
             [label setTextAlignment:NSTextAlignmentCenter];
             label.text = labelText;
