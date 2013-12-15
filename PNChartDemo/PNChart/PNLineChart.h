@@ -46,6 +46,4 @@
 
 @property (nonatomic) BOOL showLabel;
 
-@property (nonatomic, strong)  UIBezierPath *progressline;
-
 @end

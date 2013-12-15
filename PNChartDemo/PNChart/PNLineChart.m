@@ -20,6 +20,8 @@
 
 @property (nonatomic,strong) NSMutableArray *chartLineArray; // Array[CAShapeLayer]
 
+@property (strong, nonatomic) NSMutableArray *chartPath; //Array of line path, one for each line.
+
 - (void)setDefaultValues;
 
 @end
@@ -90,43 +92,53 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self chechPoint:touches withEvent:event];
+    [self touchPoint:touches withEvent:event];
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self chechPoint:touches withEvent:event];
+    [self touchPoint:touches withEvent:event];
 }
 
--(void)chechPoint:(NSSet *)touches withEvent:(UIEvent *)event
+-(void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    //Get the point user touched
     UITouch *touch = [touches anyObject];
     CGPoint touchPoint = [touch locationInView:self];
-    CGPathRef originalPath = _progressline.CGPath;
-    CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(originalPath, NULL, 3.0, kCGLineCapRound, kCGLineJoinRound, 3.0);
-    BOOL pathContainsPoint = CGPathContainsPoint(strokedPath, NULL, touchPoint, NO);
-    if (pathContainsPoint)
-    {
-        [_delegate userClickedOnLinePoint:touchPoint];
-        for (NSValue *val in _pathPoints) {
-            CGPoint p = [val CGPointValue];
-            if (p.x + 3.0 > touchPoint.x && p.x - 3.0 < touchPoint.x && p.y + 3.0 > touchPoint.y && p.y - 3.0 < touchPoint.y ) {
-                [_delegate userClickedOnLineKeyPoint:touchPoint andPointIndex:[_pathPoints indexOfObject:val]];
+    for (UIBezierPath *path in _chartPath) {
+        CGPathRef originalPath = path.CGPath;
+        CGPathRef strokedPath = CGPathCreateCopyByStrokingPath(originalPath, NULL, 3.0, kCGLineCapRound, kCGLineJoinRound, 3.0);
+        BOOL pathContainsPoint = CGPathContainsPoint(strokedPath, NULL, touchPoint, NO);
+        if (pathContainsPoint)
+        {
+            [_delegate userClickedOnLinePoint:touchPoint lineIndex:[_chartPath indexOfObject:path]];
+            for (NSArray *linePointsArray in _pathPoints) {
+                for (NSValue *val in linePointsArray) {
+                    CGPoint p = [val CGPointValue];
+                    if (p.x + 3.0 > touchPoint.x && p.x - 3.0 < touchPoint.x && p.y + 3.0 > touchPoint.y && p.y - 3.0 < touchPoint.y ) {
+                        //Call the delegate and pass the point and index of the point
+                        [_delegate userClickedOnLineKeyPoint:touchPoint lineIndex:[_pathPoints indexOfObject:linePointsArray] andPointIndex:[linePointsArray indexOfObject:val]];
+                    }
+                }
             }
+            
         }
     }
+    
 }
 
 -(void)strokeChart
 {
-    for (NSUInteger a = 0; a < self.chartData.count; a++) {
-        PNLineChartData *chartData = self.chartData[a];
-        CAShapeLayer *chartLine = (CAShapeLayer *) self.chartLineArray[a];
+    _chartPath = [[NSMutableArray alloc] init];
+    //Draw each line
+    for (NSUInteger lineIndex = 0; lineIndex < self.chartData.count; lineIndex++) {
+        PNLineChartData *chartData = self.chartData[lineIndex];
+        CAShapeLayer *chartLine = (CAShapeLayer *) self.chartLineArray[lineIndex];
 
         UIGraphicsBeginImageContext(self.frame.size);
-
-        _progressline = [UIBezierPath bezierPath];
-
+        UIBezierPath * progressline = [UIBezierPath bezierPath];
+        [_chartPath addObject:progressline];
+        
         PNLineChartDataItem *firstDataItem = chartData.getData(0);
         CGFloat firstValue = firstDataItem.y;
 
@@ -138,13 +150,14 @@
         }
 
         CGFloat grade = (float)firstValue / _yValueMax;
+        NSMutableArray * linePointsArray = [[NSMutableArray alloc] init];
+        [progressline moveToPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)];
+        [linePointsArray addObject:[NSValue valueWithCGPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)]];
+        [progressline setLineWidth:3.0];
+        [progressline setLineCapStyle:kCGLineCapRound];
+        [progressline setLineJoinStyle:kCGLineJoinRound];
 
-        [_progressline moveToPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)];
-        [_pathPoints addObject:[NSValue valueWithCGPoint:CGPointMake( xPosition, _chartCavanHeight - grade * _chartCavanHeight + _xLabelHeight)]];
-        [_progressline setLineWidth:3.0];
-        [_progressline setLineCapStyle:kCGLineCapRound];
-        [_progressline setLineJoinStyle:kCGLineJoinRound];
-
+        
         NSInteger index = 0;
         for (NSUInteger i = 0; i < chartData.itemCount; i++) {
 
@@ -154,13 +167,13 @@
             CGFloat innerGrade = value / _yValueMax;
             if (index != 0) {
                 CGPoint point = CGPointMake(index * _xLabelWidth + 30.0 + _xLabelWidth / 2.0, _chartCavanHeight - (innerGrade * _chartCavanHeight) + _xLabelHeight);
-                [_pathPoints addObject:[NSValue valueWithCGPoint:point]];
-                [_progressline addLineToPoint:point];
-                [_progressline moveToPoint:point];
+                [linePointsArray addObject:[NSValue valueWithCGPoint:point]];
+                [progressline addLineToPoint:point];
+                [progressline moveToPoint:point];
             }
             index += 1;
         }
-
+        [_pathPoints addObject:[linePointsArray copy]];
         // setup the color of the chart line
         if (chartData.color) {
             chartLine.strokeColor = [chartData.color CGColor];
@@ -168,9 +181,9 @@
             chartLine.strokeColor = [PNGreen CGColor];
         }
 
-        [_progressline stroke];
+        [progressline stroke];
 
-        chartLine.path = _progressline.CGPath;
+        chartLine.path = progressline.CGPath;
 
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathAnimation.duration = 1.0;
