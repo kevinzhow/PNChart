@@ -40,7 +40,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
   //For LineChart
   PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
   [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
-  
+
   // Line Chart Nr.1
   PNLineChartData *data01 = [PNLineChartData new];
   data01.color = [UIColor redColor];
@@ -49,7 +49,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
     CGFloat y = item * 10;
     return [PNLineChartDataItem dataItemWithY:y];
   };
-  
+
   // Line Chart Nr.2
   PNLineChartData *data02 = [PNLineChartData new];
   data02.color = [UIColor blueColor];
@@ -58,7 +58,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
     CGFloat y = item == 0 ? (item * 5) + 10 : (item * 5);
     return [PNLineChartDataItem dataItemWithY:y];
   };
-  
+
   lineChart.chartData = @[data01, data02];
   [lineChart strokeChart];
 
@@ -111,12 +111,12 @@ lineChart.delegate = self;
 //For DelegateMethod
 
 
--(void)userClickedOnLineKeyPoint:(CGPoint)point andPointIndex:(NSInteger)index{
-    NSLog(@"Click Key on line %f, %f and index is %d",point.x, point.y,index);
+-(void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex andPointIndex:(NSInteger)pointIndex{
+    NSLog(@"Click Key on line %f, %f line index is %d and point index is %d",point.x, point.y,(int)lineIndex, (int)pointIndex);
 }
 
--(void)userClickedOnLinePoint:(CGPoint)point {
-    NSLog(@"Click on line %f, %f",point.x, point.y);
+-(void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
+    NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
 }
 
 ```
