@@ -29,9 +29,9 @@
 		0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BD182AEB99003645C4 /* PNColor.m */; };
 		9F55483E18498E0E004073B5 /* PNCircleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F55483D18498E0E004073B5 /* PNCircleChart.m */; };
 		9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F656B50184A4E34002E5675 /* UICountingLabel.m */; };
+		9F9AFF24185FF24000D6673D /* PNLineChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AFF21185FF24000D6673D /* PNLineChartData.m */; };
+		9F9AFF25185FF24000D6673D /* PNLineChartDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AFF23185FF24000D6673D /* PNLineChartDataItem.m */; };
 		9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */; };
-		AF3EA32ACA7D5DAC2167CABD /* PNLineChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3EAE8875DCB1D0BDF690E0 /* PNLineChartData.m */; };
-		AF3EA5ABA289F1726E048CF0 /* PNLineChartDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3EA2A586F5DB3F10DEF9C0 /* PNLineChartDataItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,13 +80,13 @@
 		9F55483D18498E0E004073B5 /* PNCircleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNCircleChart.m; path = PNChart/PNCircleChart.m; sourceTree = "<group>"; };
 		9F656B4F184A4E34002E5675 /* UICountingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICountingLabel.h; path = PNChart/ThirdPart/UICountingLabel.h; sourceTree = "<group>"; };
 		9F656B50184A4E34002E5675 /* UICountingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UICountingLabel.m; path = PNChart/ThirdPart/UICountingLabel.m; sourceTree = "<group>"; };
+		9F9AFF20185FF24000D6673D /* PNLineChartData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNLineChartData.h; path = PNChart/PNLineChartData.h; sourceTree = "<group>"; };
+		9F9AFF21185FF24000D6673D /* PNLineChartData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNLineChartData.m; path = PNChart/PNLineChartData.m; sourceTree = "<group>"; };
+		9F9AFF22185FF24000D6673D /* PNLineChartDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNLineChartDataItem.h; path = PNChart/PNLineChartDataItem.h; sourceTree = "<group>"; };
+		9F9AFF23185FF24000D6673D /* PNLineChartDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNLineChartDataItem.m; path = PNChart/PNLineChartDataItem.m; sourceTree = "<group>"; };
 		9FA23B0E184A5944002DBBA4 /* PCChartsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCChartsTableViewController.h; sourceTree = "<group>"; };
 		9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCChartsTableViewController.m; sourceTree = "<group>"; };
 		9FE9CFB818581102005B8223 /* PNChartDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNChartDelegate.h; path = PNChart/PNChartDelegate.h; sourceTree = "<group>"; };
-		AF3EA2A586F5DB3F10DEF9C0 /* PNLineChartDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLineChartDataItem.m; sourceTree = "<group>"; };
-		AF3EA71805621F984344CF8D /* PNLineChartData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLineChartData.h; sourceTree = "<group>"; };
-		AF3EA9564304AC28E21019E4 /* PNLineChartDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLineChartDataItem.h; sourceTree = "<group>"; };
-		AF3EAE8875DCB1D0BDF690E0 /* PNLineChartData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLineChartData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,12 +226,12 @@
 		9F656B49184A4B90002E5675 /* PNLineChart */ = {
 			isa = PBXGroup;
 			children = (
+				9F9AFF20185FF24000D6673D /* PNLineChartData.h */,
+				9F9AFF21185FF24000D6673D /* PNLineChartData.m */,
+				9F9AFF22185FF24000D6673D /* PNLineChartDataItem.h */,
+				9F9AFF23185FF24000D6673D /* PNLineChartDataItem.m */,
 				0AF7A8B1182AC604003645C4 /* PNLineChart.h */,
 				0AF7A8B2182AC604003645C4 /* PNLineChart.m */,
-				AF3EA2A586F5DB3F10DEF9C0 /* PNLineChartDataItem.m */,
-				AF3EAE8875DCB1D0BDF690E0 /* PNLineChartData.m */,
-				AF3EA71805621F984344CF8D /* PNLineChartData.h */,
-				AF3EA9564304AC28E21019E4 /* PNLineChartDataItem.h */,
 			);
 			name = PNLineChart;
 			sourceTree = "<group>";
@@ -357,18 +357,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */,
+				9F9AFF25185FF24000D6673D /* PNLineChartDataItem.m in Sources */,
 				9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */,
 				0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */,
 				9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */,
 				0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */,
 				0AF7A8B9182AEB80003645C4 /* PNBar.m in Sources */,
+				9F9AFF24185FF24000D6673D /* PNLineChartData.m in Sources */,
 				0AF7A8B6182ADDEB003645C4 /* PNBarChart.m in Sources */,
 				0AF7A874182AA9F6003645C4 /* main.m in Sources */,
 				0AF7A8B3182AC604003645C4 /* PNLineChart.m in Sources */,
 				9F55483E18498E0E004073B5 /* PNCircleChart.m in Sources */,
 				0AF7A878182AA9F6003645C4 /* PCAppDelegate.m in Sources */,
-				AF3EA5ABA289F1726E048CF0 /* PNLineChartDataItem.m in Sources */,
-				AF3EA32ACA7D5DAC2167CABD /* PNLineChartData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
