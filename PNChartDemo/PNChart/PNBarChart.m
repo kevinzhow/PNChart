@@ -11,6 +11,10 @@
 #import "PNChartLabel.h"
 #import "PNBar.h"
 
+@interface PNBarChart()
+- (UIColor *)barColorAtIndex:(NSUInteger)index;
+@end
+
 @implementation PNBarChart
 
 - (id)initWithFrame:(CGRect)frame
@@ -97,11 +101,22 @@
             bar = [[PNBar alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin + _xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight , _xLabelWidth * 0.6, chartCavanHeight)];
         }
 		bar.backgroundColor = _barBackgroundColor;
-		bar.barColor = _strokeColor;
+		bar.barColor = [self barColorAtIndex:index];
 		bar.grade = grade;
 		[self addSubview:bar];
         
         index += 1;
+    }
+}
+
+#pragma mark - Class extension methods
+
+- (UIColor *)barColorAtIndex:(NSUInteger)index
+{
+    if ([self.strokeColors count] == [self.yValues count]) {
+        return self.strokeColors[index];
+    } else {
+        return self.strokeColor;
     }
 }
 

@@ -108,6 +108,7 @@
         barChart.backgroundColor = [UIColor clearColor];
         [barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         [barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
+        [barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
         [barChart strokeChart];
         
         [viewController.view addSubview:barChartLabel];
