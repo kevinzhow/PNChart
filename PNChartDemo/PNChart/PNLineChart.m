@@ -55,7 +55,7 @@
 -(void)setYLabels:(NSArray *)yLabels
 {
     
-    float yStep = (_yValueMax-_yValueMin) / _yLabelNum;
+    CGFloat yStep = (_yValueMax-_yValueMin) / _yLabelNum;
 	CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
     
     
@@ -75,13 +75,13 @@
 -(void)setXLabels:(NSArray *)xLabels
 {
     _xLabels = xLabels;
-    
+    NSString* labelText;
     if(_showLabel){
         _xLabelWidth = _chartCavanWidth/[xLabels count];
         
         for(int index = 0; index < xLabels.count; index++)
         {
-            NSString* labelText = xLabels[index];
+            labelText = xLabels[index];
             PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(2*_chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2), _chartMargin + _chartCavanHeight, _xLabelWidth, _chartMargin)];
             [label setTextAlignment:NSTextAlignmentCenter];
             label.text = labelText;
@@ -138,22 +138,21 @@
     for (NSUInteger lineIndex = 0; lineIndex < self.chartData.count; lineIndex++) {
         PNLineChartData *chartData = self.chartData[lineIndex];
         CAShapeLayer *chartLine = (CAShapeLayer *) self.chartLineArray[lineIndex];
+        CGFloat yValue;
+        CGFloat innerGrade;
+        CGPoint point;
         
         UIGraphicsBeginImageContext(self.frame.size);
         UIBezierPath * progressline = [UIBezierPath bezierPath];
         [_chartPath addObject:progressline];
         
-        CGFloat xPosition = _chartMargin;
+
         
         if(!_showLabel){
-            //heuristic don't know why
-            _yLabelHeight = 2;
             _chartCavanHeight = self.frame.size.height - 2*_yLabelHeight;
             _chartCavanWidth = self.frame.size.width;
-            _yLabelHeight = 5.0;
             _chartMargin = 0.0;
             _xLabelWidth = (_chartCavanWidth / ([_xLabels count] -1));
-            xPosition = 0;
         }
         
         NSMutableArray * linePointsArray = [[NSMutableArray alloc] init];
@@ -161,17 +160,16 @@
         [progressline setLineCapStyle:kCGLineCapRound];
         [progressline setLineJoinStyle:kCGLineJoinRound];
         
-        PNLineChartDataItem *dataItem;
+        
         
         
         for (NSUInteger i = 0; i < chartData.itemCount; i++) {
+
+            yValue = chartData.getData(i).y;
             
-            dataItem = chartData.getData(i);
-            float value = dataItem.y;
+            innerGrade = (yValue - _yValueMin) / ( _yValueMax - _yValueMin);
             
-            CGFloat innerGrade = (value - _yValueMin) / ( _yValueMax - _yValueMin);
-            
-            CGPoint point = CGPointMake(2*_chartMargin +  (i * _xLabelWidth), _chartCavanHeight - (innerGrade * _chartCavanHeight) + ( _yLabelHeight /2 ));
+            point = CGPointMake(2*_chartMargin +  (i * _xLabelWidth), _chartCavanHeight - (innerGrade * _chartCavanHeight) + ( _yLabelHeight /2 ));
             
             if (i != 0) {
                 [progressline addLineToPoint:point];
@@ -211,6 +209,7 @@
         NSMutableArray *yLabelsArray = [NSMutableArray arrayWithCapacity:data.count];
         CGFloat yMax = 0.0f;
         CGFloat yMin = MAXFLOAT;
+        CGFloat yValue;
         // remove all shape layers before adding new ones
         for (CALayer *layer in self.chartLineArray) {
             [layer removeFromSuperlayer];
@@ -230,11 +229,10 @@
             [self.chartLineArray addObject:chartLine];
             
             for (NSUInteger i = 0; i < chartData.itemCount; i++) {
-                PNLineChartDataItem *dataItem = chartData.getData(i);
-                CGFloat yValue = dataItem.y;
+                yValue = chartData.getData(i).y;
                 [yLabelsArray addObject:[NSString stringWithFormat:@"%2f", yValue]];
-                yMax = fmaxf(yMax, dataItem.y);
-                yMin = fminf(yMin, dataItem.y);
+                yMax = fmaxf(yMax, yValue);
+                yMin = fminf(yMin, yValue);
             }
         }
         
@@ -245,7 +243,6 @@
         if (yMin < 0){
             yMin = 0.0f;
         }
-        NSLog(@"%f",yMin);
         
         _yValueMin = yMin;
         _yValueMax = yMax;
@@ -275,10 +272,7 @@
     _yLabelHeight = [[[[PNChartLabel alloc] init] font] pointSize];
     
     _chartMargin = 30;
-    
-    _xLabelHeight = _chartMargin;
-    
-    
+
     _chartCavanWidth = self.frame.size.width - _chartMargin *2;
     _chartCavanHeight = self.frame.size.height - _chartMargin * 2;
 }

@@ -37,8 +37,6 @@
 
 @property (nonatomic) CGFloat xLabelWidth;
 
-@property (nonatomic) CGFloat xLabelHeight;
-
 @property (nonatomic) CGFloat yValueMax;
 
 @property (nonatomic) CGFloat yValueMin;
