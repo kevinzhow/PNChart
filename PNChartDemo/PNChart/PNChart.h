@@ -11,6 +11,8 @@
 #import "PNChart.h"
 #import "PNColor.h"
 #import "PNLineChart.h"
+#import "PNLineChartData.h"
+#import "PNLineChartDataItem.h"
 #import "PNBarChart.h"
 #import "PNCircleChart.h"
 #import "PNChartDelegate.h"
