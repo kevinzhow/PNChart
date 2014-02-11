@@ -17,6 +17,14 @@
 
 @implementation PNCircleChart
 
+- (UIColor *)labelColor
+{
+    if (!_labelColor) {
+        _labelColor = PNDeepGrey;
+    }
+    return _labelColor;
+}
+
 
 - (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current
 {
@@ -63,7 +71,7 @@
     
     [_gradeLabel setTextAlignment:NSTextAlignmentCenter];
     [_gradeLabel setFont:[UIFont boldSystemFontOfSize:13.0f]];
-    [_gradeLabel setTextColor: PNDeepGrey];
+    [_gradeLabel setTextColor:self.labelColor];
     [_gradeLabel setCenter:CGPointMake(self.center.x,self.center.y)];
     _gradeLabel.method = UILabelCountingMethodEaseInOut;
     _gradeLabel.format = @"%d%%";
