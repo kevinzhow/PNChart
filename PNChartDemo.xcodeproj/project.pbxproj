@@ -28,7 +28,6 @@
 		0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BB182AEB99003645C4 /* PNChartLabel.m */; };
 		0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8BD182AEB99003645C4 /* PNColor.m */; };
 		9F55483E18498E0E004073B5 /* PNCircleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F55483D18498E0E004073B5 /* PNCircleChart.m */; };
-		9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F656B50184A4E34002E5675 /* UICountingLabel.m */; };
 		9F9AFF24185FF24000D6673D /* PNLineChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AFF21185FF24000D6673D /* PNLineChartData.m */; };
 		9F9AFF25185FF24000D6673D /* PNLineChartDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9AFF23185FF24000D6673D /* PNLineChartDataItem.m */; };
 		9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */; };
@@ -78,8 +77,6 @@
 		0AF7A8BD182AEB99003645C4 /* PNColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNColor.m; path = PNChart/PNColor.m; sourceTree = "<group>"; };
 		9F55483C18498E0E004073B5 /* PNCircleChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNCircleChart.h; path = PNChart/PNCircleChart.h; sourceTree = "<group>"; };
 		9F55483D18498E0E004073B5 /* PNCircleChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNCircleChart.m; path = PNChart/PNCircleChart.m; sourceTree = "<group>"; };
-		9F656B4F184A4E34002E5675 /* UICountingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICountingLabel.h; path = PNChart/ThirdPart/UICountingLabel.h; sourceTree = "<group>"; };
-		9F656B50184A4E34002E5675 /* UICountingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UICountingLabel.m; path = PNChart/ThirdPart/UICountingLabel.m; sourceTree = "<group>"; };
 		9F9AFF20185FF24000D6673D /* PNLineChartData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNLineChartData.h; path = PNChart/PNLineChartData.h; sourceTree = "<group>"; };
 		9F9AFF21185FF24000D6673D /* PNLineChartData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PNLineChartData.m; path = PNChart/PNLineChartData.m; sourceTree = "<group>"; };
 		9F9AFF22185FF24000D6673D /* PNLineChartDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PNLineChartDataItem.h; path = PNChart/PNLineChartDataItem.h; sourceTree = "<group>"; };
@@ -250,8 +247,6 @@
 		9F656B4B184A4BC9002E5675 /* PNCircleChart */ = {
 			isa = PBXGroup;
 			children = (
-				9F656B4F184A4E34002E5675 /* UICountingLabel.h */,
-				9F656B50184A4E34002E5675 /* UICountingLabel.m */,
 				9F55483C18498E0E004073B5 /* PNCircleChart.h */,
 				9F55483D18498E0E004073B5 /* PNCircleChart.m */,
 			);
@@ -358,7 +353,6 @@
 			files = (
 				0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */,
 				9F9AFF25185FF24000D6673D /* PNLineChartDataItem.m in Sources */,
-				9F656B51184A4E34002E5675 /* UICountingLabel.m in Sources */,
 				0AF7A8BF182AEB99003645C4 /* PNColor.m in Sources */,
 				9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */,
 				0AF7A8BE182AEB99003645C4 /* PNChartLabel.m in Sources */,
