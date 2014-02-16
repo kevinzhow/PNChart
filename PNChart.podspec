@@ -13,6 +13,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.source       = { :git => "https://github.com/kevinzhow/PNChart.git", :tag => s.version.to_s }
 
+  s.ios.dependency 'UICountingLabel', '~> 1.0.0'
+
   s.source_files = 'PNChartDemo/PNChart/**/*.{h,m}'
   s.public_header_files = 'PNChartDemo/PNChart/**/*.h'
   s.frameworks   = 'CoreGraphics', 'UIKit', 'Foundation', 'QuartzCore'
