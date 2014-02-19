@@ -33,7 +33,7 @@
         _labels              = [NSMutableArray array];
         _bars                = [NSMutableArray array];
     }
-    
+
     return self;
 }
 
@@ -41,7 +41,7 @@
 {
     _yValues = yValues;
     [self setYLabels:yValues];
-    
+
     _xLabelWidth = (self.frame.size.width - chartMargin*2)/[_yValues count];
 }
 
@@ -53,37 +53,38 @@
         if (value > max) {
             max = value;
         }
-        
+
     }
-    
+
     //Min value for Y label
     if (max < 5) {
         max = 5;
     }
-    
+
     _yValueMax = (int)max;
-    
-	
+
+
 }
 
 -(void)setXLabels:(NSArray *)xLabels
 {
     [self viewCleanupForCollection:_labels];
     _xLabels = xLabels;
-    
+
     if (_showLabel) {
         _xLabelWidth = (self.frame.size.width - chartMargin*2)/[xLabels count];
-        
+
         for(int index = 0; index < xLabels.count; index++)
         {
             NSString* labelText = xLabels[index];
             PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin), self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
             [label setTextAlignment:NSTextAlignmentCenter];
             label.text = labelText;
+            [_labels addObject:label];
             [self addSubview:label];
         }
     }
-    
+
 }
 
 -(void)setStrokeColor:(UIColor *)strokeColor
@@ -96,10 +97,10 @@
     [self viewCleanupForCollection:_bars];
     CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
     NSInteger index = 0;
-	
+
     for (NSString * valueString in _yValues) {
         float value = [valueString floatValue];
-        
+
         float grade = (float)value / (float)_yValueMax;
 		PNBar * bar;
         if (_showLabel) {
@@ -110,8 +111,9 @@
 		bar.backgroundColor = _barBackgroundColor;
 		bar.barColor = [self barColorAtIndex:index];
 		bar.grade = grade;
+        [_bars addObject:bar];
 		[self addSubview:bar];
-        
+
         index += 1;
     }
 }
