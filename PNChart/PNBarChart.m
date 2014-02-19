@@ -108,11 +108,11 @@
         }else{
             bar = [[PNBar alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin + _xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight , _xLabelWidth * 0.6, chartCavanHeight)];
         }
-		bar.backgroundColor = _barBackgroundColor;
-		bar.barColor = [self barColorAtIndex:index];
-		bar.grade = grade;
+        bar.backgroundColor = _barBackgroundColor;
+        bar.barColor = [self barColorAtIndex:index];
+        bar.grade = grade;
         [_bars addObject:bar];
-		[self addSubview:bar];
+        [self addSubview:bar];
 
         index += 1;
     }
