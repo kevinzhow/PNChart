@@ -11,7 +11,11 @@
 #import "PNChartLabel.h"
 #import "PNBar.h"
 
-@interface PNBarChart()
+@interface PNBarChart() {
+    NSMutableArray* _bars;
+    NSMutableArray* _labels;
+}
+
 - (UIColor *)barColorAtIndex:(NSUInteger)index;
 @end
 
@@ -62,6 +66,7 @@
 
 -(void)setXLabels:(NSArray *)xLabels
 {
+    [self viewCleanupForCollection:_labels];
     _xLabels = xLabels;
     
     if (_showLabel) {
@@ -86,7 +91,7 @@
 
 -(void)strokeChart
 {
-
+    [self viewCleanupForCollection:_bars];
     CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
     NSInteger index = 0;
 	
@@ -106,6 +111,14 @@
 		[self addSubview:bar];
         
         index += 1;
+    }
+}
+
+- (void)viewCleanupForCollection:(NSMutableArray*)array
+{
+    if (array.count) {
+        [array makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [array removeAllObjects];
     }
 }
 
