@@ -30,6 +30,8 @@
         self.clipsToBounds   = YES;
         _showLabel           = YES;
         _barBackgroundColor  = PNLightGrey;
+        _labels              = [NSMutableArray array];
+        _bars                = [NSMutableArray array];
     }
     
     return self;
