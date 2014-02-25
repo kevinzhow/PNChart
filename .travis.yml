@@ -1,2 +1,3 @@
 language: objective-c
 xcode_workspace: PNChartDemo.xcworkspace
+rvm: 2.0.0
