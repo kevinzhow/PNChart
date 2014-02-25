@@ -62,8 +62,6 @@
     }
 
     _yValueMax = (int)max;
-
-
 }
 
 -(void)setXLabels:(NSArray *)xLabels
@@ -84,7 +82,6 @@
             [self addSubview:label];
         }
     }
-
 }
 
 -(void)setStrokeColor:(UIColor *)strokeColor
@@ -102,7 +99,7 @@
         float value = [valueString floatValue];
 
         float grade = (float)value / (float)_yValueMax;
-		PNBar * bar;
+        PNBar * bar;
         if (_showLabel) {
             bar = [[PNBar alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin + _xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight - 30.0, _xLabelWidth * 0.5, chartCavanHeight)];
         }else{
