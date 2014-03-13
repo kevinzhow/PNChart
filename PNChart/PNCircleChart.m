@@ -26,17 +26,20 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current
-{
+- (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current andClockwise:(BOOL)clockwise {
     self = [super initWithFrame:frame];
     
     if (self) {
         _total = total;
         _current = current;
         _strokeColor = PNFreshGreen;
+		_clockwise = clockwise;
+		
+		CGFloat startAngle = clockwise ? -90.0f : 270.0f;
+		CGFloat endAngle = clockwise ? -90.01f : 270.01f;
         
         _lineWidth = [NSNumber numberWithFloat:8.0];
-        UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x,self.center.y) radius:self.frame.size.height*0.5 startAngle:DEGREES_TO_RADIANS(270) endAngle:DEGREES_TO_RADIANS(270.01) clockwise:NO];
+        UIBezierPath* circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x,self.center.y) radius:self.frame.size.height*0.5 startAngle:DEGREES_TO_RADIANS(startAngle) endAngle:DEGREES_TO_RADIANS(endAngle) clockwise:clockwise];
         
         _circle               = [CAShapeLayer layer];
         _circle.path          = circlePath.CGPath;
