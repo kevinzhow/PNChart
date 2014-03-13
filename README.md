@@ -88,7 +88,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
 
 //For CircleChart
 
-PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60]];
+PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:NO];
 circleChart.backgroundColor = [UIColor clearColor];
 [circleChart setStrokeColor:PNGreen];
 [circleChart strokeChart];
