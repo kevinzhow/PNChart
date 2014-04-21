@@ -14,6 +14,6 @@
 - (void)rollBack;
 
 @property (nonatomic) float grade;
-@property (nonatomic, strong) CAShapeLayer *chartLine;
-@property (nonatomic, strong) UIColor *barColor;
+@property (nonatomic) CAShapeLayer *chartLine;
+@property (nonatomic) UIColor *barColor;
 @end

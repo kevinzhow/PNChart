@@ -21,16 +21,16 @@
 
 @property (nonatomic, retain) id<PNChartDelegate> delegate;
 
-@property (strong, nonatomic) NSArray *xLabels;
+@property (nonatomic) NSArray *xLabels;
 
-@property (strong, nonatomic) NSArray *yLabels;
+@property (nonatomic) NSArray *yLabels;
 
 /**
  * Array of `LineChartData` objects, one for each line.
  */
-@property (strong, nonatomic) NSArray *chartData;
+@property (nonatomic) NSArray *chartData;
 
-@property (strong, nonatomic) NSMutableArray *pathPoints;
+@property (nonatomic) NSMutableArray *pathPoints;
 
 @property (nonatomic) CGFloat xLabelWidth;
 

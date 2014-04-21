@@ -18,9 +18,9 @@
 //------------------------------------------------------------------------------------------------
 @interface PNLineChart ()
 
-@property (nonatomic, strong) NSMutableArray *chartLineArray; // Array[CAShapeLayer]
+@property (nonatomic) NSMutableArray *chartLineArray; // Array[CAShapeLayer]
 
-@property (strong, nonatomic) NSMutableArray *chartPath; //Array of line path, one for each line.
+@property (nonatomic) NSMutableArray *chartPath; //Array of line path, one for each line.
 
 - (void)setDefaultValues;
 

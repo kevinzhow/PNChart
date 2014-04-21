@@ -22,13 +22,14 @@
 
 - (void)strokeChart;
 
-@property (strong, nonatomic) NSArray *xLabels;
-@property (strong, nonatomic) NSArray *yLabels;
-@property (strong, nonatomic) NSArray *yValues;
+@property (nonatomic) NSArray *xLabels;
+@property (nonatomic) NSArray *yLabels;
+@property (nonatomic) NSArray *yValues;
 @property (nonatomic) CGFloat xLabelWidth;
 @property (nonatomic) int yValueMax;
-@property (nonatomic, strong) UIColor *strokeColor;
-@property (nonatomic, strong) NSArray *strokeColors;
-@property (nonatomic, strong) UIColor *barBackgroundColor;
+@property (nonatomic) UIColor *strokeColor;
+@property (nonatomic) NSArray *strokeColors;
+@property (nonatomic) UIColor *barBackgroundColor;
 @property (nonatomic) BOOL showLabel;
+
 @end
