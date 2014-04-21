@@ -6,12 +6,9 @@
 //  Copyright (c) 2013年 kevinzhow. All rights reserved.
 //
 
-
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "PNChartDelegate.h"
-
-
 
 
 @interface PNLineChart : UIView
@@ -22,18 +19,18 @@
 
 - (void)strokeChart;
 
-@property(nonatomic,retain) id<PNChartDelegate> delegate;
+@property (nonatomic, retain) id<PNChartDelegate> delegate;
 
-@property (strong, nonatomic) NSArray * xLabels;
+@property (strong, nonatomic) NSArray *xLabels;
 
-@property (strong, nonatomic) NSArray * yLabels;
+@property (strong, nonatomic) NSArray *yLabels;
 
 /**
  * Array of `LineChartData` objects, one for each line.
  */
 @property (strong, nonatomic) NSArray *chartData;
 
-@property (strong, nonatomic) NSMutableArray * pathPoints;
+@property (strong, nonatomic) NSMutableArray *pathPoints;
 
 @property (nonatomic) CGFloat xLabelWidth;
 
