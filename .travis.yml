@@ -1,3 +1,5 @@
 language: objective-c
+before_script:
+  - export LANG=en_US.UTF-8
 xcode_workspace: PNChartDemo.xcworkspace
 rvm: 2.1.1
