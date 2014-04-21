@@ -22,5 +22,10 @@
  */
 - (void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex andPointIndex:(NSInteger)pointIndex;
 
+/**
+ * When user click on a chart bar
+ *
+ */
+- (void)userClickedOnBarCharIndex:(NSInteger)barIndex;
 
 @end

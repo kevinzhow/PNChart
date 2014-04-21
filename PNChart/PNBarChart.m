@@ -119,6 +119,7 @@
         bar.backgroundColor = _barBackgroundColor;
         bar.barColor = [self barColorAtIndex:index];
         bar.grade = grade;
+        bar.tag = index;        
         [_bars addObject:bar];
         [self addSubview:bar];
 
@@ -145,6 +146,28 @@
     }
     else {
         return self.strokeColor;
+    }
+}
+
+
+#pragma mark - Touch detection
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self touchPoint:touches withEvent:event];
+    [super touchesBegan:touches withEvent:event];
+}
+
+
+- (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //Get the point user touched
+    UITouch *touch = [touches anyObject];
+    CGPoint touchPoint = [touch locationInView:self];
+    UIView *subview = [self hitTest:touchPoint withEvent:nil];
+    
+    if ([subview isKindOfClass:[PNBar class]] && [self.delegate respondsToSelector:@selector(userClickedOnBarCharIndex:)]) {
+        [self.delegate userClickedOnBarCharIndex:subview.tag];
     }
 }
 
