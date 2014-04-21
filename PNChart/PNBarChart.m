@@ -66,35 +66,38 @@
 
 -(void)setXLabels:(NSArray *)xLabels
 {
-    [self viewCleanupForCollection:_labels];
     _xLabels = xLabels;
 
     if (_showLabel) {
         _xLabelWidth = (self.frame.size.width - chartMargin*2)/[xLabels count];
-
-        for(int index = 0; index < xLabels.count; index++)
-        {
-            NSString* labelText = xLabels[index];
-            PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin), self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
-            [label setTextAlignment:NSTextAlignmentCenter];
-            label.text = labelText;
-            [_labels addObject:label];
-            [self addSubview:label];
-        }
     }
 }
 
 -(void)setStrokeColor:(UIColor *)strokeColor
 {
-	_strokeColor = strokeColor;
+    _strokeColor = strokeColor;
 }
 
 -(void)strokeChart
 {
+    [self viewCleanupForCollection:_labels];
+    
+    for(int index = 0; index < _xLabels.count; index++)
+    {
+        NSString* labelText = _xLabels[index];
+        PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin), self.frame.size.height - 30.0, _xLabelWidth, 20.0)];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        label.text = labelText;
+        [_labels addObject:label];
+        [self addSubview:label];
+    }
+    
+    
     [self viewCleanupForCollection:_bars];
+    
     CGFloat chartCavanHeight = self.frame.size.height - chartMargin * 2 - 40.0;
     NSInteger index = 0;
-
+    
     for (NSString * valueString in _yValues) {
         float value = [valueString floatValue];
 
@@ -102,7 +105,9 @@
         PNBar * bar;
         if (_showLabel) {
             bar = [[PNBar alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin + _xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight - 30.0, _xLabelWidth * 0.5, chartCavanHeight)];
-        }else{
+            
+        }
+        else{
             bar = [[PNBar alloc] initWithFrame:CGRectMake((index *  _xLabelWidth + chartMargin + _xLabelWidth * 0.25), self.frame.size.height - chartCavanHeight , _xLabelWidth * 0.6, chartCavanHeight)];
         }
         bar.backgroundColor = _barBackgroundColor;
