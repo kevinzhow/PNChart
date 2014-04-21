@@ -111,6 +111,8 @@
         [barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
         [barChart strokeChart];
         
+        barChart.delegate = self;
+        
         [viewController.view addSubview:barChartLabel];
         [viewController.view addSubview:barChart];
         
@@ -146,6 +148,11 @@
 
 -(void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
     NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
+}
+
+- (void)userClickedOnBarCharIndex:(NSInteger)barIndex
+{
+    NSLog(@"Click on bar %@", @(barIndex));
 }
 
 @end
