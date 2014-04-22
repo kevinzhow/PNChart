@@ -27,7 +27,7 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current andClockwise:(BOOL)clockwise
+- (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current andClockwise:(BOOL)clockwise andShadow:(BOOL)hasBackgroundShadow
 {
     self = [super initWithFrame:frame];
 
@@ -55,7 +55,7 @@
         _circleBG.lineCap     = kCALineCapRound;
         _circleBG.fillColor   = [UIColor clearColor].CGColor;
         _circleBG.lineWidth   = [_lineWidth floatValue];
-        _circleBG.strokeColor = PNLightYellow.CGColor;
+        _circleBG.strokeColor = (hasBackgroundShadow ? PNLightYellow.CGColor : [UIColor clearColor].CGColor);
         _circleBG.strokeEnd   = 1.0;
         _circleBG.zPosition   = -1;
 
