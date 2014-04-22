@@ -11,12 +11,12 @@ Pod::Spec.new do |s|
   s.author       = { "Kevin" => "kevinchou.c@gmail.com" }
 
   s.platform     = :ios, '6.0'
-  s.source       = { :git => "https://github.com/moflo/PNChart.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/moflo/PNChart.git" }
 
   s.ios.dependency 'UICountingLabel', '~> 1.0.0'
 
-  s.source_files = 'PNChartDemo/PNChart/**/*.{h,m}'
-  s.public_header_files = 'PNChartDemo/PNChart/**/*.h'
+  s.source_files = 'PNChart/*.{h,m}'
+  s.public_header_files = 'PNChart/*.h'
   s.frameworks   = 'CoreGraphics', 'UIKit', 'Foundation', 'QuartzCore'
   s.requires_arc = true
 end
