@@ -106,6 +106,12 @@
         
         PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
         barChart.backgroundColor = [UIColor clearColor];
+        barChart.yLabelFormatter = ^(CGFloat yValue){
+            CGFloat yValueParsed = yValue;
+            NSString * labelText = [NSString stringWithFormat:@"%1.f",yValueParsed];
+            return labelText;
+        };
+        barChart.labelMarginTop = 5.0;
         [barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         [barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
         [barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
@@ -129,18 +135,13 @@
         circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         circleChartLabel.textAlignment = NSTextAlignmentCenter;
         
-        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:YES andShadow:NO];
+        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:YES andShadow:YES];
         circleChart.backgroundColor = [UIColor clearColor];
         [circleChart setStrokeColor:PNGreen];
         [circleChart strokeChart];
         
-        PNCircleChart * circleChart2 = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:90] andClockwise:YES andShadow:YES];
-        circleChart2.backgroundColor = [UIColor clearColor];
-        [circleChart2 setStrokeColor:PNBlue];
-        [circleChart2 strokeChart];
-        
         [viewController.view addSubview:circleChartLabel];
-        [viewController.view addSubview:circleChart2];
+
         [viewController.view addSubview:circleChart];
         viewController.title = @"Circle Chart";
         

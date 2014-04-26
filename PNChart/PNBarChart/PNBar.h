@@ -16,4 +16,6 @@
 @property (nonatomic) float grade;
 @property (nonatomic) CAShapeLayer *chartLine;
 @property (nonatomic) UIColor *barColor;
+@property (nonatomic) CGFloat barRadius;
+
 @end
