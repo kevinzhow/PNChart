@@ -129,12 +129,18 @@
         circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         circleChartLabel.textAlignment = NSTextAlignmentCenter;
         
-        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:NO];
+        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:YES andShadow:NO];
         circleChart.backgroundColor = [UIColor clearColor];
         [circleChart setStrokeColor:PNGreen];
         [circleChart strokeChart];
         
+        PNCircleChart * circleChart2 = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:90] andClockwise:YES andShadow:YES];
+        circleChart2.backgroundColor = [UIColor clearColor];
+        [circleChart2 setStrokeColor:PNBlue];
+        [circleChart2 strokeChart];
+        
         [viewController.view addSubview:circleChartLabel];
+        [viewController.view addSubview:circleChart2];
         [viewController.view addSubview:circleChart];
         viewController.title = @"Circle Chart";
         
