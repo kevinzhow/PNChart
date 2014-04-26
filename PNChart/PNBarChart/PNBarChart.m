@@ -123,14 +123,8 @@
                 label.textColor = _labelTextColor;
                 [label setTextAlignment:NSTextAlignmentCenter];
                 label.text = labelText;
-                NSLog(@"Label text is %@",labelText);
                 [label sizeToFit];
-                CGFloat labelXPosition;
-                if (label.frame.size.width < _xLabelWidth) {
-                    labelXPosition  = (index *  _xLabelWidth + _chartMargin + _xLabelWidth /2.0 );
-                }else{
-                    labelXPosition  = (index *  _xLabelWidth + _chartMargin + label.frame.size.width /2.0 );
-                }
+                CGFloat labelXPosition  = (index *  _xLabelWidth + _chartMargin + _xLabelWidth /2.0 );
                 
                 label.center = CGPointMake(labelXPosition,
                                            self.frame.size.height - xLabelHeight - _chartMargin + label.frame.size.height /2.0 + _labelMarginTop);
