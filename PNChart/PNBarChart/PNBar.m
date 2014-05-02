@@ -59,8 +59,8 @@
     CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     pathAnimation.duration = 1.0;
     pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-    pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    pathAnimation.fromValue = @0.0f;
+    pathAnimation.toValue = @1.0f;
     [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
 
     _chartLine.strokeEnd = 1.0;
