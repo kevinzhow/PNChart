@@ -44,7 +44,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
   [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
 
   // Line Chart No.1
-  NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2, @127.2, @176.2];
+  NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2];
   PNLineChartData *data01 = [PNLineChartData new];
   data01.color = PNFreshGreen;
   data01.itemCount = lineChart.xLabels.count;
@@ -53,7 +53,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
       return [PNLineChartDataItem dataItemWithY:yValue];
   };
   // Line Chart No.2
-  NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
+  NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2];
   PNLineChartData *data02 = [PNLineChartData new];
   data02.color = PNTwitterColor;
   data02.itemCount = lineChart.xLabels.count;
