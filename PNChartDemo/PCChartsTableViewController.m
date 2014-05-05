@@ -158,7 +158,7 @@
         
         
         NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNRed],
-                           [PNPieChartDataItem dataItemWithValue:20 color:PNBlue description:@"WWDC"],
+                           [PNPieChartDataItem dataItemWithValue:20 color:PNTwitterColor description:@"WWDC"],
                            [PNPieChartDataItem dataItemWithValue:40 color:PNGreen description:@"GOOL I/O"],
                            ];
         
