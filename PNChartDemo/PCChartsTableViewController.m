@@ -159,14 +159,14 @@
         
         NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNRed],
                            [PNPieChartDataItem dataItemWithValue:20 color:PNBlue description:@"WWDC"],
-                           [PNPieChartDataItem dataItemWithValue:40 color:PNGreen description:@"Google I/O"],
+                           [PNPieChartDataItem dataItemWithValue:40 color:PNGreen description:@"GOOL I/O"],
                            ];
         
         
         
-        PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, SCREEN_WIDTH) items:items];
+        PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(40.0, 155.0, 240.0, 240.0) items:items];
         pieChart.descriptionTextColor = [UIColor whiteColor];
-        pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
+        pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0];
         [pieChart strokeChart];
         
         
