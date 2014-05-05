@@ -167,6 +167,7 @@
         PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(40.0, 155.0, 240.0, 240.0) items:items];
         pieChart.descriptionTextColor = [UIColor whiteColor];
         pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0];
+        pieChart.descriptionTextShadowColor = [UIColor clearColor];
         [pieChart strokeChart];
         
         
