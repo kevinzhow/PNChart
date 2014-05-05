@@ -70,7 +70,7 @@
         data01.color = PNFreshGreen;
         data01.itemCount = lineChart.xLabels.count;
         data01.getData = ^(NSUInteger index) {
-            CGFloat yValue = [[data01Array objectAtIndex:index] floatValue];
+            CGFloat yValue = [data01Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
         };
 
@@ -80,7 +80,7 @@
         data02.color = PNTwitterColor;
         data02.itemCount = lineChart.xLabels.count;
         data02.getData = ^(NSUInteger index) {
-            CGFloat yValue = [[data02Array objectAtIndex:index] floatValue];
+            CGFloat yValue = [data02Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
         };
 
@@ -135,7 +135,7 @@
         circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         circleChartLabel.textAlignment = NSTextAlignmentCenter;
         
-        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:YES andShadow:YES];
+        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:@100 andCurrent:@60 andClockwise:YES andShadow:YES];
         circleChart.backgroundColor = [UIColor clearColor];
         [circleChart setStrokeColor:PNGreen];
         [circleChart strokeChart];

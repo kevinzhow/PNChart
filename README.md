@@ -49,7 +49,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
   data01.color = PNFreshGreen;
   data01.itemCount = lineChart.xLabels.count;
   data01.getData = ^(NSUInteger index) {
-      CGFloat yValue = [[data01Array objectAtIndex:index] floatValue];
+      CGFloat yValue = [data01Array[index] floatValue];
       return [PNLineChartDataItem dataItemWithY:yValue];
   };
   // Line Chart No.2
@@ -58,7 +58,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
   data02.color = PNTwitterColor;
   data02.itemCount = lineChart.xLabels.count;
   data02.getData = ^(NSUInteger index) {
-      CGFloat yValue = [[data02Array objectAtIndex:index] floatValue];
+      CGFloat yValue = [data02Array[index] floatValue];
       return [PNLineChartDataItem dataItemWithY:yValue];
   };
 

@@ -244,8 +244,8 @@
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathAnimation.duration = 0.5;
         pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-        pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+        pathAnimation.fromValue = @0.0f;
+        pathAnimation.toValue = @1.0f;
         [_chartBottomLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
         
         _chartBottomLine.strokeEnd = 1.0;
@@ -276,8 +276,8 @@
         CABasicAnimation *pathLeftAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathLeftAnimation.duration = 0.5;
         pathLeftAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        pathLeftAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-        pathLeftAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+        pathLeftAnimation.fromValue = @0.0f;
+        pathLeftAnimation.toValue = @1.0f;
         [_chartLeftLine addAnimation:pathLeftAnimation forKey:@"strokeEndAnimation"];
         
         _chartLeftLine.strokeEnd = 1.0;
