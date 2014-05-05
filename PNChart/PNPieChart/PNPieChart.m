@@ -21,6 +21,8 @@
 @property (nonatomic) CAShapeLayer *pieLayer;
 @property (nonatomic) NSMutableArray *descriptionLabels;
 
+- (void)loadDefault;
+
 - (UILabel *)descriptionLabelForItemAtIndex:(NSUInteger)index;
 - (PNPieChartDataItem *)dataItemForIndex:(NSUInteger)index;
 
@@ -30,6 +32,7 @@
                                borderColor:(UIColor *)borderColor
                            startPercentage:(CGFloat)startPercentage
                              endPercentage:(CGFloat)endPercentage;
+
 
 @end
 
@@ -49,14 +52,14 @@
         _descriptionTextShadowOffset =  CGSizeMake(0, 1);
 		_duration = 1.0;
         
-		[self loadDefualt];
+		[self loadDefault];
 	}
 	
 	return self;
 }
 
 
-- (void)loadDefualt{
+- (void)loadDefault{
 	_currentTotal = 0;
 	_total       = 0;
 	
@@ -73,7 +76,7 @@
 #pragma mark -
 
 - (void)strokeChart{
-	[self loadDefualt];
+	[self loadDefault];
 	
 	[self.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		_total +=((PNPieChartDataItem *)obj).value;
