@@ -16,3 +16,4 @@
 #import "PNBarChart.h"
 #import "PNCircleChart.h"
 #import "PNChartDelegate.h"
+#import "PNPieChart.h"

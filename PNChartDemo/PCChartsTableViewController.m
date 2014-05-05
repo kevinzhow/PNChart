@@ -145,6 +145,36 @@
         [viewController.view addSubview:circleChart];
         viewController.title = @"Circle Chart";
         
+    }else if ([segue.identifier isEqualToString:@"pieChart"])
+    {
+        
+        //Add LineChart
+        UILabel * pieChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
+        pieChartLabel.text = @"Pie Chart";
+        pieChartLabel.textColor = PNFreshGreen;
+        pieChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
+        pieChartLabel.textAlignment = NSTextAlignmentCenter;
+        
+        
+        
+        NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNRed],
+                           [PNPieChartDataItem dataItemWithValue:20 color:PNBlue description:@"WWDC"],
+                           [PNPieChartDataItem dataItemWithValue:40 color:PNGreen description:@"Google I/O"],
+                           ];
+        
+        
+        
+        PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, SCREEN_WIDTH) items:items];
+        pieChart.descriptionTextColor = [UIColor whiteColor];
+        pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
+        [pieChart strokeChart];
+        
+        
+        [viewController.view addSubview:pieChartLabel];
+        [viewController.view addSubview:pieChart];
+        
+        viewController.title = @"Pie Chart";
+        
     }
     
 }
