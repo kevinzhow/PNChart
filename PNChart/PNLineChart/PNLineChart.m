@@ -239,7 +239,7 @@
         pathAnimation.duration = 1.0;
         pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         pathAnimation.fromValue = @0.0f;
-        pathAnimation.toValue = @1.0f;
+        pathAnimation.toValue   = @1.0f;
         [chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
 
         chartLine.strokeEnd = 1.0;
@@ -305,6 +305,53 @@
     }
 }
 
+#define IOS7_OR_LATER [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
+
+- (void)drawRect:(CGRect)rect
+{
+    if (self.isShowCoordinateAxis) {
+        
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        UIGraphicsPushContext(ctx);
+        CGContextSetLineWidth(ctx, self.axisWidth);
+        CGContextSetStrokeColorWithColor(ctx, [self.axisColor CGColor]);
+
+        // draw coordinate axis
+        CGContextMoveToPoint(ctx, _chartMargin + 10, 0);
+        CGContextAddLineToPoint(ctx, _chartMargin + 10, _chartMargin + _chartCavanHeight);
+        CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMargin, _chartMargin + _chartCavanHeight);
+        CGContextStrokePath(ctx);
+        
+        // draw y axis arrow
+        CGContextMoveToPoint(ctx, _chartMargin + 6, 8);
+        CGContextAddLineToPoint(ctx, _chartMargin + 10, 0);
+        CGContextAddLineToPoint(ctx, _chartMargin + 14, 8);
+        CGContextStrokePath(ctx);
+
+        // draw x axis arrow
+        CGContextMoveToPoint(ctx, CGRectGetWidth(rect) - _chartMargin - 8, _chartMargin + _chartCavanHeight - 4);
+        CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMargin, _chartMargin + _chartCavanHeight);
+        CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMargin - 8, _chartMargin + _chartCavanHeight + 4);
+        CGContextStrokePath(ctx);
+        
+        UIFont *font = [UIFont systemFontOfSize:11];
+        // draw y unit
+        if ([self.yUnit length]) {
+            CGFloat height = [PNLineChart heightOfString:self.yUnit withWidth:30.f font:font];
+            CGRect drawRect = CGRectMake(_chartMargin + 10 + 5, 0, 30.f, height);
+            [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
+        }
+
+        // draw x unit
+        if ([self.xUnit length]) {
+            CGFloat height = [PNLineChart heightOfString:self.xUnit withWidth:30.f font:font];
+            CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMargin + 5, _chartMargin + _chartCavanHeight - height/2, 25.f, height);
+            [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
+        }
+    }
+    
+    [super drawRect:rect];
+}
 
 #pragma mark private methods
 
@@ -325,6 +372,58 @@
 
     _chartCavanWidth = self.frame.size.width - _chartMargin * 2;
     _chartCavanHeight = self.frame.size.height - _chartMargin * 2;
+    
+    // Coordinate Axis Default Values
+    _showCoordinateAxis = NO;
+    _axisColor = [UIColor colorWithRed:0.4f green:0.4f blue:0.4f alpha:1.f];
+    _axisWidth = 1.f;
+}
+
+#pragma mark - tools
+
++ (float)heightOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font
+{
+    NSInteger ch;
+    //设置字体
+    CGSize size = CGSizeMake(width, MAXFLOAT);
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
+    {
+        NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName,nil];
+        size =[text boundingRectWithSize:size
+                                 options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
+                              attributes:tdic
+                                 context:nil].size;
+    }
+    else
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        size = [text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByCharWrapping]; //ios7以上已经摒弃的这个方法
+#pragma clang diagnostic pop
+    }
+    ch = size.height;
+    
+    return ch;
+}
+
+- (void)drawTextInContext:(CGContextRef )ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font
+{
+    if (IOS7_OR_LATER) {
+        NSMutableParagraphStyle *priceParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        priceParagraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+        priceParagraphStyle.alignment = NSTextAlignmentLeft;
+        
+        [text drawInRect:rect
+          withAttributes:@{NSParagraphStyleAttributeName:priceParagraphStyle, NSFontAttributeName:font}];
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [text drawInRect:rect
+                            withFont:font
+                       lineBreakMode:NSLineBreakByTruncatingTail
+                           alignment:NSTextAlignmentLeft];
+#pragma clang diagnostic pop
+    }
 }
 
 
