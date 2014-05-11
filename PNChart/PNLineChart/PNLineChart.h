@@ -63,4 +63,9 @@
 @property (nonatomic, strong) NSString *xUnit;
 @property (nonatomic, strong) NSString *yUnit;
 
+/**
+ *  String formatter for float values in y labels. If not set, defaults to @"%1.f"
+ */
+@property (nonatomic, strong) NSString *yLabelFormat;
+
 @end

@@ -72,7 +72,8 @@
     while (num > 0) {
         PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (_chartCavanHeight - index * yStepHeight), _chartMargin, _yLabelHeight)];
         [label setTextAlignment:NSTextAlignmentRight];
-        label.text = [NSString stringWithFormat:@"%1.f", _yValueMin + (yStep * index)];
+        NSString *yLabelFormat = self.yLabelFormat ? self.yLabelFormat : @"%1.f";
+        label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
         [self addSubview:label];
         index += 1;
         num -= 1;
@@ -368,7 +369,7 @@
     _yLabelNum = 5.0;
     _yLabelHeight = [[[[PNChartLabel alloc] init] font] pointSize];
 
-    _chartMargin = 30;
+    _chartMargin = 40;
 
     _chartCavanWidth = self.frame.size.width - _chartMargin * 2;
     _chartCavanHeight = self.frame.size.height - _chartMargin * 2;
