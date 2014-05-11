@@ -61,6 +61,7 @@
         lineChartLabel.textAlignment = NSTextAlignmentCenter;
         
         PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+        lineChart.yLabelFormat = @"%1.1f";
         lineChart.backgroundColor = [UIColor clearColor];
         [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
 
