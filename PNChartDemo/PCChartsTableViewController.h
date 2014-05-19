@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "PNChartDelegate.h"
+#import "PNChart.h"
 
 @interface PCChartsTableViewController : UITableViewController<PNChartDelegate>
+
+@property (nonatomic) PNBarChart * barChart;
 
 @end

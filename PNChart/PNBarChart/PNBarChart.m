@@ -9,10 +9,9 @@
 #import "PNBarChart.h"
 #import "PNColor.h"
 #import "PNChartLabel.h"
-#import "PNBar.h"
+
 
 @interface PNBarChart () {
-    NSMutableArray *_bars;
     NSMutableArray *_labels;
 }
 
