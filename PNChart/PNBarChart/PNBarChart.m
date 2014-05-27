@@ -165,7 +165,7 @@
     CGFloat chartCavanHeight = self.frame.size.height - _chartMargin * 2 - xLabelHeight;
     NSInteger index = 0;
 
-    for (NSString *valueString in _yValues) {
+    for (NSNumber *valueString in _yValues) {
         float value = [valueString floatValue];
 
         float grade = (float)value / (float)_yValueMax;
