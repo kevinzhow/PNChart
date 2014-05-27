@@ -132,7 +132,7 @@
                                  _outterCircleRadius - distance * cos(rad));
     
     CGRect frame;
-    frame.size = CGSizeMake(100, 80);
+    frame = CGRectMake(0, 0, 100, 80);
     
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:frame];
     [descriptionLabel setText:titleText];
