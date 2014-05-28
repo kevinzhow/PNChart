@@ -64,12 +64,14 @@
         lineChart.yLabelFormat = @"%1.1f";
         lineChart.backgroundColor = [UIColor clearColor];
         [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
+        lineChart.showCoordinateAxis = YES;
 
         // Line Chart Nr.1
         NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2, @127.2, @176.2];
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
         data01.itemCount = lineChart.xLabels.count;
+        data01.inflexionPointStyle = PNLineChartPointStyleCycle;
         data01.getData = ^(NSUInteger index) {
             CGFloat yValue = [data01Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
@@ -80,6 +82,7 @@
         PNLineChartData *data02 = [PNLineChartData new];
         data02.color = PNTwitterColor;
         data02.itemCount = lineChart.xLabels.count;
+        data02.inflexionPointStyle = PNLineChartPointStyleSquare;
         data02.getData = ^(NSUInteger index) {
             CGFloat yValue = [data02Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];

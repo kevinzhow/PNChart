@@ -10,7 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PNChartDelegate.h"
 
-
 @interface PNLineChart : UIView
 
 /**
@@ -47,8 +46,6 @@
 @property (nonatomic) CGFloat chartCavanWidth;
 
 @property (nonatomic) CGFloat chartMargin;
-
-
 
 @property (nonatomic) BOOL showLabel;
 
