@@ -219,7 +219,7 @@
 
         int last_x = 0;
         int last_y = 0;
-        CGFloat circle_diameter = chartData.inflexionPointWidth;
+        CGFloat inflexionWidth = chartData.inflexionPointWidth;
         
         for (NSUInteger i = 0; i < chartData.itemCount; i++) {
             
@@ -233,20 +233,20 @@
             // cycle style point
             if (chartData.inflexionPointStyle == PNLineChartPointStyleCycle) {
                 
-                CGRect circleRect = CGRectMake(x-circle_diameter/2, y-circle_diameter/2, circle_diameter,circle_diameter);
+                CGRect circleRect = CGRectMake(x-inflexionWidth/2, y-inflexionWidth/2, inflexionWidth,inflexionWidth);
                 CGPoint circleCenter = CGPointMake(circleRect.origin.x + (circleRect.size.width / 2), circleRect.origin.y + (circleRect.size.height / 2));
                 
-                [pointPath moveToPoint:CGPointMake(circleCenter.x + (circle_diameter/2), circleCenter.y)];
-                [pointPath addArcWithCenter:circleCenter radius:circle_diameter/2 startAngle:0 endAngle:2*M_PI clockwise:YES];
+                [pointPath moveToPoint:CGPointMake(circleCenter.x + (inflexionWidth/2), circleCenter.y)];
+                [pointPath addArcWithCenter:circleCenter radius:inflexionWidth/2 startAngle:0 endAngle:2*M_PI clockwise:YES];
                 
                 if ( i != 0 ) {
                     
                     // calculate the point for line
                     float distance = sqrt( pow(x-last_x, 2) + pow(y-last_y,2) );
-                    float last_x1 = last_x + (circle_diameter/2) / distance * (x-last_x);
-                    float last_y1 = last_y + (circle_diameter/2) / distance * (y-last_y);
-                    float x1 = x - (circle_diameter/2) / distance * (x-last_x);
-                    float y1 = y - (circle_diameter/2) / distance * (y-last_y);
+                    float last_x1 = last_x + (inflexionWidth/2) / distance * (x-last_x);
+                    float last_y1 = last_y + (inflexionWidth/2) / distance * (y-last_y);
+                    float x1 = x - (inflexionWidth/2) / distance * (x-last_x);
+                    float y1 = y - (inflexionWidth/2) / distance * (y-last_y);
                     
                     [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
                     [progressline addLineToPoint:CGPointMake(x1, y1)];
@@ -258,23 +258,23 @@
             // Square style point
             else if (chartData.inflexionPointStyle == PNLineChartPointStyleSquare) {
                 
-                CGRect squareRect = CGRectMake(x-circle_diameter/2, y-circle_diameter/2, circle_diameter,circle_diameter);
+                CGRect squareRect = CGRectMake(x-inflexionWidth/2, y-inflexionWidth/2, inflexionWidth,inflexionWidth);
                 CGPoint squareCenter = CGPointMake(squareRect.origin.x + (squareRect.size.width / 2), squareRect.origin.y + (squareRect.size.height / 2));
                 
-                [pointPath moveToPoint:CGPointMake(squareCenter.x - (circle_diameter/2), squareCenter.y - (circle_diameter/2))];
-                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (circle_diameter/2), squareCenter.y - (circle_diameter/2))];
-                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (circle_diameter/2), squareCenter.y + (circle_diameter/2))];
-                [pointPath addLineToPoint:CGPointMake(squareCenter.x - (circle_diameter/2), squareCenter.y + (circle_diameter/2))];
+                [pointPath moveToPoint:CGPointMake(squareCenter.x - (inflexionWidth/2), squareCenter.y - (inflexionWidth/2))];
+                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (inflexionWidth/2), squareCenter.y - (inflexionWidth/2))];
+                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (inflexionWidth/2), squareCenter.y + (inflexionWidth/2))];
+                [pointPath addLineToPoint:CGPointMake(squareCenter.x - (inflexionWidth/2), squareCenter.y + (inflexionWidth/2))];
                 [pointPath closePath];
                 
                 if ( i != 0 ) {
                     
                     // calculate the point for line
                     float distance = sqrt( pow(x-last_x, 2) + pow(y-last_y,2) );
-                    float last_x1 = last_x + (circle_diameter/2);
-                    float last_y1 = last_y + (circle_diameter/2) / distance * (y-last_y);
-                    float x1 = x - (circle_diameter/2);
-                    float y1 = y - (circle_diameter/2) / distance * (y-last_y);
+                    float last_x1 = last_x + (inflexionWidth/2);
+                    float last_y1 = last_y + (inflexionWidth/2) / distance * (y-last_y);
+                    float x1 = x - (inflexionWidth/2);
+                    float y1 = y - (inflexionWidth/2) / distance * (y-last_y);
                     
                     [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
                     [progressline addLineToPoint:CGPointMake(x1, y1)];
@@ -370,19 +370,21 @@
         for (PNLineChartData *chartData in data) {
             // create as many chart line layers as there are data-lines
             CAShapeLayer *chartLine = [CAShapeLayer layer];
-            chartLine.lineCap   = kCALineCapRound;
-            chartLine.lineJoin  = kCALineJoinBevel;
-            chartLine.fillColor = [[UIColor whiteColor] CGColor];
-            chartLine.lineWidth = line_width;
-            chartLine.strokeEnd = 0.0;
+            chartLine.lineCap       = kCALineCapButt;
+            chartLine.lineJoin      = kCALineJoinMiter;
+            chartLine.fillColor     = [[UIColor whiteColor] CGColor];
+            chartLine.lineWidth     = line_width;
+            chartLine.strokeEnd     = 0.0;
             [self.layer addSublayer:chartLine];
             [self.chartLineArray addObject:chartLine];
 
             // create point
             CAShapeLayer *pointLayer = [CAShapeLayer layer];
-            pointLayer.strokeColor = [chartData.color CGColor];
-            pointLayer.fillColor = nil;
-            pointLayer.lineWidth = circle_stroke_width;
+            pointLayer.strokeColor   = [chartData.color CGColor];
+            pointLayer.lineCap       = kCALineCapRound;
+            pointLayer.lineJoin      = kCALineJoinBevel;
+            pointLayer.fillColor     = nil;
+            pointLayer.lineWidth     = circle_stroke_width;
             [self.layer addSublayer:pointLayer];
             [self.chartPointArray addObject:pointLayer];
             
