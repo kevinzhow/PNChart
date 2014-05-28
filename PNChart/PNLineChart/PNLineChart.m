@@ -331,7 +331,8 @@
         [chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
         chartLine.strokeEnd = 1.0;
         
-        if (chartData.inflexionPointStyle == PNLineChartPointStyleCycle) {
+        // if you want cancel the point animation, conment this code, the point will show immediately
+        if (chartData.inflexionPointStyle != PNLineChartPointStyleNone) {
             [pointLayer addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
         }
         
