@@ -118,6 +118,11 @@ typedef NSString *(^PNyLabelFromatter)(CGFloat yLabelValue);
  */
 @property (nonatomic) CGFloat yMaxValue;
 
+/*
+ yMinValue define the min value of the chart
+ */
+@property (nonatomic) CGFloat yMinValue;
+
 @property (nonatomic, retain) id<PNChartDelegate> delegate;
 
 @end

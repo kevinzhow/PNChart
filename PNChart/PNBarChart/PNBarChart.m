@@ -64,22 +64,13 @@
 
 - (void)getYValueMax:(NSArray *)yLabels
 {
-    NSInteger max = 0;
-    
-    for (NSString *valueString in yLabels) {
-        NSInteger value = [valueString integerValue];
-        
-        if (value > max) {
-            max = value;
-        }
-    }
-    
-    //Min value for Y label
-    if (max < 5) {
-        max = 5;
-    }
+    int max = [[yLabels valueForKeyPath:@"@max.intValue"] intValue];
     
     _yValueMax = (int)max;
+    
+    if (_yValueMax == 0) {
+        _yValueMax = _yMinValue;
+    }
 }
 
 
@@ -169,6 +160,11 @@
         float value = [valueString floatValue];
 
         float grade = (float)value / (float)_yValueMax;
+        
+        if (isnan(grade)) {
+            grade = 0;
+        }
+        
         PNBar *bar;
         CGFloat barWidth;
         CGFloat barXPosition;
