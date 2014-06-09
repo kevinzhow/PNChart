@@ -365,16 +365,13 @@
         self.chartPointArray = [NSMutableArray arrayWithCapacity:data.count];
 
         // set for point stoken
-        float circle_stroke_width = 2.f;
-        float line_width = 3.0f;
-        
         for (PNLineChartData *chartData in data) {
             // create as many chart line layers as there are data-lines
             CAShapeLayer *chartLine = [CAShapeLayer layer];
             chartLine.lineCap       = kCALineCapButt;
             chartLine.lineJoin      = kCALineJoinMiter;
             chartLine.fillColor     = [[UIColor whiteColor] CGColor];
-            chartLine.lineWidth     = line_width;
+            chartLine.lineWidth     = chartData.lineWidth;
             chartLine.strokeEnd     = 0.0;
             [self.layer addSublayer:chartLine];
             [self.chartLineArray addObject:chartLine];
@@ -385,7 +382,7 @@
             pointLayer.lineCap       = kCALineCapRound;
             pointLayer.lineJoin      = kCALineJoinBevel;
             pointLayer.fillColor     = nil;
-            pointLayer.lineWidth     = circle_stroke_width;
+            pointLayer.lineWidth     = chartData.lineWidth;
             [self.layer addSublayer:pointLayer];
             [self.chartPointArray addObject:pointLayer];
             
