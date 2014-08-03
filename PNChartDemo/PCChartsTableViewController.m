@@ -119,8 +119,13 @@
         [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         [self.barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
         [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
+        // Adding gradient
+        self.barChart.barColorGradientStart = [UIColor blueColor];
+
         [self.barChart strokeChart];
         
+        
+
         self.barChart.delegate = self;
         
         [viewController.view addSubview:barChartLabel];
@@ -152,7 +157,7 @@
     }else if ([segue.identifier isEqualToString:@"pieChart"])
     {
         
-        //Add LineChart
+        //Add PieChart
         UILabel * pieChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
         pieChartLabel.text = @"Pie Chart";
         pieChartLabel.textColor = PNFreshGreen;

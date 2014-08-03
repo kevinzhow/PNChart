@@ -64,6 +64,43 @@
     [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
 
     _chartLine.strokeEnd = 1.0;
+    
+    // Check if user wants to add a gradient from the start color to the bar color
+    if (_barColorGradientStart) {
+        
+        // Add gradient
+        CAShapeLayer *gradientMask = [CAShapeLayer layer];
+        gradientMask.fillColor = [[UIColor clearColor] CGColor];
+        gradientMask.strokeColor = [[UIColor blackColor] CGColor];
+        //gradientMask.lineWidth = 4;
+        gradientMask.lineWidth    = self.frame.size.width;
+        gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+        
+        CGMutablePathRef t = CGPathCreateMutable();
+        CGPathMoveToPoint(t, NULL, 0, 0);
+        CGPathAddLineToPoint(t, NULL, self.bounds.size.width, self.bounds.size.height);
+        gradientMask.path = progressline.CGPath;
+        
+        
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.startPoint = CGPointMake(0.5,1.0);
+        gradientLayer.endPoint = CGPointMake(0.5,0.0);
+        gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+        UIColor *endColor = (_barColor ? _barColor : [UIColor greenColor]);
+        NSArray *colors = @[
+                            (id)_barColorGradientStart.CGColor,
+                            (id)endColor.CGColor
+                            ];
+        gradientLayer.colors = colors;
+        
+        [gradientLayer setMask:gradientMask];
+        
+        [_chartLine addSublayer:gradientLayer];
+        
+        gradientMask.strokeEnd = 1.0;
+        [gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+    }
+
 }
 
 
@@ -74,6 +111,17 @@
     } completion:nil];
 }
 
+- (void)setBarColorGradientStart:(UIColor *)barColorGradientStart
+{
+    // Set gradient color, remove any existing sublayer first
+    for (CALayer *sublayer in [_chartLine sublayers]) {
+        [sublayer removeFromSuperlayer];
+    }
+    _barColorGradientStart = barColorGradientStart;
+    
+    [self setGrade:_grade];
+    
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

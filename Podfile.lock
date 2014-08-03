@@ -5,6 +5,6 @@ DEPENDENCIES:
   - UICountingLabel (~> 1.0.0)
 
 SPEC CHECKSUMS:
-  UICountingLabel: bb976960c0130785a600aac592954c23eb395096
+  UICountingLabel: 0a0e9e34bf4690dbd127aaec552d19ed938087a9
 
 COCOAPODS: 0.32.1
