@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.ios.dependency 'UICountingLabel', '~> 1.0.0'
 
   s.source_files = 'PNChart/**/*.{h,m}'
-  s.public_header_files = 'PNChart/*.h'
+  s.public_header_files = 'PNChart/**/*.h'
   s.frameworks   = 'CoreGraphics', 'UIKit', 'Foundation', 'QuartzCore'
   s.requires_arc = true
 end
