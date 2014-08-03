@@ -101,6 +101,41 @@
     _circle.strokeEnd   = [_current floatValue] / [_total floatValue];
 
     [_countingLabel countFrom:0 to:[_current floatValue] withDuration:1.0];
+    
+    
+    // Check if user wants to add a gradient from the start color to the bar color
+    if (_strokeColorGradientStart) {
+        
+        // Add gradient
+        CAShapeLayer *gradientMask = [CAShapeLayer layer];
+        gradientMask.fillColor = [[UIColor clearColor] CGColor];
+        gradientMask.strokeColor = [[UIColor blackColor] CGColor];
+        gradientMask.lineWidth = _circle.lineWidth;
+        gradientMask.lineCap = kCALineCapRound;
+        CGRect gradientFrame = CGRectMake(0, 0, 2*self.bounds.size.width, 2*self.bounds.size.height);
+        gradientMask.frame = gradientFrame;
+        gradientMask.path = _circle.path;
+        
+        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+        gradientLayer.startPoint = CGPointMake(0.5,1.0);
+        gradientLayer.endPoint = CGPointMake(0.5,0.0);
+        gradientLayer.frame = gradientFrame;
+        UIColor *endColor = (_strokeColor ? _strokeColor : [UIColor greenColor]);
+        NSArray *colors = @[
+                            (id)endColor.CGColor,
+                            (id)_strokeColorGradientStart.CGColor
+                            ];
+        gradientLayer.colors = colors;
+        
+        [gradientLayer setMask:gradientMask];
+        
+        [_circle addSublayer:gradientLayer];
+        
+        gradientMask.strokeEnd = [_current floatValue] / [_total floatValue];
+        
+        [gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+    }
+
 }
 
 

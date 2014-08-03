@@ -75,10 +75,6 @@
         //gradientMask.lineWidth = 4;
         gradientMask.lineWidth    = self.frame.size.width;
         gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-        
-        CGMutablePathRef t = CGPathCreateMutable();
-        CGPathMoveToPoint(t, NULL, 0, 0);
-        CGPathAddLineToPoint(t, NULL, self.bounds.size.width, self.bounds.size.height);
         gradientMask.path = progressline.CGPath;
         
         

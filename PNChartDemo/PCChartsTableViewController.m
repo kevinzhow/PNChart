@@ -147,6 +147,7 @@
         PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:@100 andCurrent:@60 andClockwise:YES andShadow:YES];
         circleChart.backgroundColor = [UIColor clearColor];
         [circleChart setStrokeColor:PNGreen];
+        [circleChart setStrokeColorGradientStart:[UIColor blueColor]];
         [circleChart strokeChart];
         
         [viewController.view addSubview:circleChartLabel];
