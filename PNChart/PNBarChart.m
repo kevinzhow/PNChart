@@ -205,8 +205,13 @@
         //Height Of Bar
         bar.grade = grade;
         
+        // Add gradient
+        bar.barColorGradientStart = _barColorGradientStart;
+        
+
         //For Click Index
         bar.tag = index;
+        
         
         [_bars addObject:bar];
         [self addSubview:bar];

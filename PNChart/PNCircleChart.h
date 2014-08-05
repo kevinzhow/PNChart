@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger, PNChartFormatType) {
 
 @property (strong, nonatomic) UICountingLabel *countingLabel;
 @property (nonatomic) UIColor *strokeColor;
+@property (nonatomic) UIColor *strokeColorGradientStart;
 @property (nonatomic) NSNumber *total;
 @property (nonatomic) NSNumber *current;
 @property (nonatomic) NSNumber *lineWidth;

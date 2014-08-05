@@ -67,18 +67,20 @@
     CGFloat yStep = (_yValueMax - _yValueMin) / _yLabelNum;
     CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
 
+    if (_showLabel) {
 
-    NSInteger index = 0;
-    NSInteger num = _yLabelNum + 1;
+        NSInteger index = 0;
+        NSInteger num = _yLabelNum + 1;
 
-    while (num > 0) {
-        PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (_chartCavanHeight - index * yStepHeight), _chartMargin, _yLabelHeight)];
-        [label setTextAlignment:NSTextAlignmentRight];
-        NSString *yLabelFormat = self.yLabelFormat ? self.yLabelFormat : @"%1.f";
-        label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
-        [self addSubview:label];
-        index += 1;
-        num -= 1;
+        while (num > 0) {
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (_chartCavanHeight - index * yStepHeight), _chartMargin, _yLabelHeight)];
+            [label setTextAlignment:NSTextAlignmentRight];
+            NSString *yLabelFormat = self.yLabelFormat ? self.yLabelFormat : @"%1.f";
+            label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
+            [self addSubview:label];
+            index += 1;
+            num -= 1;
+        }
     }
 }
 

@@ -123,6 +123,12 @@ typedef NSString *(^PNyLabelFromatter)(CGFloat yLabelValue);
  */
 @property (nonatomic) CGFloat yMinValue;
 
+/*
+ switch to indicate that the bar should be filled as a gradient
+ */
+@property (nonatomic) UIColor *barColorGradientStart;
+
+
 @property (nonatomic, retain) id<PNChartDelegate> delegate;
 
 @end
