@@ -160,7 +160,7 @@
                                borderColor:(UIColor *)borderColor
                            startPercentage:(CGFloat)startPercentage
                              endPercentage:(CGFloat)endPercentage{
-	CAShapeLayer *circle = [CAShapeLayer layer];
+    CAShapeLayer *circle = [CAShapeLayer layer];
     
     CGPoint center = CGPointMake(CGRectGetMidX(self.bounds),CGRectGetMidY(self.bounds));
     
