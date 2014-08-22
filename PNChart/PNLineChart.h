@@ -57,7 +57,6 @@
 
 @property (nonatomic) BOOL showLabel;
 
-
 /**
  *  show CoordinateAxis ornot, Default is not
  */
@@ -72,5 +71,7 @@
  *  String formatter for float values in y labels. If not set, defaults to @"%1.f"
  */
 @property (nonatomic, strong) NSString *yLabelFormat;
+
+- (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width;
 
 @end

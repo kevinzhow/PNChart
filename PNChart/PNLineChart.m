@@ -12,10 +12,9 @@
 #import "PNLineChartData.h"
 #import "PNLineChartDataItem.h"
 
-
-//------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // private interface declaration
-//------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 @interface PNLineChart ()
 
 @property (nonatomic) NSMutableArray *chartLineArray;  // Array[CAShapeLayer]
@@ -28,10 +27,9 @@
 
 @end
 
-
-//------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // public interface implementation
-//------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 @implementation PNLineChart
 
 #pragma mark initialization
@@ -47,7 +45,6 @@
     return self;
 }
 
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -59,14 +56,13 @@
     return self;
 }
 
-
 #pragma mark instance methods
 
 - (void)setYLabels:(NSArray *)yLabels
 {
     CGFloat yStep = (_yValueMax - _yValueMin) / _yLabelNum;
     CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
-    NSString *yLabelFormat = self.yLabelFormat ?: @"%1.f";
+    NSString *yLabelFormat = self.yLabelFormat ? : @"%1.f";
 
     if (yStep == 0.0) {
         PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, _chartCavanHeight, _chartMargin, _yLabelHeight)];
@@ -74,7 +70,7 @@
         [self setCustomStyleForYLabel:minLabel];
         [self addSubview:minLabel];
 
-        PNChartLabel *midLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, _chartCavanHeight/2, _chartMargin, _yLabelHeight)];
+        PNChartLabel *midLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, _chartCavanHeight / 2, _chartMargin, _yLabelHeight)];
         midLabel.text = [NSString stringWithFormat:yLabelFormat, _yValueMax];
         [self setCustomStyleForYLabel:midLabel];
         [self addSubview:midLabel];
@@ -88,7 +84,8 @@
         NSInteger index = 0;
         NSInteger num = _yLabelNum + 1;
 
-        while (num > 0) {
+        while (num > 0)
+        {
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (_chartCavanHeight - index * yStepHeight), _chartMargin, _yLabelHeight)];
             [label setTextAlignment:NSTextAlignmentRight];
             label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
@@ -102,44 +99,61 @@
 
 - (void)setXLabels:(NSArray *)xLabels
 {
+    CGFloat xLabelWidth;
+
+    if (_showLabel) {
+        xLabelWidth = _chartCavanWidth / [xLabels count];
+    } else {
+        xLabelWidth = (self.frame.size.width) / [xLabels count];
+    }
+
+    return [self setXLabels:xLabels withWidth:xLabelWidth];
+}
+
+- (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width
+{
     _xLabels = xLabels;
+    _xLabelWidth = width;
+
     NSString *labelText;
 
     if (_showLabel) {
-        _xLabelWidth = _chartCavanWidth / [xLabels count];
-
         for (int index = 0; index < xLabels.count; index++) {
             labelText = xLabels[index];
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(2 * _chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2), _chartMargin + _chartCavanHeight, _xLabelWidth, _chartMargin)];
+
+            NSInteger x = 2 * _chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2);
+            NSInteger y = _chartMargin + _chartCavanHeight;
+
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, _xLabelWidth, _chartMargin)];
             [label setTextAlignment:NSTextAlignmentCenter];
             label.text = labelText;
             [self setCustomStyleForXLabel:label];
             [self addSubview:label];
         }
     }
-    else {
-        _xLabelWidth = (self.frame.size.width) / [xLabels count];
-    }
 }
 
-- (void)setCustomStyleForXLabel:(UILabel *)label {
+- (void)setCustomStyleForXLabel:(UILabel *)label
+{
     if (_xLabelFont) {
         label.font = _xLabelFont;
     }
+
     if (_xLabelColor) {
         label.textColor = _xLabelColor;
     }
 }
 
-- (void)setCustomStyleForYLabel:(UILabel *)label {
+- (void)setCustomStyleForYLabel:(UILabel *)label
+{
     if (_yLabelFont) {
         label.font = _yLabelFont;
     }
+
     if (_yLabelColor) {
         label.textColor = _yLabelColor;
     }
 }
-
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -147,17 +161,15 @@
     [self touchKeyPoint:touches withEvent:event];
 }
 
-
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self touchPoint:touches withEvent:event];
     [self touchKeyPoint:touches withEvent:event];
 }
 
-
 - (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //Get the point user touched
+    // Get the point user touched
     UITouch *touch = [touches anyObject];
     CGPoint touchPoint = [touch locationInView:self];
 
@@ -179,6 +191,7 @@
 
                     if (pointContainsPath) {
                         [_delegate userClickedOnLinePoint:touchPoint lineIndex:[_chartPath indexOfObject:path]];
+
                         return;
                     }
                 }
@@ -187,10 +200,9 @@
     }
 }
 
-
 - (void)touchKeyPoint:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //Get the point user touched
+    // Get the point user touched
     UITouch *touch = [touches anyObject];
     CGPoint touchPoint = [touch locationInView:self];
 
@@ -210,19 +222,19 @@
                 [_delegate userClickedOnLineKeyPoint:touchPoint
                                            lineIndex:p
                                        andPointIndex:(distance == distanceToP2 ? i + 1 : i)];
+
                 return;
             }
         }
     }
 }
 
-
 - (void)strokeChart
 {
     _chartPath = [[NSMutableArray alloc] init];
     _pointPath = [[NSMutableArray alloc] init];
 
-    //Draw each line
+    // Draw each line
     for (NSUInteger lineIndex = 0; lineIndex < self.chartData.count; lineIndex++) {
         PNLineChartData *chartData = self.chartData[lineIndex];
         CAShapeLayer *chartLine = (CAShapeLayer *)self.chartLineArray[lineIndex];
@@ -267,26 +279,28 @@
                 innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin);
             }
 
-            int x = 2 * _chartMargin +  (i * _xLabelWidth);
+            CGFloat offSetX = (_chartCavanWidth - _xLabelWidth) / (chartData.itemCount - 1);
+
+            int x = 2 * _chartMargin +  (i * offSetX);
             int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2);
 
             // cycle style point
             if (chartData.inflexionPointStyle == PNLineChartPointStyleCycle) {
 
-                CGRect circleRect = CGRectMake(x-inflexionWidth/2, y-inflexionWidth/2, inflexionWidth,inflexionWidth);
+                CGRect circleRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
                 CGPoint circleCenter = CGPointMake(circleRect.origin.x + (circleRect.size.width / 2), circleRect.origin.y + (circleRect.size.height / 2));
 
-                [pointPath moveToPoint:CGPointMake(circleCenter.x + (inflexionWidth/2), circleCenter.y)];
-                [pointPath addArcWithCenter:circleCenter radius:inflexionWidth/2 startAngle:0 endAngle:2*M_PI clockwise:YES];
+                [pointPath moveToPoint:CGPointMake(circleCenter.x + (inflexionWidth / 2), circleCenter.y)];
+                [pointPath addArcWithCenter:circleCenter radius:inflexionWidth / 2 startAngle:0 endAngle:2 * M_PI clockwise:YES];
 
                 if ( i != 0 ) {
 
                     // calculate the point for line
-                    float distance = sqrt( pow(x-last_x, 2) + pow(y-last_y,2) );
-                    float last_x1 = last_x + (inflexionWidth/2) / distance * (x-last_x);
-                    float last_y1 = last_y + (inflexionWidth/2) / distance * (y-last_y);
-                    float x1 = x - (inflexionWidth/2) / distance * (x-last_x);
-                    float y1 = y - (inflexionWidth/2) / distance * (y-last_y);
+                    float distance = sqrt(pow(x - last_x, 2) + pow(y - last_y, 2) );
+                    float last_x1 = last_x + (inflexionWidth / 2) / distance * (x - last_x);
+                    float last_y1 = last_y + (inflexionWidth / 2) / distance * (y - last_y);
+                    float x1 = x - (inflexionWidth / 2) / distance * (x - last_x);
+                    float y1 = y - (inflexionWidth / 2) / distance * (y - last_y);
 
                     [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
                     [progressline addLineToPoint:CGPointMake(x1, y1)];
@@ -298,23 +312,23 @@
             // Square style point
             else if (chartData.inflexionPointStyle == PNLineChartPointStyleSquare) {
 
-                CGRect squareRect = CGRectMake(x-inflexionWidth/2, y-inflexionWidth/2, inflexionWidth,inflexionWidth);
+                CGRect squareRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
                 CGPoint squareCenter = CGPointMake(squareRect.origin.x + (squareRect.size.width / 2), squareRect.origin.y + (squareRect.size.height / 2));
 
-                [pointPath moveToPoint:CGPointMake(squareCenter.x - (inflexionWidth/2), squareCenter.y - (inflexionWidth/2))];
-                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (inflexionWidth/2), squareCenter.y - (inflexionWidth/2))];
-                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (inflexionWidth/2), squareCenter.y + (inflexionWidth/2))];
-                [pointPath addLineToPoint:CGPointMake(squareCenter.x - (inflexionWidth/2), squareCenter.y + (inflexionWidth/2))];
+                [pointPath moveToPoint:CGPointMake(squareCenter.x - (inflexionWidth / 2), squareCenter.y - (inflexionWidth / 2))];
+                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (inflexionWidth / 2), squareCenter.y - (inflexionWidth / 2))];
+                [pointPath addLineToPoint:CGPointMake(squareCenter.x + (inflexionWidth / 2), squareCenter.y + (inflexionWidth / 2))];
+                [pointPath addLineToPoint:CGPointMake(squareCenter.x - (inflexionWidth / 2), squareCenter.y + (inflexionWidth / 2))];
                 [pointPath closePath];
 
                 if ( i != 0 ) {
 
                     // calculate the point for line
-                    float distance = sqrt( pow(x-last_x, 2) + pow(y-last_y,2) );
-                    float last_x1 = last_x + (inflexionWidth/2);
-                    float last_y1 = last_y + (inflexionWidth/2) / distance * (y-last_y);
-                    float x1 = x - (inflexionWidth/2);
-                    float y1 = y - (inflexionWidth/2) / distance * (y-last_y);
+                    float distance = sqrt(pow(x - last_x, 2) + pow(y - last_y, 2) );
+                    float last_x1 = last_x + (inflexionWidth / 2);
+                    float last_y1 = last_y + (inflexionWidth / 2) / distance * (y - last_y);
+                    float x1 = x - (inflexionWidth / 2);
+                    float y1 = y - (inflexionWidth / 2) / distance * (y - last_y);
 
                     [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
                     [progressline addLineToPoint:CGPointMake(x1, y1)];
@@ -348,8 +362,7 @@
         // setup the color of the chart line
         if (chartData.color) {
             chartLine.strokeColor = [chartData.color CGColor];
-        }
-        else {
+        } else {
             chartLine.strokeColor = [PNGreen CGColor];
             pointLayer.strokeColor = [PNGreen CGColor];
         }
@@ -358,7 +371,6 @@
 
         chartLine.path = progressline.CGPath;
         pointLayer.path = pointPath.CGPath;
-
 
         [CATransaction begin];
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
@@ -376,8 +388,8 @@
         }
 
         [CATransaction setCompletionBlock:^{
-            //pointLayer.strokeEnd = 1.0f; // stroken point when animation end
-        }];
+             // pointLayer.strokeEnd = 1.0f; // stroken point when animation end
+         }];
         [CATransaction commit];
 
         UIGraphicsEndImageContext();
@@ -468,7 +480,7 @@
         CGContextSetLineWidth(ctx, self.axisWidth);
         CGContextSetStrokeColorWithColor(ctx, [self.axisColor CGColor]);
 
-        CGFloat xAxisWidth = CGRectGetWidth(rect) - _chartMargin/2;
+        CGFloat xAxisWidth = CGRectGetWidth(rect) - _chartMargin / 2;
         CGFloat yAxisHeight = _chartMargin + _chartCavanHeight;
 
         // draw coordinate axis
@@ -503,7 +515,7 @@
             // draw y axis separator
             CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(_chartMargin + yAsixOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight/2));
+                point = CGPointMake(_chartMargin + yAsixOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
                 CGContextMoveToPoint(ctx, point.x, point.y);
                 CGContextAddLineToPoint(ctx, point.x + 2, point.y);
                 CGContextStrokePath(ctx);
@@ -511,6 +523,7 @@
         }
 
         UIFont *font = [UIFont systemFontOfSize:11];
+
         // draw y unit
         if ([self.yUnit length]) {
             CGFloat height = [PNLineChart heightOfString:self.yUnit withWidth:30.f font:font];
@@ -521,7 +534,7 @@
         // draw x unit
         if ([self.xUnit length]) {
             CGFloat height = [PNLineChart heightOfString:self.xUnit withWidth:30.f font:font];
-            CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMargin + 5, _chartMargin + _chartCavanHeight - height/2, 25.f, height);
+            CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMargin + 5, _chartMargin + _chartCavanHeight - height / 2, 25.f, height);
             [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
         }
     }
@@ -561,21 +574,19 @@
 {
     NSInteger ch;
     CGSize size = CGSizeMake(width, MAXFLOAT);
-    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
-        {
-        NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName,nil];
-        size =[text boundingRectWithSize:size
-                                 options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
-                              attributes:tdic
-                                 context:nil].size;
-        }
-    else
-        {
+
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        NSDictionary *tdic = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+        size = [text boundingRectWithSize:size
+                                  options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                               attributes:tdic
+                                  context:nil].size;
+    } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         size = [text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByCharWrapping];
 #pragma clang diagnostic pop
-        }
+    }
     ch = size.height;
 
     return ch;
@@ -589,7 +600,7 @@
         priceParagraphStyle.alignment = NSTextAlignmentLeft;
 
         [text drawInRect:rect
-          withAttributes:@{NSParagraphStyleAttributeName:priceParagraphStyle, NSFontAttributeName:font}];
+          withAttributes:@{ NSParagraphStyleAttributeName:priceParagraphStyle, NSFontAttributeName:font }];
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -600,6 +611,5 @@
 #pragma clang diagnostic pop
     }
 }
-
 
 @end
