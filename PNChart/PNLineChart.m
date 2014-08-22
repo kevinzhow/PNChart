@@ -71,14 +71,17 @@
     if (yStep == 0.0) {
         PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, _chartCavanHeight, _chartMargin, _yLabelHeight)];
         minLabel.text = [NSString stringWithFormat:yLabelFormat, 0.0];
+        [self setCustomStyleForYLabel:minLabel];
         [self addSubview:minLabel];
 
         PNChartLabel *midLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, _chartCavanHeight/2, _chartMargin, _yLabelHeight)];
         midLabel.text = [NSString stringWithFormat:yLabelFormat, _yValueMax];
+        [self setCustomStyleForYLabel:midLabel];
         [self addSubview:midLabel];
 
         PNChartLabel *maxLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, _chartMargin, _yLabelHeight)];
         maxLabel.text = [NSString stringWithFormat:yLabelFormat, _yValueMax * 2];
+        [self setCustomStyleForYLabel:maxLabel];
         [self addSubview:maxLabel];
 
     } else {
@@ -89,13 +92,13 @@
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (_chartCavanHeight - index * yStepHeight), _chartMargin, _yLabelHeight)];
             [label setTextAlignment:NSTextAlignmentRight];
             label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
+            [self setCustomStyleForYLabel:label];
             [self addSubview:label];
             index += 1;
             num -= 1;
         }
     }
 }
-
 
 - (void)setXLabels:(NSArray *)xLabels
 {
@@ -110,11 +113,30 @@
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(2 * _chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2), _chartMargin + _chartCavanHeight, _xLabelWidth, _chartMargin)];
             [label setTextAlignment:NSTextAlignmentCenter];
             label.text = labelText;
+            [self setCustomStyleForXLabel:label];
             [self addSubview:label];
         }
     }
     else {
         _xLabelWidth = (self.frame.size.width) / [xLabels count];
+    }
+}
+
+- (void)setCustomStyleForXLabel:(UILabel *)label {
+    if (_xLabelFont) {
+        label.font = _xLabelFont;
+    }
+    if (_xLabelColor) {
+        label.textColor = _xLabelColor;
+    }
+}
+
+- (void)setCustomStyleForYLabel:(UILabel *)label {
+    if (_yLabelFont) {
+        label.font = _yLabelFont;
+    }
+    if (_yLabelColor) {
+        label.textColor = _yLabelColor;
     }
 }
 
