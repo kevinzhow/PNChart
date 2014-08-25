@@ -279,7 +279,7 @@
                 innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin);
             }
 
-            CGFloat offSetX = (_chartCavanWidth - _xLabelWidth) / (chartData.itemCount - 1);
+            CGFloat offSetX = (_chartCavanWidth) / (chartData.itemCount);
 
             int x = 2 * _chartMargin +  (i * offSetX);
             int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2);

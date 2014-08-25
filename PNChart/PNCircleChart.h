@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "PNColor.h"
-#import "UICountingLabel.h"
+#import <UICountingLabel/UICountingLabel.h>
 
-typedef NS_ENUM(NSUInteger, PNChartFormatType) {
-  PNChartFormatTypePercent,
-  PNChartFormatTypeDollar,
-  PNChartFormatTypeNone
+typedef NS_ENUM (NSUInteger, PNChartFormatType) {
+    PNChartFormatTypePercent,
+    PNChartFormatTypeDollar,
+    PNChartFormatTypeNone
 };
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
