@@ -109,7 +109,7 @@ typedef NSString *(^PNyLabelFromatter)(CGFloat yLabelValue);
 @property (nonatomic) NSInteger xLabelSkip;
 
 /*
- yLabelSum define the label skip number
+ yLabelSum define the label sum number
  */
 @property (nonatomic) NSInteger yLabelSum;
 
