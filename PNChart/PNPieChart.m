@@ -143,7 +143,7 @@
     [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
     [descriptionLabel setCenter:center];
     [descriptionLabel setAlpha:0];
-    
+    [descriptionLabel setBackgroundColor:[UIColor clearColor]];
 	
 	return descriptionLabel;
 }
