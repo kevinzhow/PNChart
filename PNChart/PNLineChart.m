@@ -260,7 +260,7 @@
         if (!_showLabel) {
             _chartCavanHeight = self.frame.size.height - 2 * _yLabelHeight;
             _chartCavanWidth = self.frame.size.width;
-            _chartMargin = 0.0;
+            _chartMargin = chartData.inflexionPointWidth;
             _xLabelWidth = (_chartCavanWidth / ([_xLabels count] - 1));
         }
 
