@@ -8,14 +8,6 @@
 
 #import "PNPieChartDataItem.h"
 
-@interface PNPieChartDataItem()
-
-@property (nonatomic, readwrite) CGFloat   value;
-@property (nonatomic, readwrite) UIColor  *color;
-@property (nonatomic, readwrite) NSString *description;
-
-@end
-
 @implementation PNPieChartDataItem
 
 
@@ -31,7 +23,7 @@
                             color:(UIColor*)color
                        description:(NSString *)description{
 	PNPieChartDataItem *item = [PNPieChartDataItem dataItemWithValue:value color:color];
-	item.description = description;
+	item.textDescription = description;
 	return item;
 }
 
