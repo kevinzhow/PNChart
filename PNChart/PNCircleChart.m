@@ -54,6 +54,7 @@
         [_countingLabel setTextAlignment:NSTextAlignmentCenter];
         [_countingLabel setFont:[UIFont boldSystemFontOfSize:16.0f]];
         [_countingLabel setTextColor:[UIColor grayColor]];
+        [_countingLabel setBackgroundColor:[UIColor clearColor]];
         [_countingLabel setCenter:CGPointMake(self.center.x, self.center.y)];
         _countingLabel.method = UILabelCountingMethodEaseInOut;
         [self addSubview:_countingLabel];;
