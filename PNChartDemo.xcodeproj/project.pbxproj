@@ -75,6 +75,7 @@
 		0AF7A892182AA9F6003645C4 /* PNChartDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNChartDemoTests.m; sourceTree = "<group>"; };
 		0AF7A8AD182AAEEF003645C4 /* PCChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCChartViewController.h; sourceTree = "<group>"; };
 		0AF7A8AE182AAEEF003645C4 /* PCChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCChartViewController.m; sourceTree = "<group>"; };
+		2980CA20C29DC029B2D0B926 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		3BA6321352024B1FBA0158B0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		91177EC8198DFAC400017E27 /* PNBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNBar.h; sourceTree = "<group>"; };
 		91177EC9198DFAC400017E27 /* PNBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNBar.m; sourceTree = "<group>"; };
@@ -100,7 +101,7 @@
 		9FE15DE9190BB014004129F5 /* PNChartLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNChartLabel.m; sourceTree = "<group>"; };
 		9FE15DED190BB014004129F5 /* PNColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNColor.h; sourceTree = "<group>"; };
 		9FE15DEE190BB014004129F5 /* PNColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNColor.m; sourceTree = "<group>"; };
-		F161CF4F7A8C4BD2AB65FB4F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		EFE4F6360943ED4001072124 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +138,7 @@
 				0AF7A88C182AA9F6003645C4 /* PNChartDemoTests */,
 				0AF7A866182AA9F6003645C4 /* Frameworks */,
 				0AF7A865182AA9F6003645C4 /* Products */,
-				F161CF4F7A8C4BD2AB65FB4F /* Pods.xcconfig */,
+				217C3505EE193E5BA78404BE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,6 +215,15 @@
 				9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */,
 			);
 			name = PCChartViewController;
+			sourceTree = "<group>";
+		};
+		217C3505EE193E5BA78404BE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EFE4F6360943ED4001072124 /* Pods.debug.xcconfig */,
+				2980CA20C29DC029B2D0B926 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		9FE15DE0190BB014004129F5 /* PNChart */ = {
@@ -368,7 +378,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -521,7 +531,7 @@
 		};
 		0AF7A897182AA9F6003645C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F161CF4F7A8C4BD2AB65FB4F /* Pods.xcconfig */;
+			baseConfigurationReference = EFE4F6360943ED4001072124 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -536,7 +546,7 @@
 		};
 		0AF7A898182AA9F6003645C4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F161CF4F7A8C4BD2AB65FB4F /* Pods.xcconfig */;
+			baseConfigurationReference = 2980CA20C29DC029B2D0B926 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -551,6 +561,7 @@
 		};
 		0AF7A89A182AA9F6003645C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EFE4F6360943ED4001072124 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PNChartDemo.app/PNChartDemo";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -573,6 +584,7 @@
 		};
 		0AF7A89B182AA9F6003645C4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2980CA20C29DC029B2D0B926 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PNChartDemo.app/PNChartDemo";
 				FRAMEWORK_SEARCH_PATHS = (
