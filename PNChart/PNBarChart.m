@@ -107,7 +107,7 @@
             labelAddCount += 1;
             
             if (labelAddCount == _xLabelSkip) {
-                NSString *labelText = _xLabels[index];
+                NSString *labelText = [_xLabels[index] description];
                 PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectZero];
                 label.font = _labelFont;
                 label.textColor = _labelTextColor;
