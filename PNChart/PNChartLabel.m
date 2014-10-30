@@ -7,7 +7,6 @@
 //
 
 #import "PNChartLabel.h"
-#import "PNColor.h"
 
 @implementation PNChartLabel
 
