@@ -8,37 +8,7 @@
 
 #import "PCChartsTableViewController.h"
 
-@interface PCChartsTableViewController ()
-
-@end
-
 @implementation PCChartsTableViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 // In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -50,7 +20,7 @@
 
     if ([segue.identifier isEqualToString:@"lineChart"]) {
 
-        //Add LineChart
+        //Add line chart
         UILabel * lineChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
         lineChartLabel.text = @"Line Chart";
         lineChartLabel.textColor = PNFreshGreen;
@@ -63,7 +33,7 @@
         [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         lineChart.showCoordinateAxis = YES;
 
-        // Line Chart Nr.1
+        // Line Chart #1
         NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2, @127.2, @176.2];
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
@@ -74,7 +44,7 @@
             return [PNLineChartDataItem dataItemWithY:yValue];
         };
 
-        // Line Chart Nr.2
+        // Line Chart #2
         NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
         PNLineChartData *data02 = [PNLineChartData new];
         data02.color = PNTwitterColor;
@@ -95,9 +65,9 @@
 
         viewController.title = @"Line Chart";
 
-    }else if ([segue.identifier isEqualToString:@"barChart"])
+    } else if ([segue.identifier isEqualToString:@"barChart"])
     {
-        //Add BarChart
+        //Add bar chart
 
         UILabel * barChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
         barChartLabel.text = @"Bar Chart";
@@ -121,20 +91,15 @@
 
         [self.barChart strokeChart];
 
-
-
         self.barChart.delegate = self;
 
         [viewController.view addSubview:barChartLabel];
         [viewController.view addSubview:self.barChart];
 
         viewController.title = @"Bar Chart";
-    }else if ([segue.identifier isEqualToString:@"circleChart"])
+    } else if ([segue.identifier isEqualToString:@"circleChart"])
     {
-
-        //Add CircleChart
-
-
+        //Add circle chart
         UILabel * circleChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
         circleChartLabel.text = @"Circle Chart";
         circleChartLabel.textColor = PNFreshGreen;
@@ -156,24 +121,19 @@
         [viewController.view addSubview:circleChart];
         viewController.title = @"Circle Chart";
 
-    }else if ([segue.identifier isEqualToString:@"pieChart"])
+    } else if ([segue.identifier isEqualToString:@"pieChart"])
     {
-
-        //Add PieChart
+        //Add pie chart
         UILabel * pieChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
         pieChartLabel.text = @"Pie Chart";
         pieChartLabel.textColor = PNFreshGreen;
         pieChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         pieChartLabel.textAlignment = NSTextAlignmentCenter;
 
-
-
         NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNLightGreen],
                            [PNPieChartDataItem dataItemWithValue:20 color:PNFreshGreen description:@"WWDC"],
-                           [PNPieChartDataItem dataItemWithValue:40 color:PNDeepGreen description:@"GOOL I/O"],
+                           [PNPieChartDataItem dataItemWithValue:40 color:PNDeepGreen description:@"GOOG I/O"],
                            ];
-
-
 
         PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(40.0, 155.0, 240.0, 240.0) items:items];
         pieChart.descriptionTextColor = [UIColor whiteColor];
@@ -186,16 +146,14 @@
         [viewController.view addSubview:pieChart];
 
         viewController.title = @"Pie Chart";
-
     }
-
 }
 
--(void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex andPointIndex:(NSInteger)pointIndex{
+- (void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex andPointIndex:(NSInteger)pointIndex{
     NSLog(@"Click Key on line %f, %f line index is %d and point index is %d",point.x, point.y,(int)lineIndex, (int)pointIndex);
 }
 
--(void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
+- (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
     NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
 }
 
@@ -206,23 +164,16 @@
 
     PNBar * bar = [self.barChart.bars objectAtIndex:barIndex];
 
-    CABasicAnimation *animation= [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
 
-    animation.fromValue= @1.0;
-
+    animation.fromValue = @1.0;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-
-    animation.toValue= @1.1;
-
-    animation.duration= 0.2;
-
+    animation.toValue = @1.1;
+    animation.duration = 0.2;
     animation.repeatCount = 0;
-
     animation.autoreverses = YES;
-
     animation.removedOnCompletion = YES;
-
-    animation.fillMode=kCAFillModeForwards;
+    animation.fillMode = kCAFillModeForwards;
 
     [bar.layer addAnimation:animation forKey:@"Float"];
 }
