@@ -53,7 +53,7 @@
     
     if (_yMaxValue) {
         _yValueMax = _yMaxValue;
-    }else{
+    } else {
         [self getYValueMax:yValues];
     }
     
@@ -71,13 +71,6 @@
         _yValueMax = _yMinValue;
     }
 }
-
-
-- (void)setYLabels:(NSArray *)yLabels
-{
-    
-}
-
 
 - (void)setXLabels:(NSArray *)xLabels
 {
@@ -324,8 +317,8 @@
     CGPoint touchPoint = [touch locationInView:self];
     UIView *subview = [self hitTest:touchPoint withEvent:nil];
     
-    if ([subview isKindOfClass:[PNBar class]] && [self.delegate respondsToSelector:@selector(userClickedOnBarCharIndex:)]) {
-        [self.delegate userClickedOnBarCharIndex:subview.tag];
+    if ([subview isKindOfClass:[PNBar class]] && [self.delegate respondsToSelector:@selector(userClickedOnBarAtIndex:)]) {
+        [self.delegate userClickedOnBarAtIndex:subview.tag];
     }
 }
 

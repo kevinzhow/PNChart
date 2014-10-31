@@ -22,7 +22,11 @@ typedef NS_ENUM (NSUInteger, PNChartFormatType) {
 
 - (void)strokeChart;
 - (void)growChartByAmount:(NSNumber *)growAmount;
-- (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current andClockwise:(BOOL)clockwise andShadow:(BOOL)hasBackgroundShadow;
+- (id)initWithFrame:(CGRect)frame
+              total:(NSNumber *)total
+            current:(NSNumber *)current
+          clockwise:(BOOL)clockwise
+             shadow:(BOOL)hasBackgroundShadow;
 
 @property (strong, nonatomic) UICountingLabel *countingLabel;
 @property (nonatomic) UIColor *strokeColor;
@@ -34,6 +38,6 @@ typedef NS_ENUM (NSUInteger, PNChartFormatType) {
 @property (nonatomic) PNChartFormatType chartType;
 
 @property (nonatomic) CAShapeLayer *circle;
-@property (nonatomic) CAShapeLayer *circleBG;
+@property (nonatomic) CAShapeLayer *circleBackground;
 
 @end

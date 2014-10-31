@@ -11,7 +11,6 @@
 {
     self = [super init];
     if (self) {
-        
         [self setDefaultValues];
     }
     

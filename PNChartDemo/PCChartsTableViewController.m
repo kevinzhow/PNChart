@@ -141,7 +141,11 @@
         circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
         circleChartLabel.textAlignment = NSTextAlignmentCenter;
 
-        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:@100 andCurrent:@60 andClockwise:YES andShadow:YES];
+        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0)
+                                                                     total:@100
+                                                                   current:@60
+                                                                 clockwise:YES
+                                                                    shadow:YES];
         circleChart.backgroundColor = [UIColor clearColor];
         [circleChart setStrokeColor:PNGreen];
         [circleChart setStrokeColorGradientStart:[UIColor blueColor]];
@@ -195,7 +199,7 @@
     NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
 }
 
-- (void)userClickedOnBarCharIndex:(NSInteger)barIndex
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
 {
 
     NSLog(@"Click on bar %@", @(barIndex));

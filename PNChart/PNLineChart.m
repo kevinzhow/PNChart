@@ -398,7 +398,6 @@
         self.chartLineArray = [NSMutableArray arrayWithCapacity:data.count];
         self.chartPointArray = [NSMutableArray arrayWithCapacity:data.count];
 
-        // set for point stoken
         for (PNLineChartData *chartData in data) {
             // create as many chart line layers as there are data-lines
             CAShapeLayer *chartLine = [CAShapeLayer layer];
@@ -456,7 +455,7 @@
 {
     if (self.isShowCoordinateAxis) {
 
-        CGFloat yAsixOffset = 10.f;
+        CGFloat yAxisOffset = 10.f;
 
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         UIGraphicsPushContext(ctx);
@@ -467,15 +466,15 @@
         CGFloat yAxisHeight = _chartMargin + _chartCavanHeight;
 
         // draw coordinate axis
-        CGContextMoveToPoint(ctx, _chartMargin + yAsixOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAsixOffset, yAxisHeight);
+        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset, 0);
+        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, yAxisHeight);
         CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
         CGContextStrokePath(ctx);
 
         // draw y axis arrow
-        CGContextMoveToPoint(ctx, _chartMargin + yAsixOffset - 3, 6);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAsixOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAsixOffset + 3, 6);
+        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset - 3, 6);
+        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, 0);
+        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset + 3, 6);
         CGContextStrokePath(ctx);
 
         // draw x axis arrow
@@ -498,7 +497,7 @@
             // draw y axis separator
             CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(_chartMargin + yAsixOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
+                point = CGPointMake(_chartMargin + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
                 CGContextMoveToPoint(ctx, point.x, point.y);
                 CGContextAddLineToPoint(ctx, point.x + 2, point.y);
                 CGContextStrokePath(ctx);

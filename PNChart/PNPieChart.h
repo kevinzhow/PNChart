@@ -15,7 +15,7 @@
 
 @property (nonatomic, readonly) NSArray	*items;
 
-/** Default is 18-point Avenir-Medium. */
+/** Default is 18-point Avenir Medium. */
 @property (nonatomic) UIFont  *descriptionTextFont;
 
 /** Default is white. */

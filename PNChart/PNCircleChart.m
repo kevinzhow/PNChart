@@ -14,7 +14,11 @@
 @implementation PNCircleChart
 
 
-- (id)initWithFrame:(CGRect)frame andTotal:(NSNumber *)total andCurrent:(NSNumber *)current andClockwise:(BOOL)clockwise andShadow:(BOOL)hasBackgroundShadow
+- (id)initWithFrame:(CGRect)frame
+              total:(NSNumber *)total
+            current:(NSNumber *)current
+          clockwise:(BOOL)clockwise
+             shadow:(BOOL)hasBackgroundShadow
 {
     self = [super initWithFrame:frame];
 
@@ -29,7 +33,11 @@
         CGFloat endAngle = clockwise ? -90.01f : 270.01f;
 
         _lineWidth = @8.0f;
-        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x, self.center.y) radius:self.frame.size.height * 0.5 startAngle:DEGREES_TO_RADIANS(startAngle) endAngle:DEGREES_TO_RADIANS(endAngle) clockwise:clockwise];
+        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x, self.center.y)
+                                                                  radius:self.frame.size.height * 0.5
+                                                              startAngle:DEGREES_TO_RADIANS(startAngle)
+                                                                endAngle:DEGREES_TO_RADIANS(endAngle)
+                                                               clockwise:clockwise];
 
         _circle               = [CAShapeLayer layer];
         _circle.path          = circlePath.CGPath;
@@ -38,17 +46,17 @@
         _circle.lineWidth     = [_lineWidth floatValue];
         _circle.zPosition     = 1;
 
-        _circleBG             = [CAShapeLayer layer];
-        _circleBG.path        = circlePath.CGPath;
-        _circleBG.lineCap     = kCALineCapRound;
-        _circleBG.fillColor   = [UIColor clearColor].CGColor;
-        _circleBG.lineWidth   = [_lineWidth floatValue];
-        _circleBG.strokeColor = (hasBackgroundShadow ? PNLightYellow.CGColor : [UIColor clearColor].CGColor);
-        _circleBG.strokeEnd   = 1.0;
-        _circleBG.zPosition   = -1;
+        _circleBackground             = [CAShapeLayer layer];
+        _circleBackground.path        = circlePath.CGPath;
+        _circleBackground.lineCap     = kCALineCapRound;
+        _circleBackground.fillColor   = [UIColor clearColor].CGColor;
+        _circleBackground.lineWidth   = [_lineWidth floatValue];
+        _circleBackground.strokeColor = (hasBackgroundShadow ? PNLightYellow.CGColor : [UIColor clearColor].CGColor);
+        _circleBackground.strokeEnd   = 1.0;
+        _circleBackground.zPosition   = -1;
 
         [self.layer addSublayer:_circle];
-        [self.layer addSublayer:_circleBG];
+        [self.layer addSublayer:_circleBackground];
 
         _countingLabel = [[UICountingLabel alloc] initWithFrame:CGRectMake(0, 0, 100.0, 50.0)];
         [_countingLabel setTextAlignment:NSTextAlignmentCenter];
@@ -88,8 +96,8 @@
     // Add circle params
 
     _circle.lineWidth   = [_lineWidth floatValue];
-    _circleBG.lineWidth = [_lineWidth floatValue];
-    _circleBG.strokeEnd = 1.0;
+    _circleBackground.lineWidth = [_lineWidth floatValue];
+    _circleBackground.strokeEnd = 1.0;
     _circle.strokeColor = _strokeColor.CGColor;
 
     // Add Animation
@@ -136,7 +144,6 @@
         
         [gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     }
-
 }
 
 

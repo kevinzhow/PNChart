@@ -14,7 +14,7 @@
 @property (nonatomic) CGFloat total;
 @property (nonatomic) CGFloat currentTotal;
 
-@property (nonatomic) CGFloat outterCircleRadius;
+@property (nonatomic) CGFloat outerCircleRadius;
 @property (nonatomic) CGFloat innerCircleRadius;
 
 @property (nonatomic) UIView  *contentView;
@@ -43,7 +43,7 @@
 	self = [self initWithFrame:frame];
 	if(self){
 		_items = [NSArray arrayWithArray:items];
-		_outterCircleRadius = CGRectGetWidth(self.bounds)/2;
+		_outerCircleRadius = CGRectGetWidth(self.bounds)/2;
 		_innerCircleRadius  = CGRectGetWidth(self.bounds)/6;
 		
 		_descriptionTextColor = [UIColor whiteColor];
@@ -91,8 +91,8 @@
 		CGFloat startPercnetage = currentValue/_total;
 		CGFloat endPercentage   = (currentValue + currentItem.value)/_total;
 		
-		CAShapeLayer *currentPieLayer =	[self newCircleLayerWithRadius:_innerCircleRadius + (_outterCircleRadius - _innerCircleRadius)/2
-                                                           borderWidth:_outterCircleRadius - _innerCircleRadius
+		CAShapeLayer *currentPieLayer =	[self newCircleLayerWithRadius:_innerCircleRadius + (_outerCircleRadius - _innerCircleRadius)/2
+                                                           borderWidth:_outerCircleRadius - _innerCircleRadius
                                                              fillColor:[UIColor clearColor]
                                                            borderColor:currentItem.color
                                                        startPercentage:startPercnetage
@@ -117,7 +117,7 @@
 
 - (UILabel *)descriptionLabelForItemAtIndex:(NSUInteger)index{
 	PNPieChartDataItem *currentDataItem = [self dataItemForIndex:index];
-    CGFloat distance = _innerCircleRadius + (_outterCircleRadius - _innerCircleRadius) / 2;
+    CGFloat distance = _innerCircleRadius + (_outerCircleRadius - _innerCircleRadius) / 2;
     CGFloat centerPercentage =(_currentTotal + currentDataItem.value /2 ) / _total;
     CGFloat rad = centerPercentage * 2 * M_PI;
     
@@ -128,22 +128,22 @@
         titleText = [NSString stringWithFormat:@"%.0f%%",currentDataItem.value/ _total * 100];
     }
     
-    CGPoint center = CGPointMake(_outterCircleRadius + distance * sin(rad),
-                                 _outterCircleRadius - distance * cos(rad));
+    CGPoint center = CGPointMake(_outerCircleRadius + distance * sin(rad),
+                                 _outerCircleRadius - distance * cos(rad));
     
     CGRect frame;
     frame = CGRectMake(0, 0, 100, 80);
     
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:frame];
-    [descriptionLabel setText:titleText];
-    [descriptionLabel setFont:_descriptionTextFont];
-    [descriptionLabel setTextColor:_descriptionTextColor];
-    [descriptionLabel setShadowColor:_descriptionTextShadowColor];
-    [descriptionLabel setShadowOffset:_descriptionTextShadowOffset];
-    [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
-    [descriptionLabel setCenter:center];
-    [descriptionLabel setAlpha:0];
-    [descriptionLabel setBackgroundColor:[UIColor clearColor]];
+    descriptionLabel.text = titleText;
+    descriptionLabel.font = _descriptionTextFont;
+    descriptionLabel.textColor = _descriptionTextColor;
+    descriptionLabel.shadowColor = _descriptionTextShadowColor;
+    descriptionLabel.shadowOffset = _descriptionTextShadowOffset;
+    descriptionLabel.textAlignment = NSTextAlignmentCenter;
+    descriptionLabel.center = center;
+    descriptionLabel.alpha = 0;
+    descriptionLabel.backgroundColor = [UIColor clearColor];
 	
 	return descriptionLabel;
 }
@@ -182,8 +182,8 @@
 }
 
 - (void)maskChart{
-	CAShapeLayer *maskLayer =	[self newCircleLayerWithRadius:_innerCircleRadius + (_outterCircleRadius - _innerCircleRadius)/2
-                                                 borderWidth:_outterCircleRadius - _innerCircleRadius
+	CAShapeLayer *maskLayer =	[self newCircleLayerWithRadius:_innerCircleRadius + (_outerCircleRadius - _innerCircleRadius)/2
+                                                 borderWidth:_outerCircleRadius - _innerCircleRadius
                                                    fillColor:[UIColor clearColor]
                                                  borderColor:[UIColor blackColor]
                                              startPercentage:0

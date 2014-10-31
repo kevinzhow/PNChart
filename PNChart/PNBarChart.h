@@ -15,7 +15,7 @@
 #define yLabelHeight 11
 #define xLabelHeight 20
 
-typedef NSString *(^PNyLabelFromatter)(CGFloat yLabelValue);
+typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 
 @interface PNBarChart : UIView
 
@@ -40,7 +40,7 @@ typedef NSString *(^PNyLabelFromatter)(CGFloat yLabelValue);
 @property (nonatomic) CGFloat yChartLabelWidth;
 
 /** Formats the ylabel text. */
-@property (copy) PNyLabelFromatter yLabelFormatter;
+@property (copy) PNYLabelFormatter yLabelFormatter;
 
 @property (nonatomic) CGFloat chartMargin;
 

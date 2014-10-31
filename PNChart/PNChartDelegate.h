@@ -23,6 +23,6 @@
 /**
  * Callback method that gets invoked when the user taps on a chart bar.
  */
-- (void)userClickedOnBarCharIndex:(NSInteger)barIndex;
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex;
 
 @end
