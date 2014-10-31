@@ -5,15 +5,11 @@
 
 #import <Foundation/Foundation.h>
 
-/**
- *  not support PNLineChartPointStyleTriangle style recently
- */
 typedef NS_ENUM(NSUInteger, PNLineChartPointStyle) {
     
     PNLineChartPointStyleNone = 0,
-    PNLineChartPointStyleCircle,
-    PNLineChartPointStyleTriangle,
-    PNLineChartPointStyleSquare
+    PNLineChartPointStyleCircle = 1,
+    PNLineChartPointStyleSquare = 3
 };
 
 @class PNLineChartDataItem;

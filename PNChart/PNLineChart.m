@@ -337,15 +337,6 @@
 
                 last_x = x;
                 last_y = y;
-            }
-            // Triangular point
-            else if (chartData.inflexionPointStyle == PNLineChartPointStyleTriangle) {
-
-                if ( i != 0 ) {
-                    [progressline addLineToPoint:CGPointMake(x, y)];
-                }
-
-                [progressline moveToPoint:CGPointMake(x, y)];
             } else {
 
                 if ( i != 0 ) {
