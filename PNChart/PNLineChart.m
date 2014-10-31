@@ -216,7 +216,7 @@
             if (distance <= 10.0) {
                 [_delegate userClickedOnLineKeyPoint:touchPoint
                                            lineIndex:p
-                                       andPointIndex:(distance == distanceToP2 ? i + 1 : i)];
+                                          pointIndex:(distance == distanceToP2 ? i + 1 : i)];
 
                 return;
             }

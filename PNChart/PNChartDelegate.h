@@ -18,7 +18,9 @@
 /**
  * Callback method that gets invoked when the user taps on a chart line key point.
  */
-- (void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex andPointIndex:(NSInteger)pointIndex;
+- (void)userClickedOnLineKeyPoint:(CGPoint)point
+                        lineIndex:(NSInteger)lineIndex
+                       pointIndex:(NSInteger)pointIndex;
 
 /**
  * Callback method that gets invoked when the user taps on a chart bar.
