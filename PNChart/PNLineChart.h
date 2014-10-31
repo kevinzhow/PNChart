@@ -13,9 +13,8 @@
 @interface PNLineChart : UIView
 
 /**
- * This method will call and troke the line in animation
+ * Draws the chart in an animated fashion.
  */
-
 - (void)strokeChart;
 
 @property (nonatomic, retain) id<PNChartDelegate> delegate;
@@ -58,7 +57,7 @@
 @property (nonatomic) BOOL showLabel;
 
 /**
- *  show CoordinateAxis ornot, Default is not
+ * Controls whether to show the coordinate axis. Default is NO.
  */
 @property (nonatomic, getter = isShowCoordinateAxis) BOOL showCoordinateAxis;
 @property (nonatomic) UIColor *axisColor;
@@ -68,7 +67,7 @@
 @property (nonatomic, strong) NSString *yUnit;
 
 /**
- *  String formatter for float values in y labels. If not set, defaults to @"%1.f"
+ * String formatter for float values in y-axis labels. If not set, defaults to @"%1.f"
  */
 @property (nonatomic, strong) NSString *yLabelFormat;
 
