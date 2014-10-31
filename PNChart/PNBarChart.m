@@ -26,7 +26,6 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        // Initialization code
         self.backgroundColor = [UIColor whiteColor];
         self.clipsToBounds   = YES;
         _showLabel           = YES;

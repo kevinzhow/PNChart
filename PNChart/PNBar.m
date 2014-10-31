@@ -16,7 +16,6 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        // Initialization code
         _chartLine              = [CAShapeLayer layer];
         _chartLine.lineCap      = kCALineCapButt;
         _chartLine.fillColor    = [[UIColor whiteColor] CGColor];
@@ -72,7 +71,6 @@
         CAShapeLayer *gradientMask = [CAShapeLayer layer];
         gradientMask.fillColor = [[UIColor clearColor] CGColor];
         gradientMask.strokeColor = [[UIColor blackColor] CGColor];
-        //gradientMask.lineWidth = 4;
         gradientMask.lineWidth    = self.frame.size.width;
         gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
         gradientMask.path = progressline.CGPath;
@@ -123,7 +121,6 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    //Draw BG
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGContextSetFillColorWithColor(context, self.backgroundColor.CGColor);

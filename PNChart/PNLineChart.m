@@ -12,9 +12,6 @@
 #import "PNLineChartData.h"
 #import "PNLineChartDataItem.h"
 
-// ------------------------------------------------------------------------------------------------
-// private interface declaration
-// ------------------------------------------------------------------------------------------------
 @interface PNLineChart ()
 
 @property (nonatomic) NSMutableArray *chartLineArray;  // Array[CAShapeLayer]
@@ -27,9 +24,6 @@
 
 @end
 
-// ------------------------------------------------------------------------------------------------
-// public interface implementation
-// ------------------------------------------------------------------------------------------------
 @implementation PNLineChart
 
 #pragma mark initialization
@@ -379,9 +373,6 @@
             [pointLayer addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
         }
 
-        [CATransaction setCompletionBlock:^{
-             // pointLayer.strokeEnd = 1.0f; // stroken point when animation end
-         }];
         [CATransaction commit];
 
         UIGraphicsEndImageContext();
