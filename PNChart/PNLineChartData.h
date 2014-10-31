@@ -6,7 +6,6 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, PNLineChartPointStyle) {
-    
     PNLineChartPointStyleNone = 0,
     PNLineChartPointStyleCircle = 1,
     PNLineChartPointStyleSquare = 3

@@ -75,19 +75,19 @@
 - (void)strokeChart
 {
     // Add counting label
-    
+
     NSString *format;
     switch (self.chartType) {
-      case PNChartFormatTypePercent:
-        format = @"%d%%";
-        break;
-      case PNChartFormatTypeDollar:
-        format = @"$%d";
-        break;
-      case PNChartFormatTypeNone:
-      default:
-        format = @"%d";
-        break;
+        case PNChartFormatTypePercent:
+            format = @"%d%%";
+            break;
+        case PNChartFormatTypeDollar:
+            format = @"$%d";
+            break;
+        case PNChartFormatTypeNone:
+        default:
+            format = @"%d";
+            break;
     }
     self.countingLabel.format = format;
     [self addSubview:self.countingLabel];
@@ -110,11 +110,11 @@
     _circle.strokeEnd   = [_current floatValue] / [_total floatValue];
 
     [_countingLabel countFrom:0 to:[_current floatValue] withDuration:1.0];
-    
-    
+
+
     // Check if user wants to add a gradient from the start color to the bar color
     if (_strokeColorGradientStart) {
-        
+
         // Add gradient
         CAShapeLayer *gradientMask = [CAShapeLayer layer];
         gradientMask.fillColor = [[UIColor clearColor] CGColor];
@@ -124,7 +124,7 @@
         CGRect gradientFrame = CGRectMake(0, 0, 2*self.bounds.size.width, 2*self.bounds.size.height);
         gradientMask.frame = gradientFrame;
         gradientMask.path = _circle.path;
-        
+
         CAGradientLayer *gradientLayer = [CAGradientLayer layer];
         gradientLayer.startPoint = CGPointMake(0.5,1.0);
         gradientLayer.endPoint = CGPointMake(0.5,0.0);
@@ -135,13 +135,13 @@
                             (id)_strokeColorGradientStart.CGColor
                             ];
         gradientLayer.colors = colors;
-        
+
         [gradientLayer setMask:gradientMask];
-        
+
         [_circle addSublayer:gradientLayer];
-        
+
         gradientMask.strokeEnd = [_current floatValue] / [_total floatValue];
-        
+
         [gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     }
 }
@@ -151,7 +151,7 @@
 - (void)growChartByAmount:(NSNumber *)growAmount
 {
     NSNumber *updatedValue = [NSNumber numberWithFloat:[_current floatValue] + [growAmount floatValue]];
-    
+
     // Add animation
     CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     pathAnimation.duration = self.duration;
@@ -160,7 +160,7 @@
     pathAnimation.toValue = @([updatedValue floatValue] / [_total floatValue]);
     _circle.strokeEnd   = [updatedValue floatValue] / [_total floatValue];
     [_circle addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-    
+
     [self.countingLabel countFrom:fmin([_current floatValue], [_total floatValue]) to:fmin([_current floatValue] + [growAmount floatValue], [_total floatValue]) withDuration:self.duration];
     _current = updatedValue;
 }

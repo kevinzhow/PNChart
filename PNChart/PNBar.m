@@ -63,10 +63,10 @@
     [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
 
     _chartLine.strokeEnd = 1.0;
-    
+
     // Check if user wants to add a gradient from the start color to the bar color
     if (_barColorGradientStart) {
-        
+
         // Add gradient
         CAShapeLayer *gradientMask = [CAShapeLayer layer];
         gradientMask.fillColor = [[UIColor clearColor] CGColor];
@@ -74,8 +74,8 @@
         gradientMask.lineWidth    = self.frame.size.width;
         gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
         gradientMask.path = progressline.CGPath;
-        
-        
+
+
         CAGradientLayer *gradientLayer = [CAGradientLayer layer];
         gradientLayer.startPoint = CGPointMake(0.5,1.0);
         gradientLayer.endPoint = CGPointMake(0.5,0.0);
@@ -86,11 +86,11 @@
                             (id)endColor.CGColor
                             ];
         gradientLayer.colors = colors;
-        
+
         [gradientLayer setMask:gradientMask];
-        
+
         [_chartLine addSublayer:gradientLayer];
-        
+
         gradientMask.strokeEnd = 1.0;
         [gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     }
@@ -112,9 +112,9 @@
         [sublayer removeFromSuperlayer];
     }
     _barColorGradientStart = barColorGradientStart;
-    
+
     [self setGrade:_grade];
-    
+
 }
 
 // Only override drawRect: if you perform custom drawing.
