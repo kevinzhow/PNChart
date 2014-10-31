@@ -285,8 +285,8 @@
             int x = 2 * _chartMargin +  (i * offSetX);
             int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2);
 
-            // cycle style point
-            if (chartData.inflexionPointStyle == PNLineChartPointStyleCycle) {
+            // Circular point
+            if (chartData.inflexionPointStyle == PNLineChartPointStyleCircle) {
 
                 CGRect circleRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
                 CGPoint circleCenter = CGPointMake(circleRect.origin.x + (circleRect.size.width / 2), circleRect.origin.y + (circleRect.size.height / 2));
@@ -310,7 +310,7 @@
                 last_x = x;
                 last_y = y;
             }
-            // Square style point
+            // Square point
             else if (chartData.inflexionPointStyle == PNLineChartPointStyleSquare) {
 
                 CGRect squareRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
@@ -338,7 +338,7 @@
                 last_x = x;
                 last_y = y;
             }
-            // Triangle style point
+            // Triangular point
             else if (chartData.inflexionPointStyle == PNLineChartPointStyleTriangle) {
 
                 if ( i != 0 ) {

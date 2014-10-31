@@ -68,7 +68,7 @@
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
         data01.itemCount = lineChart.xLabels.count;
-        data01.inflexionPointStyle = PNLineChartPointStyleCycle;
+        data01.inflexionPointStyle = PNLineChartPointStyleCircle;
         data01.getData = ^(NSUInteger index) {
             CGFloat yValue = [data01Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
