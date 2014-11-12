@@ -107,9 +107,9 @@ NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNRed],
                            [PNPieChartDataItem dataItemWithValue:20 color:PNBlue description:@"WWDC"],
                            [PNPieChartDataItem dataItemWithValue:40 color:PNGreen description:@"GOOL I/O"],
                            ];
-        
-        
-        
+
+
+
 PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(40.0, 155.0, 240.0, 240.0) items:items];
 pieChart.descriptionTextColor = [UIColor whiteColor];
 pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0];
@@ -135,7 +135,7 @@ lineChart.delegate = self;
 //For DelegateMethod
 
 
--(void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex andPointIndex:(NSInteger)pointIndex{
+-(void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex pointIndex:(NSInteger)pointIndex{
     NSLog(@"Click Key on line %f, %f line index is %d and point index is %d",point.x, point.y,(int)lineIndex, (int)pointIndex);
 }
 

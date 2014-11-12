@@ -5,15 +5,10 @@
 
 #import <Foundation/Foundation.h>
 
-/**
- *  not support PNLineChartPointStyleTriangle style recently
- */
 typedef NS_ENUM(NSUInteger, PNLineChartPointStyle) {
-    
     PNLineChartPointStyleNone = 0,
-    PNLineChartPointStyleCycle,
-    PNLineChartPointStyleTriangle,
-    PNLineChartPointStyleSquare
+    PNLineChartPointStyleCircle = 1,
+    PNLineChartPointStyleSquare = 3
 };
 
 @class PNLineChartDataItem;
@@ -29,9 +24,8 @@ typedef PNLineChartDataItem *(^LCLineChartDataGetter)(NSUInteger item);
 @property (nonatomic, assign) PNLineChartPointStyle inflexionPointStyle;
 
 /**
- *  if PNLineChartPointStyle is cycle, inflexionPointWidth equal cycle's diameter
- *  if PNLineChartPointStyle is square, that means the foundation is square with
- *  inflexionPointWidth long
+ * If PNLineChartPointStyle is circle, this returns the circle's diameter.
+ * If PNLineChartPointStyle is square, each point is a square with each side equal in length to this value.
  */
 @property (nonatomic, assign) CGFloat inflexionPointWidth;
 

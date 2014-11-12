@@ -12,9 +12,6 @@
 #import "PNLineChartData.h"
 #import "PNLineChartDataItem.h"
 
-// ------------------------------------------------------------------------------------------------
-// private interface declaration
-// ------------------------------------------------------------------------------------------------
 @interface PNLineChart ()
 
 @property (nonatomic) NSMutableArray *chartLineArray;  // Array[CAShapeLayer]
@@ -27,9 +24,6 @@
 
 @end
 
-// ------------------------------------------------------------------------------------------------
-// public interface implementation
-// ------------------------------------------------------------------------------------------------
 @implementation PNLineChart
 
 #pragma mark initialization
@@ -222,7 +216,7 @@
             if (distance <= 10.0) {
                 [_delegate userClickedOnLineKeyPoint:touchPoint
                                            lineIndex:p
-                                       andPointIndex:(distance == distanceToP2 ? i + 1 : i)];
+                                          pointIndex:(distance == distanceToP2 ? i + 1 : i)];
 
                 return;
             }
@@ -285,8 +279,8 @@
             int x = 2 * _chartMargin +  (i * offSetX);
             int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2);
 
-            // cycle style point
-            if (chartData.inflexionPointStyle == PNLineChartPointStyleCycle) {
+            // Circular point
+            if (chartData.inflexionPointStyle == PNLineChartPointStyleCircle) {
 
                 CGRect circleRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
                 CGPoint circleCenter = CGPointMake(circleRect.origin.x + (circleRect.size.width / 2), circleRect.origin.y + (circleRect.size.height / 2));
@@ -310,7 +304,7 @@
                 last_x = x;
                 last_y = y;
             }
-            // Square style point
+            // Square point
             else if (chartData.inflexionPointStyle == PNLineChartPointStyleSquare) {
 
                 CGRect squareRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
@@ -337,15 +331,6 @@
 
                 last_x = x;
                 last_y = y;
-            }
-            // Triangle style point
-            else if (chartData.inflexionPointStyle == PNLineChartPointStyleTriangle) {
-
-                if ( i != 0 ) {
-                    [progressline addLineToPoint:CGPointMake(x, y)];
-                }
-
-                [progressline moveToPoint:CGPointMake(x, y)];
             } else {
 
                 if ( i != 0 ) {
@@ -388,9 +373,6 @@
             [pointLayer addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
         }
 
-        [CATransaction setCompletionBlock:^{
-             // pointLayer.strokeEnd = 1.0f; // stroken point when animation end
-         }];
         [CATransaction commit];
 
         UIGraphicsEndImageContext();
@@ -416,7 +398,6 @@
         self.chartLineArray = [NSMutableArray arrayWithCapacity:data.count];
         self.chartPointArray = [NSMutableArray arrayWithCapacity:data.count];
 
-        // set for point stoken
         for (PNLineChartData *chartData in data) {
             // create as many chart line layers as there are data-lines
             CAShapeLayer *chartLine = [CAShapeLayer layer];
@@ -474,7 +455,7 @@
 {
     if (self.isShowCoordinateAxis) {
 
-        CGFloat yAsixOffset = 10.f;
+        CGFloat yAxisOffset = 10.f;
 
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         UIGraphicsPushContext(ctx);
@@ -485,15 +466,15 @@
         CGFloat yAxisHeight = _chartMargin + _chartCavanHeight;
 
         // draw coordinate axis
-        CGContextMoveToPoint(ctx, _chartMargin + yAsixOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAsixOffset, yAxisHeight);
+        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset, 0);
+        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, yAxisHeight);
         CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
         CGContextStrokePath(ctx);
 
         // draw y axis arrow
-        CGContextMoveToPoint(ctx, _chartMargin + yAsixOffset - 3, 6);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAsixOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAsixOffset + 3, 6);
+        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset - 3, 6);
+        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, 0);
+        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset + 3, 6);
         CGContextStrokePath(ctx);
 
         // draw x axis arrow
@@ -516,7 +497,7 @@
             // draw y axis separator
             CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(_chartMargin + yAsixOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
+                point = CGPointMake(_chartMargin + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
                 CGContextMoveToPoint(ctx, point.x, point.y);
                 CGContextAddLineToPoint(ctx, point.x + 2, point.y);
                 CGContextStrokePath(ctx);
