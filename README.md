@@ -28,7 +28,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
 
 [CocoaPods](http://cocoapods.org) is the recommended way to add PNChart to your project.
 
-1. Add a pod entry for PNChart to your Podfile `pod 'PNChart', '~> 0.5'`
+1. Add a pod entry for PNChart to your Podfile `pod 'PNChart', '~> 0.5.5'`
 2. Install the pod(s) by running `pod install`.
 3. Include PNChart wherever you need it with `#import "PNChart.h"`.
 
