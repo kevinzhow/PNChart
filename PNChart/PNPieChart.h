@@ -15,11 +15,20 @@
 
 @property (nonatomic, readonly) NSArray	*items;
 
-@property (nonatomic) UIFont  *descriptionTextFont;  //default is [UIFont fontWithName:@"Avenir-Medium" size:18.0];
-@property (nonatomic) UIColor *descriptionTextColor; //default is [UIColor whiteColor]
-@property (nonatomic) UIColor *descriptionTextShadowColor; //default is [[UIColor blackColor] colorWithAlphaComponent:0.4]
-@property (nonatomic) CGSize   descriptionTextShadowOffset; //default is CGSizeMake(0, 1)
-@property (nonatomic) NSTimeInterval duration;//default is 1.0
+/** Default is 18-point Avenir Medium. */
+@property (nonatomic) UIFont  *descriptionTextFont;
+
+/** Default is white. */
+@property (nonatomic) UIColor *descriptionTextColor;
+
+/** Default is black, with an alpha of 0.4. */
+@property (nonatomic) UIColor *descriptionTextShadowColor;
+
+/** Default is CGSizeMake(0, 1). */
+@property (nonatomic) CGSize   descriptionTextShadowOffset;
+
+/** Default is 1.0. */
+@property (nonatomic) NSTimeInterval duration;
 
 - (void)strokeChart;
 
