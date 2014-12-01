@@ -123,20 +123,27 @@
     
 	_currentTotal += currentDataItem.value;
 	
+    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
     NSString *titleText = currentDataItem.textDescription;
     if(!titleText){
         titleText = [NSString stringWithFormat:@"%.0f%%",currentDataItem.value/ _total * 100];
+        descriptionLabel.text = titleText ;
+    }
+    else {
+        NSString* str = [NSString stringWithFormat:@"%.0f%%\n",currentDataItem.value/ _total * 100];
+        str = [str stringByAppendingString:titleText];
+        descriptionLabel.text = str ;
     }
     
     CGPoint center = CGPointMake(_outerCircleRadius + distance * sin(rad),
                                  _outerCircleRadius - distance * cos(rad));
     
-    CGRect frame;
-    frame = CGRectMake(0, 0, 100, 80);
-    
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:frame];
-    descriptionLabel.text = titleText;
     descriptionLabel.font = _descriptionTextFont;
+    CGSize labelSize = [descriptionLabel.text sizeWithAttributes:@{NSFontAttributeName:descriptionLabel.font}];
+    descriptionLabel.frame = CGRectMake(
+                             descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y,
+                             descriptionLabel.frame.size.width, labelSize.height);
+    descriptionLabel.numberOfLines = 0;
     descriptionLabel.textColor = _descriptionTextColor;
     descriptionLabel.shadowColor = _descriptionTextShadowColor;
     descriptionLabel.shadowOffset = _descriptionTextShadowOffset;
@@ -144,7 +151,6 @@
     descriptionLabel.center = center;
     descriptionLabel.alpha = 0;
     descriptionLabel.backgroundColor = [UIColor clearColor];
-	
 	return descriptionLabel;
 }
 
