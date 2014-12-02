@@ -84,6 +84,7 @@
         };
         self.barChart.labelMarginTop = 5.0;
         [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
+        self.barChart.rotateForXAxisText = true ;
         [self.barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
         [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
         // Adding gradient

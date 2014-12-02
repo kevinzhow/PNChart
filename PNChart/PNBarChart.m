@@ -41,6 +41,7 @@
         _barRadius           = 2.0;
         _showChartBorder     = NO;
         _yChartLabelWidth    = 18;
+        _rotateForXAxisText  = false;
     }
 
     return self;
@@ -106,8 +107,14 @@
                 [label setTextAlignment:NSTextAlignmentCenter];
                 label.text = labelText;
                 [label sizeToFit];
-                CGFloat labelXPosition  = (index *  _xLabelWidth + _chartMargin + _xLabelWidth /2.0 );
-
+                CGFloat labelXPosition;
+                if (_rotateForXAxisText){
+                    label.transform = CGAffineTransformMakeRotation(M_PI / 4);
+                    labelXPosition = (index *  _xLabelWidth + _chartMargin + _xLabelWidth /1.5);
+                }
+                else{
+                    labelXPosition = (index *  _xLabelWidth + _chartMargin + _xLabelWidth /2.0 );
+                }
                 label.center = CGPointMake(labelXPosition,
                                            self.frame.size.height - xLabelHeight - _chartMargin + label.frame.size.height /2.0 + _labelMarginTop);
                 labelAddCount = 0;

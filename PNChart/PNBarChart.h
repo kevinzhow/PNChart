@@ -88,6 +88,9 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Controls whether each bar should have a gradient fill. */
 @property (nonatomic) UIColor *barColorGradientStart;
 
+/** Controls whether text for x-axis be straight or rotate 45 degree. */
+@property (nonatomic) BOOL rotateForXAxisText;
+
 @property (nonatomic, retain) id<PNChartDelegate> delegate;
 
 @end
