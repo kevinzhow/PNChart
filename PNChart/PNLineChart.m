@@ -331,6 +331,36 @@
 
                 last_x = x;
                 last_y = y;
+            }
+            // Triangle point
+            else if (chartData.inflexionPointStyle == PNLineChartPointStyleTriangle) {
+                
+                CGRect squareRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
+                
+                CGPoint startPoint = CGPointMake(squareRect.origin.x,squareRect.origin.y + squareRect.size.height);
+                CGPoint endPoint = CGPointMake(squareRect.origin.x + (squareRect.size.width / 2) , squareRect.origin.y);
+                CGPoint middlePoint = CGPointMake(squareRect.origin.x + (squareRect.size.width) , squareRect.origin.y + squareRect.size.height);
+                
+                [pointPath moveToPoint:startPoint];
+                [pointPath addLineToPoint:middlePoint];
+                [pointPath addLineToPoint:endPoint];
+                [pointPath closePath];
+                
+                if ( i != 0 ) {
+                    // calculate the point for triangle
+                    float distance = sqrt(pow(x - last_x, 2) + pow(y - last_y, 2) ) * 1.4 ;
+                    float last_x1 = last_x + (inflexionWidth / 2) / distance * (x - last_x);
+                    float last_y1 = last_y + (inflexionWidth / 2) / distance * (y - last_y);
+                    float x1 = x - (inflexionWidth / 2) / distance * (x - last_x);
+                    float y1 = y - (inflexionWidth / 2) / distance * (y - last_y);
+                    
+                    [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
+                    [progressline addLineToPoint:CGPointMake(x1, y1)];
+               }
+                
+                last_x = x;
+                last_y = y;
+                
             } else {
 
                 if ( i != 0 ) {
