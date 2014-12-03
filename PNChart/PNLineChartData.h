@@ -8,7 +8,8 @@
 typedef NS_ENUM(NSUInteger, PNLineChartPointStyle) {
     PNLineChartPointStyleNone = 0,
     PNLineChartPointStyleCircle = 1,
-    PNLineChartPointStyleSquare = 3
+    PNLineChartPointStyleSquare = 3,
+    PNLineChartPointStyleTriangle = 4
 };
 
 @class PNLineChartDataItem;
