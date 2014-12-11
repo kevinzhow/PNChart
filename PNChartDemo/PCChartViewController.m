@@ -10,4 +10,10 @@
 
 @implementation PCChartViewController
 
+- (IBAction)changeValue:(id)sender {
+    if ([self.title isEqualToString:@"Bar Chart"]) {
+        
+    }
+}
+
 @end

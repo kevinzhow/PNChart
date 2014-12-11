@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PCChartViewController : UIViewController
+- (IBAction)changeValue:(id)sender;
 
 @end

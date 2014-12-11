@@ -22,6 +22,9 @@
                                 <state key="normal" title="Change Value">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="changeValue:" destination="Tha-Wr-sPW" eventType="touchUpInside" id="zeG-Cp-Wjs"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
