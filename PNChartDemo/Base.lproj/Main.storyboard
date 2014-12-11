@@ -16,7 +16,19 @@
                     <view key="view" contentMode="scaleToFill" id="PPb-b8-nBo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L3F-13-Wf5">
+                                <rect key="frame" x="113" y="364" width="95" height="30"/>
+                                <state key="normal" title="Change Value">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="L3F-13-Wf5" firstAttribute="top" secondItem="znr-YO-4a4" secondAttribute="bottom" constant="300" id="ewm-kv-p8k"/>
+                            <constraint firstAttribute="centerX" secondItem="L3F-13-Wf5" secondAttribute="centerX" id="zXw-WV-mro"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PNChart" id="Ukg-Sg-E2z"/>
                 </viewController>
