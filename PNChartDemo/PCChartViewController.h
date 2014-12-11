@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNChartDelegate.h"
+#import "PNChart.h"
 
-@interface PCChartViewController : UIViewController
+@interface PCChartViewController : UIViewController<PNChartDelegate>
+
+@property (nonatomic) PNLineChart * lineChart;
 - (IBAction)changeValue:(id)sender;
 
 @end
