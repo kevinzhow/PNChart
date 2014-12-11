@@ -59,4 +59,10 @@
 
 - (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width;
 
+/**
+ * Update Chart Value
+ */
+
+- (void)updateChartData:(NSArray *)data;
+
 @end
