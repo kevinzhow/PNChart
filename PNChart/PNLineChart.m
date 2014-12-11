@@ -517,6 +517,7 @@
         
         
         CABasicAnimation * pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        pathAnimation.fromValue = (id)chartLine.path;
         pathAnimation.toValue = (id)[progressline CGPath];
         pathAnimation.duration = 0.5f;
         pathAnimation.autoreverses = NO;
@@ -525,6 +526,7 @@
         
         
         CABasicAnimation * pointPathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        pointPathAnimation.fromValue = (id)pointLayer.path;
         pointPathAnimation.toValue = (id)[pointPath CGPath];
         pointPathAnimation.duration = 0.5f;
         pointPathAnimation.autoreverses = NO;

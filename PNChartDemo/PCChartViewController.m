@@ -75,7 +75,7 @@
         
         
         // Line Chart #1
-        NSArray * data01Array = @[@30.1, @20.1, @106.4, @162.2, @86.2, @27.2, @76.2];
+        NSArray * data01Array = @[@30.1, @220.1, @106.4, @22.2, @136.2, @67.2, @36.2];
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
         data01.itemCount = data01Array.count;
@@ -86,7 +86,7 @@
         };
         
         // Line Chart #2
-        NSArray * data02Array = @[@60.1, @120.1, @126.4, @102.2, @26.2, @67.2, @176.2];
+        NSArray * data02Array = @[@60.1, @120.1, @126.4, @102.2, @56.2, @87.2, @136.2];
         PNLineChartData *data02 = [PNLineChartData new];
         data02.color = PNTwitterColor;
         data02.itemCount = data02Array.count;
