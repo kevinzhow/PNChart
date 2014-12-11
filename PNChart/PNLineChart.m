@@ -502,6 +502,40 @@
 
 - (void)updateChartData:(NSArray *)data
 {
+    _chartData = data;
+    
+    [self calculateChartPath:_chartPath andPointsPath:_pointPath andPathKeyPoints:_pathPoints];
+    
+    for (NSUInteger lineIndex = 0; lineIndex < self.chartData.count; lineIndex++) {
+
+        CAShapeLayer *chartLine = (CAShapeLayer *)self.chartLineArray[lineIndex];
+        CAShapeLayer *pointLayer = (CAShapeLayer *)self.chartPointArray[lineIndex];
+
+        
+        UIBezierPath *progressline = [_chartPath objectAtIndex:lineIndex];
+        UIBezierPath *pointPath = [_pointPath objectAtIndex:lineIndex];
+        
+        
+        CABasicAnimation * pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        pathAnimation.toValue = (id)[progressline CGPath];
+        pathAnimation.duration = 0.5f;
+        pathAnimation.autoreverses = NO;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        [chartLine addAnimation:pathAnimation forKey:@"animationKey"];
+        
+        
+        CABasicAnimation * pointPathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        pointPathAnimation.toValue = (id)[pointPath CGPath];
+        pointPathAnimation.duration = 0.5f;
+        pointPathAnimation.autoreverses = NO;
+        pointPathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        [pointLayer addAnimation:pointPathAnimation forKey:@"animationKey"];
+        
+        chartLine.path = progressline.CGPath;
+        pointLayer.path = pointPath.CGPath;
+        
+        
+    }
     
 }
 
