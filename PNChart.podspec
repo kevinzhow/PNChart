@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "PNChart"
-  s.version      = "0.5.5"
+  s.version      = "0.5.6"
   s.summary      = "A simple and beautiful chart lib with animation used in Piner for iOS"
 
   s.description  = <<-DESC
@@ -225,7 +225,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/kevinzhow/PNChart.git", :tag => "0.5.5" }
+  s.source       = { :git => "https://github.com/kevinzhow/PNChart.git", :tag => "0.5.6" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
