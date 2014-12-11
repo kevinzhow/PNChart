@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9Rt-UT-IxH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9Rt-UT-IxH">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Chart View Controller - PNChart-->
+        <!--PNChart-->
         <scene sceneID="lC9-iu-Smd">
             <objects>
                 <viewController id="Tha-Wr-sPW" customClass="PCChartViewController" sceneMemberID="viewController">
@@ -16,7 +16,19 @@
                     <view key="view" contentMode="scaleToFill" id="PPb-b8-nBo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L3F-13-Wf5">
+                                <rect key="frame" x="113" y="364" width="95" height="30"/>
+                                <state key="normal" title="Change Value">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="L3F-13-Wf5" firstAttribute="top" secondItem="znr-YO-4a4" secondAttribute="bottom" constant="300" id="ewm-kv-p8k"/>
+                            <constraint firstAttribute="centerX" secondItem="L3F-13-Wf5" secondAttribute="centerX" id="zXw-WV-mro"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PNChart" id="Ukg-Sg-E2z"/>
                 </viewController>
@@ -24,7 +36,7 @@
             </objects>
             <point key="canvasLocation" x="536" y="31"/>
         </scene>
-        <!--Charts Table View Controller - PNChart-->
+        <!--PNChart-->
         <scene sceneID="pBo-qW-N8B">
             <objects>
                 <tableViewController id="cc5-BF-Ga2" customClass="PCChartsTableViewController" sceneMemberID="viewController">
