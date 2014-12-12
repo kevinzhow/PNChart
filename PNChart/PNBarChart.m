@@ -91,6 +91,11 @@
     }
 }
 
+-(void)updateChartData:(NSArray *)data{
+    self.yValues = data;
+    [self updateBar];
+}
+
 - (void)getYValueMax:(NSArray *)yLabels
 {
     int max = [[yLabels valueForKeyPath:@"@max.intValue"] intValue];
@@ -151,6 +156,78 @@
     _strokeColor = strokeColor;
 }
 
+- (void)updateBar
+{
+    
+    //Add bars
+    CGFloat chartCavanHeight = self.frame.size.height - _chartMargin * 2 - xLabelHeight;
+    NSInteger index = 0;
+    
+    for (NSNumber *valueString in _yValues) {
+        
+        PNBar *bar;
+        
+        if (_bars.count == _yValues.count) {
+            bar = [_bars objectAtIndex:index];
+        }else{
+            CGFloat barWidth;
+            CGFloat barXPosition;
+            
+            if (_barWidth) {
+                barWidth = _barWidth;
+                barXPosition = index *  _xLabelWidth + _chartMargin + _xLabelWidth /2.0 - _barWidth /2.0;
+            }else{
+                barXPosition = index *  _xLabelWidth + _chartMargin + _xLabelWidth * 0.25;
+                if (_showLabel) {
+                    barWidth = _xLabelWidth * 0.5;
+                    
+                }
+                else {
+                    barWidth = _xLabelWidth * 0.6;
+                    
+                }
+            }
+            
+            bar = [[PNBar alloc] initWithFrame:CGRectMake(barXPosition, //Bar X position
+                                                          self.frame.size.height - chartCavanHeight - xLabelHeight - _chartMargin, //Bar Y position
+                                                          barWidth, // Bar witdh
+                                                          chartCavanHeight)]; //Bar height
+            
+            //Change Bar Radius
+            bar.barRadius = _barRadius;
+            
+            //Change Bar Background color
+            bar.backgroundColor = _barBackgroundColor;
+            
+            //Bar StrokColor First
+            if (self.strokeColor) {
+                bar.barColor = self.strokeColor;
+            }else{
+                bar.barColor = [self barColorAtIndex:index];
+            }
+            // Add gradient
+            bar.barColorGradientStart = _barColorGradientStart;
+            
+            //For Click Index
+            bar.tag = index;
+            
+            [_bars addObject:bar];
+            [self addSubview:bar];
+        }
+        
+        //Height Of Bar
+        float value = [valueString floatValue];
+        
+        float grade = (float)value / (float)_yValueMax;
+        
+        if (isnan(grade)) {
+            grade = 0;
+        }
+        bar.grade = grade;
+        
+        index += 1;
+    }
+}
 
 - (void)strokeChart
 {
@@ -159,73 +236,10 @@
     [self viewCleanupForCollection:_bars];
 
 
-    //Add bars
-    CGFloat chartCavanHeight = self.frame.size.height - _chartMargin * 2 - xLabelHeight;
-    NSInteger index = 0;
-
-    for (NSNumber *valueString in _yValues) {
-        float value = [valueString floatValue];
-
-        float grade = (float)value / (float)_yValueMax;
-
-        if (isnan(grade)) {
-            grade = 0;
-        }
-
-        PNBar *bar;
-        CGFloat barWidth;
-        CGFloat barXPosition;
-
-        if (_barWidth) {
-            barWidth = _barWidth;
-            barXPosition = index *  _xLabelWidth + _chartMargin + _xLabelWidth /2.0 - _barWidth /2.0;
-        }else{
-            barXPosition = index *  _xLabelWidth + _chartMargin + _xLabelWidth * 0.25;
-            if (_showLabel) {
-                barWidth = _xLabelWidth * 0.5;
-
-            }
-            else {
-                barWidth = _xLabelWidth * 0.6;
-
-            }
-        }
-
-        bar = [[PNBar alloc] initWithFrame:CGRectMake(barXPosition, //Bar X position
-                                                      self.frame.size.height - chartCavanHeight - xLabelHeight - _chartMargin, //Bar Y position
-                                                      barWidth, // Bar witdh
-                                                      chartCavanHeight)]; //Bar height
-
-        //Change Bar Radius
-        bar.barRadius = _barRadius;
-
-        //Change Bar Background color
-        bar.backgroundColor = _barBackgroundColor;
-
-        //Bar StrokColor First
-        if (self.strokeColor) {
-            bar.barColor = self.strokeColor;
-        }else{
-            bar.barColor = [self barColorAtIndex:index];
-        }
-
-        //Height Of Bar
-        bar.grade = grade;
-
-        // Add gradient
-        bar.barColorGradientStart = _barColorGradientStart;
-
-
-        //For Click Index
-        bar.tag = index;
-
-
-        [_bars addObject:bar];
-        [self addSubview:bar];
-
-        index += 1;
-    }
-
+    //Update Bar
+    
+    [self updateBar];
+    
     //Add chart border lines
 
     if (_showChartBorder) {

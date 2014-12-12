@@ -38,7 +38,8 @@
 
 - (void)setGrade:(float)grade
 {
-    _grade = grade;
+    NSLog(@"New garde %f",grade);
+
     UIBezierPath *progressline = [UIBezierPath bezierPath];
 
     [progressline moveToPoint:CGPointMake(self.frame.size.width / 2.0, self.frame.size.height)];
@@ -46,7 +47,7 @@
 
     [progressline setLineWidth:1.0];
     [progressline setLineCapStyle:kCGLineCapSquare];
-    _chartLine.path = progressline.CGPath;
+
 
     if (_barColor) {
         _chartLine.strokeColor = [_barColor CGColor];
@@ -55,45 +56,69 @@
         _chartLine.strokeColor = [PNGreen CGColor];
     }
 
-    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    pathAnimation.duration = 1.0;
-    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    pathAnimation.fromValue = @0.0f;
-    pathAnimation.toValue = @1.0f;
-    [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-
-    _chartLine.strokeEnd = 1.0;
-
-    // Check if user wants to add a gradient from the start color to the bar color
-    if (_barColorGradientStart) {
-
-        // Add gradient
-        CAShapeLayer *gradientMask = [CAShapeLayer layer];
-        gradientMask.fillColor = [[UIColor clearColor] CGColor];
-        gradientMask.strokeColor = [[UIColor blackColor] CGColor];
-        gradientMask.lineWidth    = self.frame.size.width;
-        gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-        gradientMask.path = progressline.CGPath;
-
-
-        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-        gradientLayer.startPoint = CGPointMake(0.5,1.0);
-        gradientLayer.endPoint = CGPointMake(0.5,0.0);
-        gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-        UIColor *endColor = (_barColor ? _barColor : [UIColor greenColor]);
-        NSArray *colors = @[
-                            (id)_barColorGradientStart.CGColor,
-                            (id)endColor.CGColor
-                            ];
-        gradientLayer.colors = colors;
-
-        [gradientLayer setMask:gradientMask];
-
-        [_chartLine addSublayer:gradientLayer];
-
-        gradientMask.strokeEnd = 1.0;
-        [gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+    if (_grade) {
+        
+        CABasicAnimation * pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        pathAnimation.fromValue = (id)_chartLine.path;
+        pathAnimation.toValue = (id)[progressline CGPath];
+        pathAnimation.duration = 0.5f;
+        pathAnimation.autoreverses = NO;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        [_chartLine addAnimation:pathAnimation forKey:@"animationKey"];
+        
+        _chartLine.path = progressline.CGPath;
+        
+        if (_barColorGradientStart) {
+            
+            // Add gradient
+            [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
+            self.gradientMask.path = progressline.CGPath;
+        }
+        
+    }else{
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        pathAnimation.duration = 1.0;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        pathAnimation.fromValue = @0.0f;
+        pathAnimation.toValue = @1.0f;
+        [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        
+        _chartLine.strokeEnd = 1.0;
+        
+        _chartLine.path = progressline.CGPath;
+        // Check if user wants to add a gradient from the start color to the bar color
+        if (_barColorGradientStart) {
+            
+            // Add gradient
+            self.gradientMask = [CAShapeLayer layer];
+            self.gradientMask.fillColor = [[UIColor clearColor] CGColor];
+            self.gradientMask.strokeColor = [[UIColor blackColor] CGColor];
+            self.gradientMask.lineWidth    = self.frame.size.width;
+            self.gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+            self.gradientMask.path = progressline.CGPath;
+            
+            
+            CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+            gradientLayer.startPoint = CGPointMake(0.5,1.0);
+            gradientLayer.endPoint = CGPointMake(0.5,0.0);
+            gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+            UIColor *endColor = (_barColor ? _barColor : [UIColor greenColor]);
+            NSArray *colors = @[
+                                (id)_barColorGradientStart.CGColor,
+                                (id)endColor.CGColor
+                                ];
+            gradientLayer.colors = colors;
+            
+            [gradientLayer setMask:self.gradientMask];
+            
+            [_chartLine addSublayer:gradientLayer];
+            
+            self.gradientMask.strokeEnd = 1.0;
+            [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        }
     }
+    
+    _grade = grade;
 
 }
 
