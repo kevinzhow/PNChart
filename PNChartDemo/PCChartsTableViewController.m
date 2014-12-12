@@ -32,25 +32,7 @@
     } else if ([segue.identifier isEqualToString:@"circleChart"])
     {
         //Add circle chart
-        UILabel * circleChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
-        circleChartLabel.text = @"Circle Chart";
-        circleChartLabel.textColor = PNFreshGreen;
-        circleChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
-        circleChartLabel.textAlignment = NSTextAlignmentCenter;
 
-        PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0)
-                                                                     total:@100
-                                                                   current:@60
-                                                                 clockwise:YES
-                                                                    shadow:YES];
-        circleChart.backgroundColor = [UIColor clearColor];
-        [circleChart setStrokeColor:PNGreen];
-        [circleChart setStrokeColorGradientStart:[UIColor blueColor]];
-        [circleChart strokeChart];
-
-        [viewController.view addSubview:circleChartLabel];
-
-        [viewController.view addSubview:circleChart];
         viewController.title = @"Circle Chart";
 
     } else if ([segue.identifier isEqualToString:@"pieChart"])

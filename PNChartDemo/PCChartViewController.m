@@ -13,13 +13,11 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    self.titleLabel.textColor = PNFreshGreen;
     
     if ([self.title isEqualToString:@"Line Chart"]) {
-        UILabel * lineChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
-        lineChartLabel.text = @"Line Chart";
-        lineChartLabel.textColor = PNFreshGreen;
-        lineChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
-        lineChartLabel.textAlignment = NSTextAlignmentCenter;
+
+        self.titleLabel.text = @"Line Chart";
         
         self.lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
         self.lineChart.yLabelFormat = @"%1.1f";
@@ -58,16 +56,12 @@
         [self.lineChart strokeChart];
         self.lineChart.delegate = self;
         
-        [self.view addSubview:lineChartLabel];
+
         [self.view addSubview:self.lineChart];
     }
     else if ([self.title isEqualToString:@"Bar Chart"])
     {
-        UILabel * barChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
-        barChartLabel.text = @"Bar Chart";
-        barChartLabel.textColor = PNFreshGreen;
-        barChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
-        barChartLabel.textAlignment = NSTextAlignmentCenter;
+        self.titleLabel.text = @"Bar Chart";
         
         self.barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
         self.barChart.backgroundColor = [UIColor clearColor];
@@ -88,8 +82,24 @@
         
         self.barChart.delegate = self;
         
-        [self.view addSubview:barChartLabel];
         [self.view addSubview:self.barChart];
+    }
+    else if ([self.title isEqualToString:@"Circle Chart"])
+    {
+        self.titleLabel.text = @"Circle Chart";
+
+        
+        self.circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0)
+                                                                     total:@100
+                                                                   current:@60
+                                                                 clockwise:YES
+                                                                    shadow:YES];
+        self.circleChart.backgroundColor = [UIColor clearColor];
+        [self.circleChart setStrokeColor:PNGreen];
+        [self.circleChart setStrokeColorGradientStart:[UIColor blueColor]];
+        [self.circleChart strokeChart];
+        
+        [self.view addSubview:self.circleChart];
     }
 }
 
@@ -137,6 +147,10 @@
     {
         [self.barChart setXLabels:@[@"Jan 1",@"Jan 2",@"Jan 3",@"Jan 4",@"Jan 5",@"Jan 6",@"Jan 7"]];
         [self.barChart updateChartData:@[@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30)]];
+    }
+    else if ([self.title isEqualToString:@"Circle Chart"])
+    {
+        [self.circleChart updateChartByCurrent:@(arc4random() % 100)];
     }
     
 }

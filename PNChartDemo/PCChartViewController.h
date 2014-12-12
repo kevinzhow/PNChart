@@ -14,6 +14,8 @@
 
 @property (nonatomic) PNLineChart * lineChart;
 @property (nonatomic) PNBarChart * barChart;
+@property (nonatomic) PNCircleChart * circleChart;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 - (IBAction)changeValue:(id)sender;
 
