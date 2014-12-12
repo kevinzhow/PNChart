@@ -58,21 +58,32 @@
     CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
     NSString *yLabelFormat = self.yLabelFormat ? : @"%1.f";
 
+    if (_yChartLabels) {
+        for (PNChartLabel * label in _yChartLabels) {
+            [label removeFromSuperview];
+        }
+    }else{
+        _yChartLabels = [NSMutableArray new];
+    }
+
     if (yStep == 0.0) {
         PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)_chartCavanHeight, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
         minLabel.text = [NSString stringWithFormat:yLabelFormat, 0.0];
         [self setCustomStyleForYLabel:minLabel];
         [self addSubview:minLabel];
+        [_yChartLabels addObject:minLabel];
 
         PNChartLabel *midLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight / 2), (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
         midLabel.text = [NSString stringWithFormat:yLabelFormat, _yValueMax];
         [self setCustomStyleForYLabel:midLabel];
         [self addSubview:midLabel];
+        [_yChartLabels addObject:midLabel];
 
         PNChartLabel *maxLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
         maxLabel.text = [NSString stringWithFormat:yLabelFormat, _yValueMax * 2];
         [self setCustomStyleForYLabel:maxLabel];
         [self addSubview:maxLabel];
+        [_yChartLabels addObject:maxLabel];
 
     } else {
         NSInteger index = 0;
@@ -85,6 +96,7 @@
             label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
             [self setCustomStyleForYLabel:label];
             [self addSubview:label];
+            [_yChartLabels addObject:label];
             index += 1;
             num -= 1;
         }
@@ -439,10 +451,6 @@
 - (void)setChartData:(NSArray *)data
 {
     if (data != _chartData) {
-        NSMutableArray *yLabelsArray = [NSMutableArray arrayWithCapacity:data.count];
-        CGFloat yMax = 0.0f;
-        CGFloat yMin = MAXFLOAT;
-        CGFloat yValue;
 
         // remove all shape layers before adding new ones
         for (CALayer *layer in self.chartLineArray) {
@@ -475,35 +483,50 @@
             pointLayer.lineWidth     = chartData.lineWidth;
             [self.layer addSublayer:pointLayer];
             [self.chartPointArray addObject:pointLayer];
-
-            for (NSUInteger i = 0; i < chartData.itemCount; i++) {
-                yValue = chartData.getData(i).y;
-                [yLabelsArray addObject:[NSString stringWithFormat:@"%2f", yValue]];
-                yMax = fmaxf(yMax, yValue);
-                yMin = fminf(yMin, yValue);
-            }
         }
-
-        // Min value for Y label
-        if (yMax < 5) {
-            yMax = 5.0f;
-        }
-
-        if (yMin < 0) {
-            yMin = 0.0f;
-        }
-
-        _yValueMin = yMin;
-        _yValueMax = yMax;
 
         _chartData = data;
-
-        if (_showLabel) {
-            [self setYLabels:yLabelsArray];
-        }
+        
+        [self prepareYLabelsWithData:data];
 
         [self setNeedsDisplay];
     }
+}
+
+-(void)prepareYLabelsWithData:(NSArray *)data
+{
+    CGFloat yMax = 0.0f;
+    CGFloat yMin = MAXFLOAT;
+    NSMutableArray *yLabelsArray = [NSMutableArray new];
+    
+    for (PNLineChartData *chartData in data) {
+        // create as many chart line layers as there are data-lines
+        
+        for (NSUInteger i = 0; i < chartData.itemCount; i++) {
+            CGFloat yValue = chartData.getData(i).y;
+            [yLabelsArray addObject:[NSString stringWithFormat:@"%2f", yValue]];
+            yMax = fmaxf(yMax, yValue);
+            yMin = fminf(yMin, yValue);
+        }
+    }
+    
+    
+    // Min value for Y label
+    if (yMax < 5) {
+        yMax = 5.0f;
+    }
+    
+    if (yMin < 0) {
+        yMin = 0.0f;
+    }
+    
+    _yValueMin = yMin;
+    _yValueMax = yMax + yMax / 10.0;
+    
+    if (_showLabel) {
+        [self setYLabels:yLabelsArray];
+    }
+    
 }
 
 #pragma mark - Update Chart Data
@@ -511,6 +534,8 @@
 - (void)updateChartData:(NSArray *)data
 {
     _chartData = data;
+    
+    [self prepareYLabelsWithData:data];
     
     [self calculateChartPath:_chartPath andPointsPath:_pointPath andPathKeyPoints:_pathPoints];
     
