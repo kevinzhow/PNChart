@@ -10,7 +10,6 @@
 
 @implementation PCChartViewController
 
-
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -27,6 +26,11 @@
         self.lineChart.backgroundColor = [UIColor clearColor];
         [self.lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         self.lineChart.showCoordinateAxis = YES;
+        
+        //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
+        //Only if you needed
+        self.lineChart.yFixedValueMax = 500.0;
+        self.lineChart.yFixedValueMin = 1.0;
         
         // Line Chart #1
         NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2, @127.2, @176.2];
@@ -52,11 +56,40 @@
         
         self.lineChart.chartData = @[data01, data02];
         [self.lineChart strokeChart];
-        
         self.lineChart.delegate = self;
         
         [self.view addSubview:lineChartLabel];
         [self.view addSubview:self.lineChart];
+    }
+    else if ([self.title isEqualToString:@"Bar Chart"])
+    {
+        UILabel * barChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
+        barChartLabel.text = @"Bar Chart";
+        barChartLabel.textColor = PNFreshGreen;
+        barChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
+        barChartLabel.textAlignment = NSTextAlignmentCenter;
+        
+        self.barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+        self.barChart.backgroundColor = [UIColor clearColor];
+        self.barChart.yLabelFormatter = ^(CGFloat yValue){
+            CGFloat yValueParsed = yValue;
+            NSString * labelText = [NSString stringWithFormat:@"%1.f",yValueParsed];
+            return labelText;
+        };
+        self.barChart.labelMarginTop = 5.0;
+        [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
+        self.barChart.rotateForXAxisText = true ;
+        [self.barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
+        [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
+        // Adding gradient
+        self.barChart.barColorGradientStart = [UIColor blueColor];
+        
+        [self.barChart strokeChart];
+        
+        self.barChart.delegate = self;
+        
+        [self.view addSubview:barChartLabel];
+        [self.view addSubview:self.barChart];
     }
 }
 
@@ -71,8 +104,8 @@
 
 
 - (IBAction)changeValue:(id)sender {
+    
     if ([self.title isEqualToString:@"Line Chart"]) {
-        
         
         // Line Chart #1
         NSArray * data01Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
@@ -100,6 +133,33 @@
         [self.lineChart updateChartData:@[data01, data02]];
         
     }
+    else if ([self.title isEqualToString:@"Bar Chart"])
+    {
+        [self.barChart setXLabels:@[@"Jan 1",@"Jan 2",@"Jan 3",@"Jan 4",@"Jan 5",@"Jan 6",@"Jan 7"]];
+        [self.barChart setYValues:@[@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30)]];
+    }
+    
+}
+
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
+{
+    
+    NSLog(@"Click on bar %@", @(barIndex));
+    
+    PNBar * bar = [self.barChart.bars objectAtIndex:barIndex];
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    
+    animation.fromValue = @1.0;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.toValue = @1.1;
+    animation.duration = 0.2;
+    animation.repeatCount = 0;
+    animation.autoreverses = YES;
+    animation.removedOnCompletion = YES;
+    animation.fillMode = kCAFillModeForwards;
+    
+    [bar.layer addAnimation:animation forKey:@"Float"];
 }
 
 @end

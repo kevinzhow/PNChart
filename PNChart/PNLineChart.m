@@ -305,7 +305,6 @@
         
         CGFloat yValue;
         CGFloat innerGrade;
-
         
         UIBezierPath *progressline = [UIBezierPath bezierPath];
         [progressline setLineWidth:chartData.lineWidth];
@@ -520,8 +519,8 @@
         yMin = 0.0f;
     }
     
-    _yValueMin = yMin;
-    _yValueMax = yMax + yMax / 10.0;
+    _yValueMin = _yFixedValueMin ? _yFixedValueMin : yMin ;
+    _yValueMax = _yFixedValueMax ? _yFixedValueMax : yMax + yMax / 10.0;
     
     if (_showLabel) {
         [self setYLabels:yLabelsArray];

@@ -12,6 +12,4 @@
 
 @interface PCChartsTableViewController : UITableViewController<PNChartDelegate>
 
-@property (nonatomic) PNBarChart * barChart;
-
 @end

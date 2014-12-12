@@ -28,34 +28,6 @@
     {
         //Add bar chart
 
-        UILabel * barChartLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, SCREEN_WIDTH, 30)];
-        barChartLabel.text = @"Bar Chart";
-        barChartLabel.textColor = PNFreshGreen;
-        barChartLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:23.0];
-        barChartLabel.textAlignment = NSTextAlignmentCenter;
-
-        self.barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-        self.barChart.backgroundColor = [UIColor clearColor];
-        self.barChart.yLabelFormatter = ^(CGFloat yValue){
-            CGFloat yValueParsed = yValue;
-            NSString * labelText = [NSString stringWithFormat:@"%1.f",yValueParsed];
-            return labelText;
-        };
-        self.barChart.labelMarginTop = 5.0;
-        [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
-        self.barChart.rotateForXAxisText = true ;
-        [self.barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
-        [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
-        // Adding gradient
-        self.barChart.barColorGradientStart = [UIColor blueColor];
-
-        [self.barChart strokeChart];
-
-        self.barChart.delegate = self;
-
-        [viewController.view addSubview:barChartLabel];
-        [viewController.view addSubview:self.barChart];
-
         viewController.title = @"Bar Chart";
     } else if ([segue.identifier isEqualToString:@"circleChart"])
     {
@@ -117,25 +89,6 @@
     NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
 }
 
-- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
-{
 
-    NSLog(@"Click on bar %@", @(barIndex));
-
-    PNBar * bar = [self.barChart.bars objectAtIndex:barIndex];
-
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-
-    animation.fromValue = @1.0;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    animation.toValue = @1.1;
-    animation.duration = 0.2;
-    animation.repeatCount = 0;
-    animation.autoreverses = YES;
-    animation.removedOnCompletion = YES;
-    animation.fillMode = kCAFillModeForwards;
-
-    [bar.layer addAnimation:animation forKey:@"Float"];
-}
 
 @end

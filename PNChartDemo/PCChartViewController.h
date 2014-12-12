@@ -13,6 +13,8 @@
 @interface PCChartViewController : UIViewController<PNChartDelegate>
 
 @property (nonatomic) PNLineChart * lineChart;
+@property (nonatomic) PNBarChart * barChart;
+
 - (IBAction)changeValue:(id)sender;
 
 @end
