@@ -28,7 +28,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
 
 [CocoaPods](http://cocoapods.org) is the recommended way to add PNChart to your project.
 
-1. Add a pod entry for PNChart to your Podfile `pod 'PNChart', '~> 0.5.5'`
+1. Add a pod entry for PNChart to your Podfile `pod 'PNChart', '~> 0.6.0'`
 2. Install the pod(s) by running `pod install`.
 3. Include PNChart wherever you need it with `#import "PNChart.h"`.
 
@@ -116,12 +116,54 @@ pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0]
 [pieChart strokeChart];
 ```
 
-#### Callback
+#### Update Value
 
-Currently callback only works on Linechart
+Now it's easy to update value in real time
 
 ```objective-c
-  #import "PNChart.h"
+if ([self.title isEqualToString:@"Line Chart"]) {
+
+    // Line Chart #1
+    NSArray * data01Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
+    PNLineChartData *data01 = [PNLineChartData new];
+    data01.color = PNFreshGreen;
+    data01.itemCount = data01Array.count;
+    data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
+    data01.getData = ^(NSUInteger index) {
+        CGFloat yValue = [data01Array[index] floatValue];
+        return [PNLineChartDataItem dataItemWithY:yValue];
+    };
+
+    // Line Chart #2
+    NSArray * data02Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
+    PNLineChartData *data02 = [PNLineChartData new];
+    data02.color = PNTwitterColor;
+    data02.itemCount = data02Array.count;
+    data02.inflexionPointStyle = PNLineChartPointStyleSquare;
+    data02.getData = ^(NSUInteger index) {
+        CGFloat yValue = [data02Array[index] floatValue];
+        return [PNLineChartDataItem dataItemWithY:yValue];
+    };
+
+    [self.lineChart setXLabels:@[@"DEC 1",@"DEC 2",@"DEC 3",@"DEC 4",@"DEC 5",@"DEC 6",@"DEC 7"]];
+    [self.lineChart updateChartData:@[data01, data02]];
+
+}
+else if ([self.title isEqualToString:@"Bar Chart"])
+{
+    [self.barChart setXLabels:@[@"Jan 1",@"Jan 2",@"Jan 3",@"Jan 4",@"Jan 5",@"Jan 6",@"Jan 7"]];
+    [self.barChart updateChartData:@[@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30)]];
+}
+else if ([self.title isEqualToString:@"Circle Chart"])
+{
+    [self.circleChart updateChartByCurrent:@(arc4random() % 100)];
+}
+```
+
+#### Callback
+
+```objective-c
+#import "PNChart.h"
 
 //For LineChart
 
