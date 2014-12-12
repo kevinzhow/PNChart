@@ -75,7 +75,7 @@
         
         
         // Line Chart #1
-        NSArray * data01Array = @[@30.1, @220.1, @106.4, @22.2, @136.2, @67.2, @36.2];
+        NSArray * data01Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
         data01.itemCount = data01Array.count;
@@ -86,7 +86,7 @@
         };
         
         // Line Chart #2
-        NSArray * data02Array = @[@60.1, @120.1, @126.4, @102.2, @56.2, @87.2, @136.2];
+        NSArray * data02Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
         PNLineChartData *data02 = [PNLineChartData new];
         data02.color = PNTwitterColor;
         data02.itemCount = data02Array.count;
@@ -96,6 +96,7 @@
             return [PNLineChartDataItem dataItemWithY:yValue];
         };
         
+        [self.lineChart setXLabels:@[@"DEC 1",@"DEC 2",@"DEC 3",@"DEC 4",@"DEC 5",@"DEC 6",@"DEC 7"]];
         [self.lineChart updateChartData:@[data01, data02]];
         
     }

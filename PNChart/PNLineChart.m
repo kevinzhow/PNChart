@@ -108,7 +108,14 @@
 {
     _xLabels = xLabels;
     _xLabelWidth = width;
-
+    if (_xChartLabels) {
+        for (PNChartLabel * label in _xChartLabels) {
+            [label removeFromSuperview];
+        }
+    }else{
+        _xChartLabels = [NSMutableArray new];
+    }
+    
     NSString *labelText;
 
     if (_showLabel) {
@@ -123,6 +130,7 @@
             label.text = labelText;
             [self setCustomStyleForXLabel:label];
             [self addSubview:label];
+            [_xChartLabels addObject:label];
         }
     }
 }

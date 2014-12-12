@@ -28,6 +28,7 @@
 @property (nonatomic) NSArray *chartData;
 
 @property (nonatomic) NSMutableArray *pathPoints;
+@property (nonatomic) NSMutableArray *xChartLabels;
 @property (nonatomic) CGFloat xLabelWidth;
 @property (nonatomic) UIFont *xLabelFont;
 @property (nonatomic) UIColor *xLabelColor;
