@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PNChartDelegate.h"
-#import "PNChart.h"
 
-@interface PCChartsTableViewController : UITableViewController<PNChartDelegate>
+@interface PCChartsTableViewController : UITableViewController
 
 @end

@@ -101,6 +101,25 @@
         
         [self.view addSubview:self.circleChart];
     }
+    else if ([self.title isEqualToString:@"Pie Chart"])
+    {
+        self.titleLabel.text = @"Pie Chart";
+        
+        NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNLightGreen],
+                           [PNPieChartDataItem dataItemWithValue:20 color:PNFreshGreen description:@"WWDC"],
+                           [PNPieChartDataItem dataItemWithValue:40 color:PNDeepGreen description:@"GOOG I/O"],
+                           ];
+        
+        self.pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /2.0 - 100, 135, 200.0, 200.0) items:items];
+        self.pieChart.descriptionTextColor = [UIColor whiteColor];
+        self.pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+        self.pieChart.descriptionTextShadowColor = [UIColor clearColor];
+        [self.pieChart strokeChart];
+        
+    
+        [self.view addSubview:self.pieChart];
+        self.changeValueButton.hidden = YES;
+    }
 }
 
 

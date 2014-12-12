@@ -43,6 +43,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="PNChart" id="Ukg-Sg-E2z"/>
                     <connections>
+                        <outlet property="changeValueButton" destination="L3F-13-Wf5" id="JnI-y3-Xpj"/>
                         <outlet property="titleLabel" destination="FUU-vZ-jMd" id="dA3-KC-Ht4"/>
                     </connections>
                 </viewController>
