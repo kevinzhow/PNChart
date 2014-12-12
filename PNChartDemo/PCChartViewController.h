@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNChartDelegate.h"
+#import "PNChart.h"
 
-@interface PCChartViewController : UIViewController
+@interface PCChartViewController : UIViewController<PNChartDelegate>
+
+@property (nonatomic) PNLineChart * lineChart;
+@property (nonatomic) PNBarChart * barChart;
+@property (nonatomic) PNCircleChart * circleChart;
+@property (nonatomic) PNPieChart *pieChart;
+
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+- (IBAction)changeValue:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *changeValueButton;
 
 @end

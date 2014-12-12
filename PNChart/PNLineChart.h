@@ -28,10 +28,15 @@
 @property (nonatomic) NSArray *chartData;
 
 @property (nonatomic) NSMutableArray *pathPoints;
+@property (nonatomic) NSMutableArray *xChartLabels;
+@property (nonatomic) NSMutableArray *yChartLabels;
+
 @property (nonatomic) CGFloat xLabelWidth;
 @property (nonatomic) UIFont *xLabelFont;
 @property (nonatomic) UIColor *xLabelColor;
 @property (nonatomic) CGFloat yValueMax;
+@property (nonatomic) CGFloat yFixedValueMax;
+@property (nonatomic) CGFloat yFixedValueMin;
 @property (nonatomic) CGFloat yValueMin;
 @property (nonatomic) NSInteger yLabelNum;
 @property (nonatomic) CGFloat yLabelHeight;
@@ -58,5 +63,11 @@
 @property (nonatomic, strong) NSString *yLabelFormat;
 
 - (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width;
+
+/**
+ * Update Chart Value
+ */
+
+- (void)updateChartData:(NSArray *)data;
 
 @end

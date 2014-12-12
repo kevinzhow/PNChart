@@ -22,6 +22,7 @@ typedef NS_ENUM (NSUInteger, PNChartFormatType) {
 
 - (void)strokeChart;
 - (void)growChartByAmount:(NSNumber *)growAmount;
+- (void)updateChartByCurrent:(NSNumber *)current;
 - (id)initWithFrame:(CGRect)frame
               total:(NSNumber *)total
             current:(NSNumber *)current
@@ -37,7 +38,9 @@ typedef NS_ENUM (NSUInteger, PNChartFormatType) {
 @property (nonatomic) NSTimeInterval duration;
 @property (nonatomic) PNChartFormatType chartType;
 
+
 @property (nonatomic) CAShapeLayer *circle;
+@property (nonatomic) CAShapeLayer *gradientMask;
 @property (nonatomic) CAShapeLayer *circleBackground;
 
 @end
