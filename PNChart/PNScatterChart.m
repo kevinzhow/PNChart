@@ -181,8 +181,8 @@
 - (void)setChartData:(NSArray *)data
 {
     if (data != _chartData) {
-        CGFloat yFinilizeValue , xFinilizeValue;
-        CGFloat yValue , xValue;
+        __block CGFloat yFinilizeValue , xFinilizeValue;
+        __block CGFloat yValue , xValue;
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
         pathAnimation.duration = _duration;
         pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -191,22 +191,28 @@
         pathAnimation.fillMode = kCAFillModeForwards;
         self.layer.opacity = 1;
         
-        for (PNScatterChartData *chartData in data) {
-            for (NSUInteger i = 0; i < chartData.itemCount; i++) {
-                yValue = chartData.getData(i).y;
-                xValue = chartData.getData(i).x;
-                if (!(xValue >= _AxisX_minValue && xValue <= _AxisX_maxValue) || !(yValue >= _AxisY_minValue && yValue <= _AxisY_maxValue)) {
-                    NSLog(@"input is not in correct range.");
-                    exit(0);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [NSThread sleepForTimeInterval:1];
+            // update UI on the main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                for (PNScatterChartData *chartData in data) {
+                    for (NSUInteger i = 0; i < chartData.itemCount; i++) {
+                        yValue = chartData.getData(i).y;
+                        xValue = chartData.getData(i).x;
+                        if (!(xValue >= _AxisX_minValue && xValue <= _AxisX_maxValue) || !(yValue >= _AxisY_minValue && yValue <= _AxisY_maxValue)) {
+                            NSLog(@"input is not in correct range.");
+                            exit(0);
+                        }
+                        xFinilizeValue = [self mappingIsForAxisX:true WithValue:xValue];
+                        yFinilizeValue = [self mappingIsForAxisX:false WithValue:yValue];
+                        CAShapeLayer *shape = [self drawingPointsForChartData:chartData AndWithX:xFinilizeValue AndWithY:yFinilizeValue];
+                        [self.layer addSublayer:shape];
+                        self.pathLayer = shape ;
+                        [self.pathLayer addAnimation:pathAnimation forKey:@"fade"];
+                    }
                 }
-                xFinilizeValue = [self mappingIsForAxisX:true WithValue:xValue];
-                yFinilizeValue = [self mappingIsForAxisX:false WithValue:yValue];
-                CAShapeLayer *shape = [self drawingPointsForChartData:chartData AndWithX:xFinilizeValue AndWithY:yFinilizeValue];
-                [self.layer addSublayer:shape];
-                self.pathLayer = shape ;
-                [self.pathLayer addAnimation:pathAnimation forKey:@"fade"];
-            }
-        }
+            });
+        });
     }
 }
 
@@ -313,27 +319,35 @@
 }
 
 - (void) drawLineFromPoint : (CGPoint) startPoint ToPoint : (CGPoint) endPoint WithLineWith : (CGFloat) lineWidth AndWithColor : (UIColor*) color{
-    // calculating start and end point
-    CGFloat startX = [self mappingIsForAxisX:true WithValue:startPoint.x];
-    CGFloat startY = [self mappingIsForAxisX:false WithValue:startPoint.y];
-    CGFloat endX = [self mappingIsForAxisX:true WithValue:endPoint.x];
-    CGFloat endY = [self mappingIsForAxisX:false WithValue:endPoint.y];
-    // drawing path between two points
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(startX, startY)];
-    [path addLineToPoint:CGPointMake(endX, endY)];
-    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    shapeLayer.path = [path CGPath];
-    shapeLayer.strokeColor = [color CGColor];
-    shapeLayer.lineWidth = lineWidth;
-    shapeLayer.fillColor = [color CGColor];
-    // adding animation to path
-    CABasicAnimation *animateStrokeEnd = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    animateStrokeEnd.duration  = _duration;
-    animateStrokeEnd.fromValue = [NSNumber numberWithFloat:0.0f];
-    animateStrokeEnd.toValue   = [NSNumber numberWithFloat:1.0f];
-    [shapeLayer addAnimation:animateStrokeEnd forKey:nil];
-    [self.layer addSublayer:shapeLayer];
+    
+    // call the same method on a background thread
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [NSThread sleepForTimeInterval:2];
+        // calculating start and end point
+        __block CGFloat startX = [self mappingIsForAxisX:true WithValue:startPoint.x];
+        __block CGFloat startY = [self mappingIsForAxisX:false WithValue:startPoint.y];
+        __block CGFloat endX = [self mappingIsForAxisX:true WithValue:endPoint.x];
+        __block CGFloat endY = [self mappingIsForAxisX:false WithValue:endPoint.y];
+        // update UI on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // drawing path between two points
+            UIBezierPath *path = [UIBezierPath bezierPath];
+            [path moveToPoint:CGPointMake(startX, startY)];
+            [path addLineToPoint:CGPointMake(endX, endY)];
+            CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+            shapeLayer.path = [path CGPath];
+            shapeLayer.strokeColor = [color CGColor];
+            shapeLayer.lineWidth = lineWidth;
+            shapeLayer.fillColor = [color CGColor];
+            // adding animation to path
+            CABasicAnimation *animateStrokeEnd = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+            animateStrokeEnd.duration  = _duration;
+            animateStrokeEnd.fromValue = [NSNumber numberWithFloat:0.0f];
+            animateStrokeEnd.toValue   = [NSNumber numberWithFloat:1.0f];
+            [shapeLayer addAnimation:animateStrokeEnd forKey:nil];
+            [self.layer addSublayer:shapeLayer];
+        });
+    });
 }
 
 @end
