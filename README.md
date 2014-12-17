@@ -229,4 +229,8 @@ This code is distributed under the terms and conditions of the [MIT license](LIC
 ## SpecialThanks
 
 [@lexrus](http://twitter.com/lexrus)  CocoaPods Spec
+[ZhangHang](http://zhanghang.github.com)  Pie Chart
+[MrWooj](https://github.com/MrWooJ) Scatter Chart
+
+
 
