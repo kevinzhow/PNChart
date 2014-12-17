@@ -307,12 +307,8 @@
         CGFloat innerGrade;
         
         UIBezierPath *progressline = [UIBezierPath bezierPath];
-        [progressline setLineWidth:chartData.lineWidth];
-        [progressline setLineCapStyle:kCGLineCapRound];
-        [progressline setLineJoinStyle:kCGLineJoinRound];
         
         UIBezierPath *pointPath = [UIBezierPath bezierPath];
-        [pointPath setLineWidth:chartData.lineWidth];
         
         
         [chartPath insertObject:progressline atIndex:lineIndex];

@@ -20,8 +20,6 @@ PNChart works on iOS 6.0 and later version and is compatible with ARC projects. 
 You will need LLVM 3.0 or later in order to build PNChart.
 
 
-
-
 ## Usage
 
 ### Cocoapods
