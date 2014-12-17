@@ -40,9 +40,12 @@
         //Add pie chart
 
         viewController.title = @"Pie Chart";
+    } else if ([segue.identifier isEqualToString:@"scatterChart"])
+    {
+        //Add scatter chart
+        
+        viewController.title = @"Scatter Chart";
     }
 }
-
-
 
 @end
