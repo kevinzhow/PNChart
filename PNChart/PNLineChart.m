@@ -262,7 +262,7 @@
         UIGraphicsBeginImageContext(self.frame.size);
         // setup the color of the chart line
         if (chartData.color) {
-            chartLine.strokeColor = [chartData.color CGColor];
+            chartLine.strokeColor = [[chartData.color colorWithAlphaComponent:chartData.alpha]CGColor];
         } else {
             chartLine.strokeColor = [PNGreen CGColor];
             pointLayer.strokeColor = [PNGreen CGColor];
@@ -471,7 +471,7 @@
 
             // create point
             CAShapeLayer *pointLayer = [CAShapeLayer layer];
-            pointLayer.strokeColor   = [chartData.color CGColor];
+            pointLayer.strokeColor   = [[chartData.color colorWithAlphaComponent:chartData.alpha]CGColor];
             pointLayer.lineCap       = kCALineCapRound;
             pointLayer.lineJoin      = kCALineJoinBevel;
             pointLayer.fillColor     = nil;
