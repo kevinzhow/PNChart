@@ -37,46 +37,46 @@ You will need LLVM 3.0 or later in order to build PNChart.
 [![](https://dl.dropboxusercontent.com/u/1599662/line.png)](https://dl.dropboxusercontent.com/u/1599662/line.png)
 
 ```objective-c
-  #import "PNChart.h"
+#import "PNChart.h"
 
-  //For LineChart
-  PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-  [lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
+//For Line Chart
+PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+[lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
 
-  // Line Chart No.1
-  NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2];
-  PNLineChartData *data01 = [PNLineChartData new];
-  data01.color = PNFreshGreen;
-  data01.itemCount = lineChart.xLabels.count;
-  data01.getData = ^(NSUInteger index) {
-      CGFloat yValue = [data01Array[index] floatValue];
-      return [PNLineChartDataItem dataItemWithY:yValue];
-  };
-  // Line Chart No.2
-  NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2];
-  PNLineChartData *data02 = [PNLineChartData new];
-  data02.color = PNTwitterColor;
-  data02.itemCount = lineChart.xLabels.count;
-  data02.getData = ^(NSUInteger index) {
-      CGFloat yValue = [data02Array[index] floatValue];
-      return [PNLineChartDataItem dataItemWithY:yValue];
-  };
+// Line Chart No.1
+NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2];
+PNLineChartData *data01 = [PNLineChartData new];
+data01.color = PNFreshGreen;
+data01.itemCount = lineChart.xLabels.count;
+data01.getData = ^(NSUInteger index) {
+    CGFloat yValue = [data01Array[index] floatValue];
+    return [PNLineChartDataItem dataItemWithY:yValue];
+};
+// Line Chart No.2
+NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2];
+PNLineChartData *data02 = [PNLineChartData new];
+data02.color = PNTwitterColor;
+data02.itemCount = lineChart.xLabels.count;
+data02.getData = ^(NSUInteger index) {
+    CGFloat yValue = [data02Array[index] floatValue];
+    return [PNLineChartDataItem dataItemWithY:yValue];
+};
 
-  lineChart.chartData = @[data01, data02];
-  [lineChart strokeChart];
+lineChart.chartData = @[data01, data02];
+[lineChart strokeChart];
 
 ```
 
 [![](https://dl.dropboxusercontent.com/u/1599662/bar.png)](https://dl.dropboxusercontent.com/u/1599662/bar.png)
 
 ```objective-c
-  #import "PNChart.h"
+#import "PNChart.h"
 
-  //For BarChart
-  PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-  [barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
-  [barChart setYValues:@[@1,  @10, @2, @6, @3]];
-  [barChart strokeChart];
+//For BarC hart
+PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+[barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
+[barChart setYValues:@[@1,  @10, @2, @6, @3]];
+[barChart strokeChart];
 
 ```
 
@@ -86,7 +86,7 @@ You will need LLVM 3.0 or later in order to build PNChart.
 ```objective-c
 #import "PNChart.h"
 
-//For CircleChart
+//For Circle Chart
 
 PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:NO];
 circleChart.backgroundColor = [UIColor clearColor];
@@ -100,7 +100,7 @@ circleChart.backgroundColor = [UIColor clearColor];
 
 ```objective-c
 # import "PNChart.h"
-//For PieChart
+//For Pie Chart
 NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNRed],
                            [PNPieChartDataItem dataItemWithValue:20 color:PNBlue description:@"WWDC"],
                            [PNPieChartDataItem dataItemWithValue:40 color:PNGreen description:@"GOOL I/O"],
@@ -112,6 +112,42 @@ PNPieChart *pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(40.0, 155.0,
 pieChart.descriptionTextColor = [UIColor whiteColor];
 pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0];
 [pieChart strokeChart];
+```
+
+[![](https://dl.dropboxusercontent.com/u/1599662/scatter.png)](https://dl.dropboxusercontent.com/u/1599662/scatter.png)
+
+```objective-c
+# import "PNChart.h"
+//For Scatter Chart
+
+PNScatterChart *scatterChart = [[PNScatterChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /6.0 - 30, 135, 280, 200)];
+[scatterChart setAxisXWithMinimumValue:20 andMaxValue:100 toTicks:6];
+[scatterChart setAxisYWithMinimumValue:30 andMaxValue:50 toTicks:5];
+
+NSArray * data01Array = [self randomSetOfObjects];
+PNScatterChartData *data01 = [PNScatterChartData new];
+data01.strokeColor = PNGreen;
+data01.fillColor = PNFreshGreen;
+data01.size = 2;
+data01.itemCount = [[data01Array objectAtIndex:0] count];
+data01.inflexionPointStyle = PNScatterChartPointStyleCircle;
+__block NSMutableArray *XAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:0]];
+__block NSMutableArray *YAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:1]];
+data01.getData = ^(NSUInteger index) {
+    CGFloat xValue = [[XAr1 objectAtIndex:index] floatValue];
+    CGFloat yValue = [[YAr1 objectAtIndex:index] floatValue];
+    return [PNScatterChartDataItem dataItemWithX:xValue AndWithY:yValue];
+};
+
+[scatterChart setup];
+self.scatterChart.chartData = @[data01];
+/***
+this is for drawing line to compare
+CGPoint start = CGPointMake(20, 35);
+CGPoint end = CGPointMake(80, 45);
+[scatterChart drawLineFromPoint:start ToPoint:end WithLineWith:2 AndWithColor:PNBlack];
+***/
+scatterChart.delegate = self;
 ```
 
 #### Update Value
