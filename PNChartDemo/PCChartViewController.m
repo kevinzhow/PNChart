@@ -7,6 +7,7 @@
 //
 
 #import "PCChartViewController.h"
+#define ARC4RANDOM_MAX 0x100000000
 
 @implementation PCChartViewController
 
@@ -120,6 +121,41 @@
         [self.view addSubview:self.pieChart];
         self.changeValueButton.hidden = YES;
     }
+    else if ([self.title isEqualToString:@"Scatter Chart"])
+    {
+        self.titleLabel.text = @"Scatter Chart";
+        
+        self.scatterChart = [[PNScatterChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /6.0 - 30, 135, 280, 200)];
+        [self.scatterChart setAxisXWithMinimumValue:20 andMaxValue:100 toTicks:6];
+        [self.scatterChart setAxisYWithMinimumValue:30 andMaxValue:50 toTicks:5];
+        
+        NSArray * data01Array = [self randomSetOfObjects];
+        PNScatterChartData *data01 = [PNScatterChartData new];
+        data01.strokeColor = PNGreen;
+        data01.fillColor = PNFreshGreen;
+        data01.size = 2;
+        data01.itemCount = [[data01Array objectAtIndex:0] count];
+        data01.inflexionPointStyle = PNScatterChartPointStyleCircle;
+        __block NSMutableArray *XAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:0]];
+        __block NSMutableArray *YAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:1]];
+        data01.getData = ^(NSUInteger index) {
+            CGFloat xValue = [[XAr1 objectAtIndex:index] floatValue];
+            CGFloat yValue = [[YAr1 objectAtIndex:index] floatValue];
+            return [PNScatterChartDataItem dataItemWithX:xValue AndWithY:yValue];
+        };
+        
+        [self.scatterChart setup];
+        self.scatterChart.chartData = @[data01];
+/***    
+        this is for drawing line to compare
+        CGPoint start = CGPointMake(20, 35);
+        CGPoint end = CGPointMake(80, 45);
+        [self.scatterChart drawLineFromPoint:start ToPoint:end WithLineWith:2 AndWithColor:PNBlack];
+***/
+        self.scatterChart.delegate = self;
+        self.changeValueButton.hidden = YES;
+        [self.view addSubview:self.scatterChart];
+    }
 }
 
 
@@ -171,6 +207,10 @@
     {
         [self.circleChart updateChartByCurrent:@(arc4random() % 100)];
     }
+    else if ([self.title isEqualToString:@"Scatter Chart"])
+    {
+        // will be code soon.
+    }
     
 }
 
@@ -193,6 +233,21 @@
     animation.fillMode = kCAFillModeForwards;
     
     [bar.layer addAnimation:animation forKey:@"Float"];
+}
+
+/* this function is used only for creating random points */
+- (NSArray *) randomSetOfObjects{
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *LabelFormat = @"%1.f";
+    NSMutableArray *XAr = [NSMutableArray array];
+    NSMutableArray *YAr = [NSMutableArray array];
+    for (int i = 0; i < 25 ; i++) {
+        [XAr addObject:[NSString stringWithFormat:LabelFormat,(((double)arc4random() / ARC4RANDOM_MAX) * (self.scatterChart.AxisX_maxValue - self.scatterChart.AxisX_minValue) + self.scatterChart.AxisX_minValue)]];
+        [YAr addObject:[NSString stringWithFormat:LabelFormat,(((double)arc4random() / ARC4RANDOM_MAX) * (self.scatterChart.AxisY_maxValue - self.scatterChart.AxisY_minValue) + self.scatterChart.AxisY_minValue)]];
+    }
+    [array addObject:XAr];
+    [array addObject:YAr];
+    return (NSArray*) array;
 }
 
 @end

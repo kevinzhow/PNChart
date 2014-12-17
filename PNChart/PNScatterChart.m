@@ -15,6 +15,8 @@
 @interface PNScatterChart ()
 
 @property (nonatomic, weak) CAShapeLayer *pathLayer;
+@property (nonatomic, weak) NSMutableArray *verticalLineLayer;
+@property (nonatomic, weak) NSMutableArray *horizentalLinepathLayer;
 
 @property (nonatomic) CGPoint startPoint;
 
@@ -41,6 +43,8 @@
 
 @property (nonatomic) CGFloat AxisX_Margin;
 @property (nonatomic) CGFloat AxisY_Margin;
+
+@property (nonatomic) BOOL isForUpdate;
 
 - (void)setDefaultValues;
 
@@ -83,6 +87,7 @@
     self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds   = YES;
     _showLabel           = YES;
+    _isForUpdate         = NO;
     self.userInteractionEnabled = YES;
     
     // Coordinate Axis Default Values
@@ -94,7 +99,7 @@
     _AxisX_Margin = 30 ;
     _AxisY_Margin = 30 ;
     
-    self.frame = CGRectMake((SCREEN_WIDTH - self.frame.size.width) / 2, 200, self.frame.size.width, self.frame.size.height) ;
+//    self.frame = CGRectMake((SCREEN_WIDTH - self.frame.size.width) / 2, 200, self.frame.size.width, self.frame.size.height) ;
     self.backgroundColor = [UIColor clearColor];
     
     _startPoint.y = self.frame.size.height - self.AxisY_Margin ;
@@ -122,10 +127,14 @@
     
     NSString *LabelFormat = self.yLabelFormat ? : @"%1.f";
     CGFloat tempValue = minVal ;
-    [_axisX_labels addObject:[NSString stringWithFormat:LabelFormat,minVal]];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = [NSString stringWithFormat:LabelFormat,minVal] ;
+    [_axisX_labels addObject:label];
     for (int i = 0 ; i < _AxisX_partNumber; i++) {
         tempValue = tempValue + _AxisX_step;
-        [_axisX_labels addObject:[NSString stringWithFormat:LabelFormat,tempValue]];
+        UILabel *tempLabel = [[UILabel alloc] init];
+        tempLabel.text = [NSString stringWithFormat:LabelFormat,tempValue] ;
+        [_axisX_labels addObject:tempLabel];
     }
 }
 
@@ -136,13 +145,16 @@
     _AxisY_partNumber = numberOfTicks - 1;
     _AxisY_step = (float)((maxVal - minVal)/_AxisY_partNumber);
     
-    _axisY_labels = [NSMutableArray array];
     NSString *LabelFormat = self.yLabelFormat ? : @"%1.f";
     CGFloat tempValue = minVal ;
-    [_axisY_labels addObject:[NSString stringWithFormat:LabelFormat,minVal]];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = [NSString stringWithFormat:LabelFormat,minVal] ;
+    [_axisY_labels addObject:label];
     for (int i = 0 ; i < _AxisY_partNumber; i++) {
         tempValue = tempValue + _AxisY_step;
-        [_axisY_labels addObject:[NSString stringWithFormat:LabelFormat,tempValue]];
+        UILabel *tempLabel = [[UILabel alloc] init];
+        tempLabel.text = [NSString stringWithFormat:LabelFormat,tempValue] ;
+        [_axisY_labels addObject:tempLabel];
     }
 }
 
@@ -164,11 +176,10 @@
     _startPointVectorY = _startPoint ;
 }
 
-- (void) showXLabelsInPosition : (CGPoint) point AndWithText : (NSString *) title
+- (void) showXLabel : (UILabel *) descriptionLabel InPosition : (CGPoint) point
 {
     CGRect frame = CGRectMake(point.x, point.y, 30, 10);
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:frame];
-    descriptionLabel.text = title;
+    descriptionLabel.frame = frame;
     descriptionLabel.font = _descriptionTextFont;
     descriptionLabel.textColor = _descriptionTextColor;
     descriptionLabel.shadowColor = _descriptionTextShadowColor;
@@ -180,40 +191,38 @@
 
 - (void)setChartData:(NSArray *)data
 {
-    if (data != _chartData) {
-        __block CGFloat yFinilizeValue , xFinilizeValue;
-        __block CGFloat yValue , xValue;
-        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-        pathAnimation.duration = _duration;
-        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        pathAnimation.fromValue = @(0.0f);
-        pathAnimation.toValue = @(1.0f);
-        pathAnimation.fillMode = kCAFillModeForwards;
-        self.layer.opacity = 1;
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [NSThread sleepForTimeInterval:1];
-            // update UI on the main thread
-            dispatch_async(dispatch_get_main_queue(), ^{
-                for (PNScatterChartData *chartData in data) {
-                    for (NSUInteger i = 0; i < chartData.itemCount; i++) {
-                        yValue = chartData.getData(i).y;
-                        xValue = chartData.getData(i).x;
-                        if (!(xValue >= _AxisX_minValue && xValue <= _AxisX_maxValue) || !(yValue >= _AxisY_minValue && yValue <= _AxisY_maxValue)) {
-                            NSLog(@"input is not in correct range.");
-                            exit(0);
-                        }
-                        xFinilizeValue = [self mappingIsForAxisX:true WithValue:xValue];
-                        yFinilizeValue = [self mappingIsForAxisX:false WithValue:yValue];
-                        CAShapeLayer *shape = [self drawingPointsForChartData:chartData AndWithX:xFinilizeValue AndWithY:yFinilizeValue];
-                        [self.layer addSublayer:shape];
-                        self.pathLayer = shape ;
-                        [self.pathLayer addAnimation:pathAnimation forKey:@"fade"];
+    __block CGFloat yFinilizeValue , xFinilizeValue;
+    __block CGFloat yValue , xValue;
+    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    pathAnimation.duration = _duration;
+    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    pathAnimation.fromValue = @(0.0f);
+    pathAnimation.toValue = @(1.0f);
+    pathAnimation.fillMode = kCAFillModeForwards;
+    self.layer.opacity = 1;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [NSThread sleepForTimeInterval:1];
+        // update UI on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (PNScatterChartData *chartData in data) {
+                for (NSUInteger i = 0; i < chartData.itemCount; i++) {
+                    yValue = chartData.getData(i).y;
+                    xValue = chartData.getData(i).x;
+                    if (!(xValue >= _AxisX_minValue && xValue <= _AxisX_maxValue) || !(yValue >= _AxisY_minValue && yValue <= _AxisY_maxValue)) {
+                        NSLog(@"input is not in correct range.");
+                        exit(0);
                     }
+                    xFinilizeValue = [self mappingIsForAxisX:true WithValue:xValue];
+                    yFinilizeValue = [self mappingIsForAxisX:false WithValue:yValue];
+                    CAShapeLayer *shape = [self drawingPointsForChartData:chartData AndWithX:xFinilizeValue AndWithY:yFinilizeValue];
+                    self.pathLayer = shape ;
+                    [self.layer addSublayer:self.pathLayer];
+                    [self.pathLayer addAnimation:pathAnimation forKey:@"fade"];
                 }
-            });
+            }
         });
-    }
+    });
 }
 
 - (CGFloat) mappingIsForAxisX : (BOOL) isForAxisX WithValue : (CGFloat) value{
@@ -231,52 +240,79 @@
     return 0;
 }
 
+#pragma mark - Update Chart Data
+
+- (void)updateChartData:(NSArray *)data
+{
+    _chartData = data;
+
+    // will be work in future.
+}
+
 #pragma drawing methods
 
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-    CGContextRef context = UIGraphicsGetCurrentContext();
     
-    if (_showCoordinateAxis) {
-        CGContextSetStrokeColorWithColor(context, [_axisColor CGColor]);
-        CGContextSetLineWidth(context, _axisWidth);
-        //drawing x vector
-        CGContextMoveToPoint(context, _startPoint.x, _startPoint.y);
-        CGContextAddLineToPoint(context, _endPointVecotrX.x, _endPointVecotrX.y);
-        //drawing y vector
-        CGContextMoveToPoint(context, _startPoint.x, _startPoint.y);
-        CGContextAddLineToPoint(context, _endPointVecotrY.x, _endPointVecotrY.y);
-        //drawing x arrow vector
-        CGContextMoveToPoint(context, _endPointVecotrX.x, _endPointVecotrX.y);
-        CGContextAddLineToPoint(context, _endPointVecotrX.x - 5, _endPointVecotrX.y + 3);
-        CGContextMoveToPoint(context, _endPointVecotrX.x, _endPointVecotrX.y);
-        CGContextAddLineToPoint(context, _endPointVecotrX.x - 5, _endPointVecotrX.y - 3);
-        //drawing y arrow vector
-        CGContextMoveToPoint(context, _endPointVecotrY.x, _endPointVecotrY.y);
-        CGContextAddLineToPoint(context, _endPointVecotrY.x - 3, _endPointVecotrY.y + 5);
-        CGContextMoveToPoint(context, _endPointVecotrY.x, _endPointVecotrY.y);
-        CGContextAddLineToPoint(context, _endPointVecotrY.x + 3, _endPointVecotrY.y + 5);
-    }
+    CGContextRef context = UIGraphicsGetCurrentContext();
+        if (_showCoordinateAxis) {
+            CGContextSetStrokeColorWithColor(context, [_axisColor CGColor]);
+            CGContextSetLineWidth(context, _axisWidth);
+            //drawing x vector
+            CGContextMoveToPoint(context, _startPoint.x, _startPoint.y);
+            CGContextAddLineToPoint(context, _endPointVecotrX.x, _endPointVecotrX.y);
+            //drawing y vector
+            CGContextMoveToPoint(context, _startPoint.x, _startPoint.y);
+            CGContextAddLineToPoint(context, _endPointVecotrY.x, _endPointVecotrY.y);
+            //drawing x arrow vector
+            CGContextMoveToPoint(context, _endPointVecotrX.x, _endPointVecotrX.y);
+            CGContextAddLineToPoint(context, _endPointVecotrX.x - 5, _endPointVecotrX.y + 3);
+            CGContextMoveToPoint(context, _endPointVecotrX.x, _endPointVecotrX.y);
+            CGContextAddLineToPoint(context, _endPointVecotrX.x - 5, _endPointVecotrX.y - 3);
+            //drawing y arrow vector
+            CGContextMoveToPoint(context, _endPointVecotrY.x, _endPointVecotrY.y);
+            CGContextAddLineToPoint(context, _endPointVecotrY.x - 3, _endPointVecotrY.y + 5);
+            CGContextMoveToPoint(context, _endPointVecotrY.x, _endPointVecotrY.y);
+            CGContextAddLineToPoint(context, _endPointVecotrY.x + 3, _endPointVecotrY.y + 5);
+        }
     
     if (_showLabel) {
         NSString *str;
         //drawing x steps vector and putting axis x labels
         float temp = _startPointVectorX.x + (_vectorX_Steps / 2) ;
-        for (int i = 0; i < _AxisX_partNumber; i++) {
-            CGContextMoveToPoint(context, temp, _startPointVectorX.y - 2);
-            CGContextAddLineToPoint(context, temp, _startPointVectorX.y + 3);
-            str = [_axisX_labels objectAtIndex:i];
-            [self showXLabelsInPosition:CGPointMake(temp - 15, _startPointVectorX.y + 10 ) AndWithText:str];
+        for (int i = 0; i < _axisX_labels.count; i++) {
+            UIBezierPath *path = [UIBezierPath bezierPath];
+            [path moveToPoint:CGPointMake(temp, _startPointVectorX.y - 2)];
+            [path addLineToPoint:CGPointMake(temp, _startPointVectorX.y + 3)];
+            CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+            shapeLayer.path = [path CGPath];
+            shapeLayer.strokeColor = [_axisColor CGColor];
+            shapeLayer.lineWidth = _axisWidth;
+            shapeLayer.fillColor = [_axisColor CGColor];
+            [self.horizentalLinepathLayer addObject:shapeLayer];
+            [self.layer addSublayer:shapeLayer];
+            UILabel *lb = [_axisX_labels objectAtIndex:i] ;
+            str = lb.text;
+            [self showXLabel:lb InPosition:CGPointMake(temp - 15, _startPointVectorX.y + 10 )];
             temp = temp + _vectorX_Steps ;
         }
         //drawing y steps vector and putting axis x labels
         temp = _startPointVectorY.y - (_vectorY_Steps / 2) ;
-        for (int i = 0; i < _AxisY_partNumber; i++) {
-            CGContextMoveToPoint(context, _startPointVectorY.x - 3, temp);
-            CGContextAddLineToPoint(context, _startPointVectorY.x + 2, temp);
-            str = [_axisY_labels objectAtIndex:i];
-            [self showXLabelsInPosition:CGPointMake(_startPointVectorY.x - 30, temp - 5) AndWithText:str];
+        for (int i = 0; i < _axisY_labels.count; i++) {
+            UIBezierPath *path = [UIBezierPath bezierPath];
+            [path moveToPoint:CGPointMake(_startPointVectorY.x - 3, temp)];
+            [path addLineToPoint:CGPointMake( _startPointVectorY.x + 2, temp)];
+            CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+            shapeLayer.path = [path CGPath];
+            shapeLayer.strokeColor = [_axisColor CGColor];
+            shapeLayer.lineWidth = _axisWidth;
+            shapeLayer.fillColor = [_axisColor CGColor];
+            [self.verticalLineLayer addObject:shapeLayer];
+            [self.layer addSublayer:shapeLayer];
+            UILabel *lb = [_axisY_labels objectAtIndex:i];
+            str = lb.text;
+            [self showXLabel:lb InPosition:CGPointMake(_startPointVectorY.x - 30, temp - 5)];
             temp = temp - _vectorY_Steps ;
         }
     }

@@ -56,4 +56,10 @@
 - (void) setup;
 - (void) drawLineFromPoint : (CGPoint) startPoint ToPoint : (CGPoint) endPoint WithLineWith : (CGFloat) lineWidth AndWithColor : (UIColor*) color;
 
+/**
+ * Update Chart Value
+ */
+
+- (void)updateChartData:(NSArray *)data;
+
 @end
