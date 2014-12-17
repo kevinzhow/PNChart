@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0A143B53182B665000332B62 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A143B52182B665000332B62 /* QuartzCore.framework */; };
+		0A2922881A423FB300A42BC4 /* PNScatterChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2922831A423FB300A42BC4 /* PNScatterChart.m */; };
+		0A2922891A423FB300A42BC4 /* PNScatterChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2922851A423FB300A42BC4 /* PNScatterChartData.m */; };
+		0A29228A1A423FB300A42BC4 /* PNScatterChartDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2922871A423FB300A42BC4 /* PNScatterChartDataItem.m */; };
 		0AF7A868182AA9F6003645C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF7A867182AA9F6003645C4 /* Foundation.framework */; };
 		0AF7A86A182AA9F6003645C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF7A869182AA9F6003645C4 /* CoreGraphics.framework */; };
 		0AF7A86C182AA9F6003645C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF7A86B182AA9F6003645C4 /* UIKit.framework */; };
@@ -56,6 +59,12 @@
 
 /* Begin PBXFileReference section */
 		0A143B52182B665000332B62 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0A2922821A423FB300A42BC4 /* PNScatterChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNScatterChart.h; sourceTree = "<group>"; };
+		0A2922831A423FB300A42BC4 /* PNScatterChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNScatterChart.m; sourceTree = "<group>"; };
+		0A2922841A423FB300A42BC4 /* PNScatterChartData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNScatterChartData.h; sourceTree = "<group>"; };
+		0A2922851A423FB300A42BC4 /* PNScatterChartData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNScatterChartData.m; sourceTree = "<group>"; };
+		0A2922861A423FB300A42BC4 /* PNScatterChartDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNScatterChartDataItem.h; sourceTree = "<group>"; };
+		0A2922871A423FB300A42BC4 /* PNScatterChartDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNScatterChartDataItem.m; sourceTree = "<group>"; };
 		0AF7A864182AA9F6003645C4 /* PNChartDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PNChartDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF7A867182AA9F6003645C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0AF7A869182AA9F6003645C4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -229,6 +238,12 @@
 		9FE15DE0190BB014004129F5 /* PNChart */ = {
 			isa = PBXGroup;
 			children = (
+				0A2922821A423FB300A42BC4 /* PNScatterChart.h */,
+				0A2922831A423FB300A42BC4 /* PNScatterChart.m */,
+				0A2922841A423FB300A42BC4 /* PNScatterChartData.h */,
+				0A2922851A423FB300A42BC4 /* PNScatterChartData.m */,
+				0A2922861A423FB300A42BC4 /* PNScatterChartDataItem.h */,
+				0A2922871A423FB300A42BC4 /* PNScatterChartDataItem.m */,
 				9FE15DE6190BB014004129F5 /* PNChart.h */,
 				9FE15DE7190BB014004129F5 /* PNChartDelegate.h */,
 				9FE15DE8190BB014004129F5 /* PNChartLabel.h */,
@@ -395,13 +410,16 @@
 				91177ED8198DFAC400017E27 /* PNBar.m in Sources */,
 				91177EE2198DFAC400017E27 /* PNLineChartDataItem.m in Sources */,
 				0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */,
+				0A29228A1A423FB300A42BC4 /* PNScatterChartDataItem.m in Sources */,
 				91177EDA198DFAC400017E27 /* PNBarChart.m in Sources */,
 				91177EE6198DFAC400017E27 /* PNPieChartDataItem.m in Sources */,
 				9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */,
 				91177EE0198DFAC400017E27 /* PNLineChartData.m in Sources */,
+				0A2922881A423FB300A42BC4 /* PNScatterChart.m in Sources */,
 				0AF7A874182AA9F6003645C4 /* main.m in Sources */,
 				91177EE4198DFAC400017E27 /* PNPieChart.m in Sources */,
 				0AF7A878182AA9F6003645C4 /* PCAppDelegate.m in Sources */,
+				0A2922891A423FB300A42BC4 /* PNScatterChartData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
