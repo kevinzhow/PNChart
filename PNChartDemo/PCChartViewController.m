@@ -34,6 +34,7 @@
         NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2, @127.2, @176.2];
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
+        data01.alpha = 0.3f;
         data01.itemCount = data01Array.count;
         data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
         data01.getData = ^(NSUInteger index) {
@@ -45,6 +46,7 @@
         NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
         PNLineChartData *data02 = [PNLineChartData new];
         data02.color = PNTwitterColor;
+        data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
         data02.inflexionPointStyle = PNLineChartPointStyleSquare;
         data02.getData = ^(NSUInteger index) {
