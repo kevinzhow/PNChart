@@ -16,6 +16,7 @@
 @property (nonatomic) PNBarChart * barChart;
 @property (nonatomic) PNCircleChart * circleChart;
 @property (nonatomic) PNPieChart *pieChart;
+@property (nonatomic) PNScatterChart *scatterChart;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
