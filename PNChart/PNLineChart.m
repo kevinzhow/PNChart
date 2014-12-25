@@ -20,8 +20,6 @@
 @property (nonatomic) NSMutableArray *chartPath;       // Array of line path, one for each line.
 @property (nonatomic) NSMutableArray *pointPath;       // Array of point path, one for each line
 
-- (void)setDefaultValues;
-
 @end
 
 @implementation PNLineChart
@@ -33,7 +31,7 @@
     self = [super initWithCoder:coder];
 
     if (self) {
-        [self setDefaultValues];
+        [self setupDefaultValues];
     }
 
     return self;
@@ -44,7 +42,7 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        [self setDefaultValues];
+        [self setupDefaultValues];
     }
 
     return self;
@@ -646,7 +644,7 @@
 
 #pragma mark private methods
 
-- (void)setDefaultValues
+- (void)setupDefaultValues
 {
     // Initialization code
     self.backgroundColor = [UIColor whiteColor];
