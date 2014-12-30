@@ -33,7 +33,7 @@
         CGFloat endAngle = clockwise ? -90.01f : 270.01f;
 
         _lineWidth = @8.0f;
-        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.center.x, self.center.y)
+        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width/2.0f, self.bounds.size.height/2.0f)
                                                                   radius:(self.frame.size.height * 0.5) - [_lineWidth floatValue]
                                                               startAngle:DEGREES_TO_RADIANS(startAngle)
                                                                 endAngle:DEGREES_TO_RADIANS(endAngle)
