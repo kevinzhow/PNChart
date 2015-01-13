@@ -14,13 +14,13 @@
 {
     self = [super init];
     if (self) {
-        [self setDefaultValues];
+        [self setupDefaultValues];
     }
     
     return self;
 }
 
-- (void)setDefaultValues
+- (void)setupDefaultValues
 {
     _inflexionPointStyle = PNScatterChartPointStyleCircle;
     _fillColor = [UIColor grayColor];

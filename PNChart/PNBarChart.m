@@ -22,33 +22,47 @@
 
 @implementation PNBarChart
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+        [self setupDefaultValues];
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
 
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
-        self.clipsToBounds   = YES;
-        _showLabel           = YES;
-        _barBackgroundColor  = PNLightGrey;
-        _labelTextColor      = [UIColor grayColor];
-        _labelFont           = [UIFont systemFontOfSize:11.0f];
-        _xChartLabels        = [NSMutableArray array];
-        _yChartLabels        = [NSMutableArray array];
-        _bars                = [NSMutableArray array];
-        _xLabelSkip          = 1;
-        _yLabelSum           = 4;
-        _labelMarginTop      = 0;
-        _chartMargin         = 15.0;
-        _barRadius           = 2.0;
-        _showChartBorder     = NO;
-        _yChartLabelWidth    = 18;
-        _rotateForXAxisText  = false;
+        [self setupDefaultValues];
     }
 
     return self;
 }
 
+- (void)setupDefaultValues
+{
+    self.backgroundColor = [UIColor whiteColor];
+    self.clipsToBounds   = YES;
+    _showLabel           = YES;
+    _barBackgroundColor  = PNLightGrey;
+    _labelTextColor      = [UIColor grayColor];
+    _labelFont           = [UIFont systemFontOfSize:11.0f];
+    _xChartLabels        = [NSMutableArray array];
+    _yChartLabels        = [NSMutableArray array];
+    _bars                = [NSMutableArray array];
+    _xLabelSkip          = 1;
+    _yLabelSum           = 4;
+    _labelMarginTop      = 0;
+    _chartMargin         = 15.0;
+    _barRadius           = 2.0;
+    _showChartBorder     = NO;
+    _yChartLabelWidth    = 18;
+    _rotateForXAxisText  = false;
+}
 
 - (void)setYValues:(NSArray *)yValues
 {
@@ -125,12 +139,12 @@
             
             if (labelAddCount == _xLabelSkip) {
                 NSString *labelText = [_xLabels[index] description];
-                PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectZero];
+                PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0, 0, _xLabelWidth, xLabelHeight)];
                 label.font = _labelFont;
                 label.textColor = _labelTextColor;
                 [label setTextAlignment:NSTextAlignmentCenter];
                 label.text = labelText;
-                [label sizeToFit];
+                //[label sizeToFit];
                 CGFloat labelXPosition;
                 if (_rotateForXAxisText){
                     label.transform = CGAffineTransformMakeRotation(M_PI / 4);

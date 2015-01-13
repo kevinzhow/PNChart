@@ -88,7 +88,7 @@ PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, S
 
 //For Circle Chart
 
-PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) andTotal:[NSNumber numberWithInt:100] andCurrent:[NSNumber numberWithInt:60] andClockwise:NO];
+PNCircleChart * circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0) total:[NSNumber numberWithInt:100] current:[NSNumber numberWithInt:60] clockwise:NO shadow:NO];
 circleChart.backgroundColor = [UIColor clearColor];
 [circleChart setStrokeColor:PNGreen];
 [circleChart strokeChart];
