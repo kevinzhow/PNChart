@@ -19,7 +19,7 @@
 
 @property (nonatomic) NSMutableArray *chartPath;       // Array of line path, one for each line.
 @property (nonatomic) NSMutableArray *pointPath;       // Array of point path, one for each line
-
+@property (nonatomic) NSMutableArray *endPointsOfPath;      // Array of start and end points of each line path, one for each line
 @end
 
 @implementation PNLineChart
@@ -189,9 +189,9 @@
     CGPoint touchPoint = [touch locationInView:self];
 
     for (NSInteger p = _pathPoints.count - 1; p >= 0; p--) {
-        NSArray *linePointsArray = _pathPoints[p];
+        NSArray *linePointsArray = _endPointsOfPath[p];
 
-        for (int i = 0; i < linePointsArray.count - 1; i += 1) {
+        for (int i = 0; i < linePointsArray.count - 1; i += 2) {
             CGPoint p1 = [linePointsArray[i] CGPointValue];
             CGPoint p2 = [linePointsArray[i + 1] CGPointValue];
 
@@ -251,7 +251,7 @@
     _chartPath = [[NSMutableArray alloc] init];
     _pointPath = [[NSMutableArray alloc] init];
 
-    [self calculateChartPath:_chartPath andPointsPath:_pointPath andPathKeyPoints:_pathPoints];
+    [self calculateChartPath:_chartPath andPointsPath:_pointPath andPathKeyPoints:_pathPoints andPathStartEndPoints:_endPointsOfPath];
     // Draw each line
     for (NSUInteger lineIndex = 0; lineIndex < self.chartData.count; lineIndex++) {
         PNLineChartData *chartData = self.chartData[lineIndex];
@@ -294,7 +294,7 @@
 }
 
 
-- (void)calculateChartPath:(NSMutableArray *)chartPath andPointsPath:(NSMutableArray *)pointsPath andPathKeyPoints:(NSMutableArray *)pathPoints
+- (void)calculateChartPath:(NSMutableArray *)chartPath andPointsPath:(NSMutableArray *)pointsPath andPathKeyPoints:(NSMutableArray *)pathPoints andPathStartEndPoints:(NSMutableArray *)pointsOfPath
 {
     
     // Draw each line
@@ -320,7 +320,7 @@
         }
         
         NSMutableArray *linePointsArray = [[NSMutableArray alloc] init];
-        
+        NSMutableArray *lineStartEndPointsArray = [[NSMutableArray alloc] init];
         int last_x = 0;
         int last_y = 0;
         CGFloat inflexionWidth = chartData.inflexionPointWidth;
@@ -360,6 +360,9 @@
                     
                     [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
                     [progressline addLineToPoint:CGPointMake(x1, y1)];
+                    
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)]];
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x1, y1)]];
                 }
                 
                 last_x = x;
@@ -388,6 +391,9 @@
                     
                     [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
                     [progressline addLineToPoint:CGPointMake(x1, y1)];
+                    
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)]];
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x1, y1)]];
                 }
                 
                 last_x = x;
@@ -417,6 +423,9 @@
                     
                     [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
                     [progressline addLineToPoint:CGPointMake(x1, y1)];
+                    
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)]];
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x1, y1)]];
                 }
                 
                 last_x = x;
@@ -435,7 +444,7 @@
         }
         
         [pathPoints addObject:[linePointsArray copy]];
-        
+        [pointsOfPath addObject:[lineStartEndPointsArray copy]];
     }
 }
 
@@ -530,7 +539,7 @@
     
     [self prepareYLabelsWithData:data];
     
-    [self calculateChartPath:_chartPath andPointsPath:_pointPath andPathKeyPoints:_pathPoints];
+    [self calculateChartPath:_chartPath andPointsPath:_pointPath andPathKeyPoints:_pathPoints andPathStartEndPoints:_endPointsOfPath];
     
     for (NSUInteger lineIndex = 0; lineIndex < self.chartData.count; lineIndex++) {
 
@@ -651,7 +660,8 @@
     self.clipsToBounds   = YES;
     self.chartLineArray  = [NSMutableArray new];
     _showLabel           = YES;
-    _pathPoints = [[NSMutableArray alloc] init];
+    _pathPoints          = [[NSMutableArray alloc] init];
+    _endPointsOfPath     = [[NSMutableArray alloc] init];
     self.userInteractionEnabled = YES;
 
     _yLabelNum = 5.0;
