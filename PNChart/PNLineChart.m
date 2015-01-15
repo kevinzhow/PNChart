@@ -435,9 +435,13 @@
                 
                 if ( i != 0 ) {
                     [progressline addLineToPoint:CGPointMake(x, y)];
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
                 }
                 
                 [progressline moveToPoint:CGPointMake(x, y)];
+                if(i != chartData.itemCount - 1){
+                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+                }
             }
             
             [linePointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
