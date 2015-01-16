@@ -17,7 +17,7 @@
  */
 - (void)strokeChart;
 
-@property (nonatomic, retain) id<PNChartDelegate> delegate;
+@property (nonatomic, weak) id<PNChartDelegate> delegate;
 
 @property (nonatomic) NSArray *xLabels;
 @property (nonatomic) NSArray *yLabels;

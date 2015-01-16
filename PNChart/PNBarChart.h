@@ -94,6 +94,6 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Controls whether text for x-axis be straight or rotate 45 degree. */
 @property (nonatomic) BOOL rotateForXAxisText;
 
-@property (nonatomic, retain) id<PNChartDelegate> delegate;
+@property (nonatomic, weak) id<PNChartDelegate> delegate;
 
 @end
