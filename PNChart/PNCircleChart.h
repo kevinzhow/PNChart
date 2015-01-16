@@ -26,8 +26,7 @@ typedef NS_ENUM (NSUInteger, PNChartFormatType) {
 - (id)initWithFrame:(CGRect)frame
               total:(NSNumber *)total
             current:(NSNumber *)current
-          clockwise:(BOOL)clockwise
-             shadow:(BOOL)hasBackgroundShadow;
+          clockwise:(BOOL)clockwise;
 
 - (id)initWithFrame:(CGRect)frame
               total:(NSNumber *)total

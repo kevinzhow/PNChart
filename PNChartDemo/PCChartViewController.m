@@ -92,13 +92,14 @@
         self.titleLabel.text = @"Circle Chart";
 
         
-        self.circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0, 80.0, SCREEN_WIDTH, 100.0)
+        self.circleChart = [[PNCircleChart alloc] initWithFrame:CGRectMake(0,150.0, SCREEN_WIDTH, 100.0)
                                                                      total:@100
                                                                    current:@60
-                                                                 clockwise:YES
-                                                                    shadow:YES];
+                                                                 clockwise:YES];
+
         self.circleChart.backgroundColor = [UIColor clearColor];
-        [self.circleChart setStrokeColor:PNGreen];
+
+        [self.circleChart setStrokeColor:[UIColor clearColor]];
         [self.circleChart setStrokeColorGradientStart:[UIColor blueColor]];
         [self.circleChart strokeChart];
         

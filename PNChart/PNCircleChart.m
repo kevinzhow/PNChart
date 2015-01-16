@@ -13,14 +13,14 @@
 
 @implementation PNCircleChart
 
-- (id)initWithFrame:(CGRect)frame total:(NSNumber *)total current:(NSNumber *)current clockwise:(BOOL)clockwise shadow:(BOOL)hasBackgroundShadow {
+- (id)initWithFrame:(CGRect)frame total:(NSNumber *)total current:(NSNumber *)current clockwise:(BOOL)clockwise {
     
     return [self initWithFrame:frame
                          total:total
                        current:current
                      clockwise:clockwise
-                        shadow:shadow
-                   shadowColor:PNGreen
+                        shadow:NO
+                   shadowColor:[UIColor clearColor]
           displayCountingLabel:YES
              overrideLineWidth:@8.0f];
     
@@ -77,7 +77,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
 
         _lineWidth = overrideLineWidth;
         
-        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.bounds.size.width/2.0f, self.bounds.size.height/2.0f)
+        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.frame.size.width/2.0f, self.frame.size.height/2.0f)
                                                                   radius:(self.frame.size.height * 0.5) - ([_lineWidth floatValue]/2.0f)
                                                               startAngle:DEGREES_TO_RADIANS(startAngle)
                                                                 endAngle:DEGREES_TO_RADIANS(endAngle)
@@ -107,7 +107,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
         [_countingLabel setFont:[UIFont boldSystemFontOfSize:16.0f]];
         [_countingLabel setTextColor:[UIColor grayColor]];
         [_countingLabel setBackgroundColor:[UIColor clearColor]];
-        [_countingLabel setCenter:CGPointMake(self.center.x, self.center.y)];
+        [_countingLabel setCenter:CGPointMake(self.frame.size.width/2.0f, self.frame.size.height/2.0f)];
         _countingLabel.method = UILabelCountingMethodEaseInOut;
         if (_displayCountingLabel) {
             [self addSubview:_countingLabel];
