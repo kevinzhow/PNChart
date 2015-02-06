@@ -23,6 +23,7 @@ typedef NS_ENUM (NSUInteger, PNChartFormatType) {
 - (void)strokeChart;
 - (void)growChartByAmount:(NSNumber *)growAmount;
 - (void)updateChartByCurrent:(NSNumber *)current;
+- (void)updateChartByCurrent:(NSNumber *)current byTotal:(NSNumber *)total;
 - (id)initWithFrame:(CGRect)frame
               total:(NSNumber *)total
             current:(NSNumber *)current
