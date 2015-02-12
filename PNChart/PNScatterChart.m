@@ -123,7 +123,7 @@
     _AxisX_partNumber = numberOfTicks - 1;
     _AxisX_step = (float)((maxVal - minVal)/_AxisX_partNumber);
     
-    NSString *LabelFormat = self.yLabelFormat ? : @"%1.f";
+    NSString *LabelFormat = self.xLabelFormat ? : @"%1.f";
     CGFloat tempValue = minVal ;
     UILabel *label = [[UILabel alloc] init];
     label.text = [NSString stringWithFormat:LabelFormat,minVal] ;
@@ -153,6 +153,28 @@
         UILabel *tempLabel = [[UILabel alloc] init];
         tempLabel.text = [NSString stringWithFormat:LabelFormat,tempValue] ;
         [_axisY_labels addObject:tempLabel];
+    }
+}
+
+- (void)setAxisXLabel:(NSArray *)array {
+    if(array.count == ++_AxisX_partNumber){
+        [_axisX_labels removeAllObjects];
+        for(int i=0;i<array.count;i++){
+            UILabel *label = [[UILabel alloc] init];
+            label.text = [array objectAtIndex:i];
+            [_axisX_labels addObject:label];
+        }
+    }
+}
+
+- (void)setAxisYLabel:(NSArray *)array {
+    if(array.count == ++_AxisY_partNumber){
+        [_axisY_labels removeAllObjects];
+        for(int i=0;i<array.count;i++){
+            UILabel *label = [[UILabel alloc] init];
+            label.text = [array objectAtIndex:i];
+            [_axisY_labels addObject:label];
+        }
     }
 }
 
