@@ -276,7 +276,6 @@
         }
     
     if (_showLabel) {
-        NSString *str;
         //drawing x steps vector and putting axis x labels
         float temp = _startPointVectorX.x + (_vectorX_Steps / 2) ;
         for (int i = 0; i < _axisX_labels.count; i++) {
@@ -291,7 +290,6 @@
             [self.horizentalLinepathLayer addObject:shapeLayer];
             [self.layer addSublayer:shapeLayer];
             UILabel *lb = [_axisX_labels objectAtIndex:i] ;
-            str = lb.text;
             [self showXLabel:lb InPosition:CGPointMake(temp - 15, _startPointVectorX.y + 10 )];
             temp = temp + _vectorX_Steps ;
         }
@@ -309,7 +307,6 @@
             [self.verticalLineLayer addObject:shapeLayer];
             [self.layer addSublayer:shapeLayer];
             UILabel *lb = [_axisY_labels objectAtIndex:i];
-            str = lb.text;
             [self showXLabel:lb InPosition:CGPointMake(_startPointVectorY.x - 30, temp - 5)];
             temp = temp - _vectorY_Steps ;
         }
