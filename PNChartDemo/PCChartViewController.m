@@ -129,9 +129,12 @@
         self.titleLabel.text = @"Scatter Chart";
         
         self.scatterChart = [[PNScatterChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /6.0 - 30, 135, 280, 200)];
+//        self.scatterChart.yLabelFormat = @"xxx %1.1f";
         [self.scatterChart setAxisXWithMinimumValue:20 andMaxValue:100 toTicks:6];
         [self.scatterChart setAxisYWithMinimumValue:30 andMaxValue:50 toTicks:5];
-        
+        [self.scatterChart setAxisXLabel:@[@"x1", @"x2", @"x3", @"x4", @"x5", @"x6"]];
+        [self.scatterChart setAxisYLabel:@[@"y1", @"y2", @"y3", @"y4", @"y5"]];
+
         NSArray * data01Array = [self randomSetOfObjects];
         PNScatterChartData *data01 = [PNScatterChartData new];
         data01.strokeColor = PNGreen;
@@ -141,6 +144,7 @@
         data01.inflexionPointStyle = PNScatterChartPointStyleCircle;
         __block NSMutableArray *XAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:0]];
         __block NSMutableArray *YAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:1]];
+
         data01.getData = ^(NSUInteger index) {
             CGFloat xValue = [[XAr1 objectAtIndex:index] floatValue];
             CGFloat yValue = [[YAr1 objectAtIndex:index] floatValue];
