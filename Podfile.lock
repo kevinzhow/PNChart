@@ -1,10 +1,10 @@
 PODS:
-  - UICountingLabel (1.0.0)
+  - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
-  - UICountingLabel (~> 1.0.0)
+  - UICountingLabel (~> 1.2.0)
 
 SPEC CHECKSUMS:
-  UICountingLabel: 0a0e9e34bf4690dbd127aaec552d19ed938087a9
+  UICountingLabel: a55223a9357af71f833af76665164d2e3f3654b5
 
 COCOAPODS: 0.34.4
