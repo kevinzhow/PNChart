@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNGenericChart.h"
 #import "PNChartDelegate.h"
 #import "PNBar.h"
 
@@ -17,7 +18,7 @@
 
 typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 
-@interface PNBarChart : UIView
+@interface PNBarChart : PNGenericChart
 
 /**
  * Draws the chart in an animated fashion.

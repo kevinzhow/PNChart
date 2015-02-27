@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "PNChartDelegate.h"
+#import "PNGenericChart.h"
 
-@interface PNLineChart : UIView
+@interface PNLineChart : PNGenericChart
 
 /**
  * Draws the chart in an animated fashion.
@@ -70,4 +71,5 @@
 
 - (void)updateChartData:(NSArray *)data;
 
+- (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth;
 @end

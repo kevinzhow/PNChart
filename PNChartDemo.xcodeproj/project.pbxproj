@@ -44,6 +44,7 @@
 		9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA23B0F184A5944002DBBA4 /* PCChartsTableViewController.m */; };
 		9FE15DF8190BB014004129F5 /* PNChartLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE15DE9190BB014004129F5 /* PNChartLabel.m */; };
 		9FE15DFA190BB014004129F5 /* PNColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE15DEE190BB014004129F5 /* PNColor.m */; };
+		A9C75FA61A9F1DA900A54638 /* PNGenericChart.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C75FA51A9F1DA900A54638 /* PNGenericChart.m */; };
 		E2C3ED5773A1409C8367CC70 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA6321352024B1FBA0158B0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -110,6 +111,8 @@
 		9FE15DE9190BB014004129F5 /* PNChartLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNChartLabel.m; sourceTree = "<group>"; };
 		9FE15DED190BB014004129F5 /* PNColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNColor.h; sourceTree = "<group>"; };
 		9FE15DEE190BB014004129F5 /* PNColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNColor.m; sourceTree = "<group>"; };
+		A9C75FA41A9F1DA900A54638 /* PNGenericChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNGenericChart.h; sourceTree = "<group>"; };
+		A9C75FA51A9F1DA900A54638 /* PNGenericChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNGenericChart.m; sourceTree = "<group>"; };
 		EFE4F6360943ED4001072124 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -266,6 +269,8 @@
 				91177ED5198DFAC400017E27 /* PNPieChart.m */,
 				91177ED6198DFAC400017E27 /* PNPieChartDataItem.h */,
 				91177ED7198DFAC400017E27 /* PNPieChartDataItem.m */,
+				A9C75FA41A9F1DA900A54638 /* PNGenericChart.h */,
+				A9C75FA51A9F1DA900A54638 /* PNGenericChart.m */,
 			);
 			path = PNChart;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				91177EE2198DFAC400017E27 /* PNLineChartDataItem.m in Sources */,
 				0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */,
 				0A29228A1A423FB300A42BC4 /* PNScatterChartDataItem.m in Sources */,
+				A9C75FA61A9F1DA900A54638 /* PNGenericChart.m in Sources */,
 				91177EDA198DFAC400017E27 /* PNBarChart.m in Sources */,
 				91177EE6198DFAC400017E27 /* PNPieChartDataItem.m in Sources */,
 				9FA23B10184A5944002DBBA4 /* PCChartsTableViewController.m in Sources */,

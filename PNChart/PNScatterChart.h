@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "PNChartDelegate.h"
+#import "PNGenericChart.h"
 #import "PNScatterChartData.h"
 #import "PNScatterChartDataItem.h"
 
-@interface PNScatterChart : UIView
+@interface PNScatterChart : PNGenericChart
 
 @property (nonatomic, retain) id<PNChartDelegate> delegate;
 

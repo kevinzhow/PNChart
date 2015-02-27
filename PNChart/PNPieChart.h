@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PNPieChartDataItem.h"
+#import "PNGenericChart.h"
 
-@interface PNPieChart : UIView
+@interface PNPieChart : PNGenericChart
 
 - (id)initWithFrame:(CGRect)frame items:(NSArray *)items;
 

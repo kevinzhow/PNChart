@@ -20,6 +20,10 @@
 @property (nonatomic) NSMutableArray *chartPath;       // Array of line path, one for each line.
 @property (nonatomic) NSMutableArray *pointPath;       // Array of point path, one for each line
 @property (nonatomic) NSMutableArray *endPointsOfPath;      // Array of start and end points of each line path, one for each line
+
+@property (strong, nonatomic) UIView *graphView;
+
+@property (assign, nonatomic) CGRect *chartFrame;
 @end
 
 @implementation PNLineChart
@@ -48,6 +52,7 @@
     return self;
 }
 
+
 #pragma mark instance methods
 
 - (void)setYLabels:(NSArray *)yLabels
@@ -64,6 +69,7 @@
         _yChartLabels = [NSMutableArray new];
     }
 
+#warning modify origin
     if (yStep == 0.0) {
         PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)_chartCavanHeight, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
         minLabel.text = [NSString stringWithFormat:yLabelFormat, 0.0];
@@ -132,6 +138,7 @@
         for (int index = 0; index < xLabels.count; index++) {
             labelText = xLabels[index];
 
+#warning modify origin
             NSInteger x = 2 * _chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2);
             NSInteger y = _chartMargin + _chartCavanHeight;
 
@@ -337,6 +344,7 @@
             
             CGFloat offSetX = (_chartCavanWidth) / (chartData.itemCount);
             
+#warning modify chart path
             int x = 2 * _chartMargin +  (i * offSetX);
             int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2);
             
@@ -585,7 +593,7 @@
 - (void)drawRect:(CGRect)rect
 {
     if (self.isShowCoordinateAxis) {
-
+#warning modify
         CGFloat yAxisOffset = 10.f;
 
         CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -639,14 +647,14 @@
 
         // draw y unit
         if ([self.yUnit length]) {
-            CGFloat height = [PNLineChart heightOfString:self.yUnit withWidth:30.f font:font];
+            CGFloat height = [PNLineChart sizeOfString:self.yUnit withWidth:30.f font:font].height;
             CGRect drawRect = CGRectMake(_chartMargin + 10 + 5, 0, 30.f, height);
             [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
         }
 
         // draw x unit
         if ([self.xUnit length]) {
-            CGFloat height = [PNLineChart heightOfString:self.xUnit withWidth:30.f font:font];
+            CGFloat height = [PNLineChart sizeOfString:self.xUnit withWidth:30.f font:font].height;
             CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMargin + 5, _chartMargin + _chartCavanHeight - height / 2, 25.f, height);
             [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
         }
@@ -684,7 +692,7 @@
 
 #pragma mark - tools
 
-+ (float)heightOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font
++ (CGSize)sizeOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font
 {
     NSInteger ch;
     CGSize size = CGSizeMake(width, MAXFLOAT);
@@ -703,7 +711,7 @@
     }
     ch = size.height;
 
-    return ch;
+    return size;
 }
 
 - (void)drawTextInContext:(CGContextRef )ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font
@@ -724,6 +732,82 @@
                alignment:NSTextAlignmentLeft];
 #pragma clang diagnostic pop
     }
+}
+
+- (UIView*) constructLegend{
+    if (self.hasLegend) {
+        UIView *legend = [self constructLegend];
+        CGSize graphSize;
+        /* Determine legend size */
+        switch (self.legendPosition) {
+            case PNLegendPositionTop | PNLegendPositionBottom:
+                graphSize = CGSizeMake(fmaxf(self.frame.size.width, legend.frame.size.width), self.frame.size.height + legend.frame.size.height);
+                break;
+            case PNLegendPositionLeft | PNLegendPositionRight:
+                graphSize = CGSizeMake(self.frame.size.width + legend.frame.size.width, fmaxf(self.frame.size.height, legend.frame.size.height));
+                break;
+            default:
+                break;
+        }
+        CGPoint graphOrigin;
+        switch (self.legendPosition) {
+            case PNLegendPositionTop:
+                graphOrigin.x = 2;
+                break;
+            case PNLegendPositionBottom:
+                graphOrigin.x = 2;
+                break;
+            case PNLegendPositionLeft:
+            
+            case PNLegendPositionRight:
+                graphOrigin.x = 2;
+                break;
+            default:
+                break;
+        }
+        self.graphView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, graphSize.width, graphSize.height)];
+        [self.graphView addSubview:self];
+        [self.graphView addSubview:legend];
+        return self.graphView;
+    }else{
+        [self strokeChart];
+        return self;
+    }
+}
+
+- (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
+    if ([self.chartData count] < 1) {
+        return nil;
+    }
+    CGFloat legendLineWidth = 40;
+    CGFloat x = legendLineWidth;
+    CGFloat y = 0;
+    CGFloat totalWidth = 0;
+    CGFloat totalHeight = 0;
+    
+    NSMutableArray *legendLabels = [[NSMutableArray alloc] init];
+    for (PNLineChartData *pdata in self.chartData) {
+        CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - legendLineWidth) : (mWidth / [self.chartData count] - legendLineWidth);
+        
+        CGSize labelsize = [PNLineChart sizeOfString:pdata.dataTitle
+                                           withWidth:maxLabelWidth
+                                                font:[UIFont systemFontOfSize:self.legendFontSize]];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, maxLabelWidth, labelsize.height)];
+        label.text = pdata.dataTitle;
+        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + legendLineWidth;
+        y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
+        
+        totalWidth = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalWidth, labelsize.width + legendLineWidth) : totalWidth + labelsize.width + legendLineWidth;
+        totalHeight = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalHeight, labelsize.height) : totalHeight + labelsize.height;
+        [legendLabels addObject:label];
+    }
+    
+    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(100, 100, totalWidth, totalHeight)];
+    for (UILabel *l in legendLabels) {
+        [legend addSubview:l];
+    }
+    return legend;
 }
 
 @end
