@@ -57,4 +57,16 @@
     self.legendStyle = PNLegendItemStyleStacked;
 }
 
+
+
+/**
+ *  to be implemented in subclass 
+ */
+- (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+
+
 @end

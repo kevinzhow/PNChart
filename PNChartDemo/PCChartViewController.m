@@ -128,6 +128,13 @@
         self.pieChart.descriptionTextShadowColor = [UIColor clearColor];
         [self.pieChart strokeChart];
         
+        
+        self.pieChart.legendStyle = PNLegendItemStyleStacked;
+        self.pieChart.legendFontSize = 12.0;
+        
+        UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
+        [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
+        [self.view addSubview:legend];
     
         [self.view addSubview:self.pieChart];
         self.changeValueButton.hidden = YES;

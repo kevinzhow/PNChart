@@ -81,4 +81,7 @@
  *  @return UIView of Legend
  */
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth;
+
+
++ (CGSize)sizeOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font;
 @end
