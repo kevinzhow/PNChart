@@ -225,13 +225,13 @@
 
 - (void)createArcAnimationForLayer:(CAShapeLayer *)layer ForKey:(NSString *)key fromValue:(NSNumber *)from toValue:(NSNumber *)to Delegate:(id)delegate
 {
-	CABasicAnimation *arcAnimation = [CABasicAnimation animationWithKeyPath:key];
-	arcAnimation.fromValue = @0;
-	[arcAnimation setToValue:to];
-	[arcAnimation setDelegate:delegate];
-	[arcAnimation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
-	[layer addAnimation:arcAnimation forKey:key];
-	[layer setValue:to forKey:key];
+    CABasicAnimation *arcAnimation = [CABasicAnimation animationWithKeyPath:key];
+    arcAnimation.fromValue = @0;
+    arcAnimation.toValue = to;
+    arcAnimation.delegate = delegate;
+    arcAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    [layer addAnimation:arcAnimation forKey:key];
+    [layer setValue:to forKey:key];
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
