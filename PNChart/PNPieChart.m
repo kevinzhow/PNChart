@@ -124,16 +124,11 @@
     CGFloat rad = centerPercentage * 2 * M_PI;
     
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
-    NSString *titleText = currentDataItem.textDescription;
-    if(!titleText){
-        titleText = [NSString stringWithFormat:@"%.0f%%",[self ratioForItemAtIndex:index] * 100];
-        descriptionLabel.text = titleText ;
+    NSString *titleText = [NSString stringWithFormat:@"%.0f%%",[self ratioForItemAtIndex:index] * 100];
+    if(currentDataItem.textDescription){
+        titleText = [titleText stringByAppendingFormat:@"\n%@",currentDataItem.textDescription];
     }
-    else {
-        NSString* str = [NSString stringWithFormat:@"%.0f%%\n",[self ratioForItemAtIndex:index] * 100];
-        str = [str stringByAppendingString:titleText];
-        descriptionLabel.text = str ;
-    }
+    descriptionLabel.text = titleText;
     
     CGPoint center = CGPointMake(_outerCircleRadius + distance * sin(rad),
                                  _outerCircleRadius - distance * cos(rad));
