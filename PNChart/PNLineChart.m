@@ -21,9 +21,6 @@
 @property (nonatomic) NSMutableArray *pointPath;       // Array of point path, one for each line
 @property (nonatomic) NSMutableArray *endPointsOfPath;      // Array of start and end points of each line path, one for each line
 
-@property (strong, nonatomic) UIView *graphView;
-
-@property (assign, nonatomic) CGRect *chartFrame;
 @end
 
 @implementation PNLineChart
@@ -734,66 +731,52 @@
     }
 }
 
-- (UIView*) constructLegend{
-    if (self.hasLegend) {
-        UIView *legend = [self constructLegend];
-        CGSize graphSize;
-        /* Determine legend size */
-        switch (self.legendPosition) {
-            case PNLegendPositionTop | PNLegendPositionBottom:
-                graphSize = CGSizeMake(fmaxf(self.frame.size.width, legend.frame.size.width), self.frame.size.height + legend.frame.size.height);
-                break;
-            case PNLegendPositionLeft | PNLegendPositionRight:
-                graphSize = CGSizeMake(self.frame.size.width + legend.frame.size.width, fmaxf(self.frame.size.height, legend.frame.size.height));
-                break;
-            default:
-                break;
-        }
-        CGPoint graphOrigin;
-        switch (self.legendPosition) {
-            case PNLegendPositionTop:
-                graphOrigin.x = 2;
-                break;
-            case PNLegendPositionBottom:
-                graphOrigin.x = 2;
-                break;
-            case PNLegendPositionLeft:
-            
-            case PNLegendPositionRight:
-                graphOrigin.x = 2;
-                break;
-            default:
-                break;
-        }
-        self.graphView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, graphSize.width, graphSize.height)];
-        [self.graphView addSubview:self];
-        [self.graphView addSubview:legend];
-        return self.graphView;
-    }else{
-        [self strokeChart];
-        return self;
-    }
-}
 
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
     if ([self.chartData count] < 1) {
         return nil;
     }
     CGFloat legendLineWidth = 40;
-    CGFloat x = legendLineWidth;
+    CGFloat x = 0;
     CGFloat y = 0;
     CGFloat totalWidth = 0;
     CGFloat totalHeight = 0;
     
     NSMutableArray *legendLabels = [[NSMutableArray alloc] init];
+    NSMutableArray *legendLines = [[NSMutableArray alloc] init];
+    NSMutableArray *legendInflexion = [[NSMutableArray alloc] init];
     for (PNLineChartData *pdata in self.chartData) {
+
         CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - legendLineWidth) : (mWidth / [self.chartData count] - legendLineWidth);
         
         CGSize labelsize = [PNLineChart sizeOfString:pdata.dataTitle
                                            withWidth:maxLabelWidth
                                                 font:[UIFont systemFontOfSize:self.legendFontSize]];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, maxLabelWidth, labelsize.height)];
+        /* draw line */
+        CGFloat inflexionWidthSpacer = pdata.inflexionPointStyle == PNLineChartPointStyleTriangle ? pdata.inflexionPointWidth / 2 : pdata.inflexionPointWidth;
+        CGFloat t1 = (legendLineWidth * 0.8 - inflexionWidthSpacer)/2;
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(x + legendLineWidth * 0.1, y + (labelsize.height - pdata.lineWidth) / 2, t1, pdata.lineWidth)];
+        
+        line.backgroundColor = pdata.color;
+        line.alpha = pdata.alpha;
+        [legendLines addObject:line];
+        
+        line = [[UIView alloc] initWithFrame:CGRectMake(x + legendLineWidth * 0.1 + t1 + inflexionWidthSpacer, y + (labelsize.height - pdata.lineWidth) / 2, t1, pdata.lineWidth)];
+        line.backgroundColor = pdata.color;
+        line.alpha = pdata.alpha;
+        
+        [legendLines addObject:line];
+
+        // Add inflexion type
+        [legendInflexion addObject:[self drawInflexion:pdata.inflexionPointWidth
+                                                center:CGPointMake(x + legendLineWidth / 2, y + labelsize.height / 2)
+                                           strokeWidth:2
+                                        inflexionStyle:pdata.inflexionPointStyle
+                                              andColor:pdata.color
+                                              andAlpha:pdata.alpha]];
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendLineWidth, y, maxLabelWidth, labelsize.height)];
         label.text = pdata.dataTitle;
         x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + legendLineWidth;
         y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
@@ -801,13 +784,75 @@
         totalWidth = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalWidth, labelsize.width + legendLineWidth) : totalWidth + labelsize.width + legendLineWidth;
         totalHeight = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalHeight, labelsize.height) : totalHeight + labelsize.height;
         [legendLabels addObject:label];
+        
     }
     
-    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(100, 100, totalWidth, totalHeight)];
+    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(100, 400, totalWidth, totalHeight)];
     for (UILabel *l in legendLabels) {
         [legend addSubview:l];
     }
+    for (UIView* v in legendLines) {
+        [legend addSubview:v];
+    }
+    
+    for (UIImageView *iv in legendInflexion) {
+        
+        [legend addSubview:iv];
+    }
+    
     return legend;
+}
+
+//// PaintCode Trial Version
+//// www.paintcodeapp.com
+
+- (UIImageView*)drawInflexion:(CGFloat)size center:(CGPoint)center strokeWidth: (CGFloat)sw inflexionStyle:(PNLineChartPointStyle)type andColor:(UIColor*)color andAlpha:(CGFloat) alfa
+{
+    //this is an arbitrary size for example
+    CGSize aSize = CGSizeMake(size + sw, size + sw);
+    
+    //this can take any CGSize
+    //it works like the frame.size would in the drawRect: method
+    //in the way that it represents the context's size
+    UIGraphicsBeginImageContextWithOptions(aSize, NO, 0.0);
+    
+    //this gets the graphic context
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    if (type == PNLineChartPointStyleCircle) {
+        //// Oval Drawing
+        CGContextAddArc(context, (size + sw)/2, (size + sw) / 2, size/2, 0, M_PI*2, YES);
+    }else if (type == PNLineChartPointStyleSquare){
+        CGContextAddRect(context, CGRectMake(sw/2, sw/2, size, size));
+    }else if (type == PNLineChartPointStyleTriangle){
+        CGContextMoveToPoint(context, sw/2, size + sw/2);
+        CGContextAddLineToPoint(context, size + sw/2, size + sw/2);
+        CGContextAddLineToPoint(context, size/2 + sw/2, sw/2);
+        CGContextAddLineToPoint(context, sw/2, size + sw/2);
+        CGContextClosePath(context);
+    }
+    
+    //Set the width of the pen mark
+    CGContextSetLineWidth(context, sw);
+    
+    CGContextSetAlpha(context, alfa);
+    
+    CGContextSetStrokeColorWithColor(context, color.CGColor);
+    CGContextDrawPath(context, kCGPathStroke);
+
+    //now get the image from the context
+    UIImage *squareImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    //// Variable Declarations
+    CGFloat originX = center.x - (size + sw) / 2.0;
+    CGFloat originY = center.y - (size + sw) / 2.0;
+    
+    UIImageView *squareImageView = [[UIImageView alloc]initWithImage:squareImage];
+    [squareImageView setFrame:CGRectMake(originX, originY, size + sw, size + sw)];
+    return squareImageView;
+
 }
 
 @end

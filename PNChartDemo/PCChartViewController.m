@@ -51,7 +51,7 @@
         data02.color = PNTwitterColor;
         data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
-        data02.inflexionPointStyle = PNLineChartPointStyleSquare;
+        data02.inflexionPointStyle = PNLineChartPointStyleCircle;
         data02.getData = ^(NSUInteger index) {
             CGFloat yValue = [data02Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
