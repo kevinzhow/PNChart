@@ -71,5 +71,14 @@
 
 - (void)updateChartData:(NSArray *)data;
 
+
+/**
+ *  returns the Legend View, or nil if no chart data is present. 
+ *  The origin of the legend frame is 0,0 but you can set it with setFrame:(CGRect)
+ *
+ *  @param mWidth Maximum width of legend. Height will depend on this and font size
+ *
+ *  @return UIView of Legend
+ */
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth;
 @end

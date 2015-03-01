@@ -47,11 +47,11 @@
         // Line Chart #2
         NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
         PNLineChartData *data02 = [PNLineChartData new];
-        data02.dataTitle = @"Beta";
+        data02.dataTitle = @"Beta Beta Beta Beta";
         data02.color = PNTwitterColor;
         data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
-        data02.inflexionPointStyle = PNLineChartPointStyleCircle;
+        data02.inflexionPointStyle = PNLineChartPointStyleNone;
         data02.getData = ^(NSUInteger index) {
             CGFloat yValue = [data02Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
@@ -63,9 +63,12 @@
         
 
         [self.view addSubview:self.lineChart];
-        self.lineChart.legendStyle = PNLegendItemStyleSerial;
-        self.lineChart.legendFontSize = 17.0;
-        [self.view addSubview:[self.lineChart getLegendWithMaxWidth:200]];
+        self.lineChart.legendStyle = PNLegendItemStyleStacked;
+        self.lineChart.legendFontSize = 12.0;
+        
+        UIView *legend = [self.lineChart getLegendWithMaxWidth:200];
+        [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
+        [self.view addSubview:legend];
     }
     else if ([self.title isEqualToString:@"Bar Chart"])
     {
