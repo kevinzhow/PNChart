@@ -11,8 +11,7 @@
 @interface PNPieChart()
 
 @property (nonatomic, readwrite) NSArray	*items;
-@property (nonatomic) CGFloat total;
-@property (nonatomic) CGFloat currentTotal;
+@property (nonatomic) NSArray *endPercentages;
 
 @property (nonatomic) CGFloat outerCircleRadius;
 @property (nonatomic) CGFloat innerCircleRadius;
@@ -21,11 +20,14 @@
 @property (nonatomic) CAShapeLayer *pieLayer;
 @property (nonatomic) NSMutableArray *descriptionLabels;
 
+
 - (void)loadDefault;
 
 - (UILabel *)descriptionLabelForItemAtIndex:(NSUInteger)index;
 - (PNPieChartDataItem *)dataItemForIndex:(NSUInteger)index;
-
+- (CGFloat)startPercentageForItemAtIndex:(NSUInteger)index;
+- (CGFloat)endPercentageForItemAtIndex:(NSUInteger)index;
+- (CGFloat)ratioForItemAtIndex:(NSUInteger)index;
 - (CAShapeLayer *)newCircleLayerWithRadius:(CGFloat)radius
                                borderWidth:(CGFloat)borderWidth
                                  fillColor:(UIColor *)fillColor
@@ -40,97 +42,94 @@
 @implementation PNPieChart
 
 -(id)initWithFrame:(CGRect)frame items:(NSArray *)items{
-	self = [self initWithFrame:frame];
-	if(self){
-		_items = [NSArray arrayWithArray:items];
-		_outerCircleRadius = CGRectGetWidth(self.bounds)/2;
-		_innerCircleRadius  = CGRectGetWidth(self.bounds)/6;
-		
-		_descriptionTextColor = [UIColor whiteColor];
-		_descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
+    self = [self initWithFrame:frame];
+    if(self){
+        _items = [NSArray arrayWithArray:items];
+        _outerCircleRadius = CGRectGetWidth(self.bounds)/2;
+        _innerCircleRadius  = CGRectGetWidth(self.bounds)/6;
+        
+        _descriptionTextColor = [UIColor whiteColor];
+        _descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
         _descriptionTextShadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
         _descriptionTextShadowOffset =  CGSizeMake(0, 1);
-		_duration = 1.0;
+        _duration = 1.0;
         
-		[self loadDefault];
-	}
-	
-	return self;
+        [self loadDefault];
+    }
+    
+    return self;
 }
 
-
 - (void)loadDefault{
-	_currentTotal = 0;
-	_total       = 0;
-	
-	[_contentView removeFromSuperview];
-	_contentView = [[UIView alloc] initWithFrame:self.bounds];
-	[self addSubview:_contentView];
-    [_descriptionLabels removeAllObjects];
-	_descriptionLabels = [NSMutableArray new];
-	
-	_pieLayer = [CAShapeLayer layer];
-	[_contentView.layer addSublayer:_pieLayer];
+    __block CGFloat currentTotal = 0;
+    CGFloat total = [[self.items valueForKeyPath:@"@sum.value"] floatValue];
+    NSMutableArray *endPercentages = [NSMutableArray new];
+    [_items enumerateObjectsUsingBlock:^(PNPieChartDataItem *item, NSUInteger idx, BOOL *stop) {
+        if (total == 0){
+            [endPercentages addObject:@(1.0/_items.count*(idx+1))];
+        }else{
+            currentTotal += item.value;
+            [endPercentages addObject:@(currentTotal/total)];
+        }
+    }];
+    self.endPercentages = [endPercentages copy];
+    
+    [_contentView removeFromSuperview];
+    _contentView = [[UIView alloc] initWithFrame:self.bounds];
+    [self addSubview:_contentView];
+    _descriptionLabels = [NSMutableArray new];
+    
+    _pieLayer = [CAShapeLayer layer];
+    [_contentView.layer addSublayer:_pieLayer];
 }
 
 #pragma mark -
 
 - (void)strokeChart{
-	[self loadDefault];
-	
-	[self.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		_total +=((PNPieChartDataItem *)obj).value;
-	}];
-	
-	PNPieChartDataItem *currentItem;
-	CGFloat currentValue = 0;
-	for (int i = 0; i < _items.count; i++) {
-		currentItem = [self dataItemForIndex:i];
-		
-		
-		CGFloat startPercnetage = currentValue/_total;
-		CGFloat endPercentage   = (currentValue + currentItem.value)/_total;
-		
-		CAShapeLayer *currentPieLayer =	[self newCircleLayerWithRadius:_innerCircleRadius + (_outerCircleRadius - _innerCircleRadius)/2
-                                                           borderWidth:_outerCircleRadius - _innerCircleRadius
+    [self loadDefault];
+    
+    PNPieChartDataItem *currentItem;
+    for (int i = 0; i < _items.count; i++) {
+        currentItem = [self dataItemForIndex:i];
+        
+        
+        CGFloat startPercnetage = [self startPercentageForItemAtIndex:i];
+        CGFloat endPercentage   = [self endPercentageForItemAtIndex:i];
+        
+        CGFloat radius = _innerCircleRadius + (_outerCircleRadius - _innerCircleRadius)/2;
+        CGFloat borderWidth = _outerCircleRadius - _innerCircleRadius;
+        CAShapeLayer *currentPieLayer =	[self newCircleLayerWithRadius:radius
+                                                           borderWidth:borderWidth
                                                              fillColor:[UIColor clearColor]
                                                            borderColor:currentItem.color
                                                        startPercentage:startPercnetage
                                                          endPercentage:endPercentage];
-		[_pieLayer addSublayer:currentPieLayer];
-		
-		currentValue+=currentItem.value;
-		
-	}
-	
-	[self maskChart];
-	
-	currentValue = 0;
+        [_pieLayer addSublayer:currentPieLayer];
+    }
+    
+    [self maskChart];
+    
     for (int i = 0; i < _items.count; i++) {
-		currentItem = [self dataItemForIndex:i];
-		UILabel *descriptionLabel =  [self descriptionLabelForItemAtIndex:i];
-		[_contentView addSubview:descriptionLabel];
-		currentValue+=currentItem.value;
+        UILabel *descriptionLabel =  [self descriptionLabelForItemAtIndex:i];
+        [_contentView addSubview:descriptionLabel];
         [_descriptionLabels addObject:descriptionLabel];
-	}
+    }
 }
 
 - (UILabel *)descriptionLabelForItemAtIndex:(NSUInteger)index{
-	PNPieChartDataItem *currentDataItem = [self dataItemForIndex:index];
+    PNPieChartDataItem *currentDataItem = [self dataItemForIndex:index];
     CGFloat distance = _innerCircleRadius + (_outerCircleRadius - _innerCircleRadius) / 2;
-    CGFloat centerPercentage =(_currentTotal + currentDataItem.value /2 ) / _total;
+    CGFloat centerPercentage = ([self startPercentageForItemAtIndex:index] + [self endPercentageForItemAtIndex:index])/2;
     CGFloat rad = centerPercentage * 2 * M_PI;
     
-	_currentTotal += currentDataItem.value;
-	
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
     NSString *titleText = currentDataItem.textDescription;
     if(!titleText){
-        titleText = [NSString stringWithFormat:@"%.0f%%",currentDataItem.value/ _total * 100];
+        titleText = [NSString stringWithFormat:@"%.0f%%",[self ratioForItemAtIndex:index] * 100];
         descriptionLabel.text = titleText ;
     }
     else {
-        NSString* str = [NSString stringWithFormat:@"%.0f%%\n",currentDataItem.value/ _total * 100];
+        NSString* str = [NSString stringWithFormat:@"%.0f%%\n",[self ratioForItemAtIndex:index] * 100];
         str = [str stringByAppendingString:titleText];
         descriptionLabel.text = str ;
     }
@@ -141,8 +140,8 @@
     descriptionLabel.font = _descriptionTextFont;
     CGSize labelSize = [descriptionLabel.text sizeWithAttributes:@{NSFontAttributeName:descriptionLabel.font}];
     descriptionLabel.frame = CGRectMake(
-                             descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y,
-                             descriptionLabel.frame.size.width, labelSize.height);
+                                        descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y,
+                                        descriptionLabel.frame.size.width, labelSize.height);
     descriptionLabel.numberOfLines = 0;
     descriptionLabel.textColor = _descriptionTextColor;
     descriptionLabel.shadowColor = _descriptionTextShadowColor;
@@ -151,11 +150,27 @@
     descriptionLabel.center = center;
     descriptionLabel.alpha = 0;
     descriptionLabel.backgroundColor = [UIColor clearColor];
-	return descriptionLabel;
+    return descriptionLabel;
 }
 
 - (PNPieChartDataItem *)dataItemForIndex:(NSUInteger)index{
-	return self.items[index];
+    return self.items[index];
+}
+
+- (CGFloat)startPercentageForItemAtIndex:(NSUInteger)index{
+    if(index == 0){
+        return 0;
+    }
+    
+    return [_endPercentages[index - 1] floatValue];
+}
+
+- (CGFloat)endPercentageForItemAtIndex:(NSUInteger)index{
+    return [_endPercentages[index] floatValue];
+}
+
+- (CGFloat)ratioForItemAtIndex:(NSUInteger)index{
+    return [self endPercentageForItemAtIndex:index] - [self startPercentageForItemAtIndex:index];
 }
 
 #pragma mark private methods
@@ -183,27 +198,29 @@
     circle.lineWidth   = borderWidth;
     circle.path        = path.CGPath;
     
-	
-	return circle;
+    
+    return circle;
 }
 
 - (void)maskChart{
-	CAShapeLayer *maskLayer =	[self newCircleLayerWithRadius:_innerCircleRadius + (_outerCircleRadius - _innerCircleRadius)/2
-                                                 borderWidth:_outerCircleRadius - _innerCircleRadius
+    CGFloat radius = _innerCircleRadius + (_outerCircleRadius - _innerCircleRadius)/2;
+    CGFloat borderWidth = _outerCircleRadius - _innerCircleRadius;
+    CAShapeLayer *maskLayer =	[self newCircleLayerWithRadius:radius
+                                                 borderWidth:borderWidth
                                                    fillColor:[UIColor clearColor]
                                                  borderColor:[UIColor blackColor]
                                              startPercentage:0
                                                endPercentage:1];
-	
-	_pieLayer.mask = maskLayer;
-	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-	animation.duration  = _duration;
-	animation.fromValue = @0;
-	animation.toValue   = @1;
+    
+    _pieLayer.mask = maskLayer;
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    animation.duration  = _duration;
+    animation.fromValue = @0;
+    animation.toValue   = @1;
     animation.delegate  = self;
-	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-	animation.removedOnCompletion = YES;
-	[maskLayer addAnimation:animation forKey:@"circleAnimation"];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.removedOnCompletion = YES;
+    [maskLayer addAnimation:animation forKey:@"circleAnimation"];
 }
 
 - (void)createArcAnimationForLayer:(CAShapeLayer *)layer ForKey:(NSString *)key fromValue:(NSNumber *)from toValue:(NSNumber *)to Delegate:(id)delegate
