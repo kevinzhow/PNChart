@@ -127,13 +127,18 @@
 	
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
     NSString *titleText = currentDataItem.textDescription;
-    if(!titleText){
-        titleText = [NSString stringWithFormat:@"%.0f%%",currentDataItem.value/ _total * 100];
-        descriptionLabel.text = titleText ;
+    NSString *titleValue;
+    
+    if (self.showAbsoluteValues) {
+        titleValue = [NSString stringWithFormat:@"%.0f",currentDataItem.value];
+    }else{
+        titleValue = [NSString stringWithFormat:@"%.0f%%",currentDataItem.value/ _total * 100];
+    }
+    if(!titleText || self.showOnlyValues){
+        descriptionLabel.text = titleValue;
     }
     else {
-        NSString* str = [NSString stringWithFormat:@"%.0f%%\n",currentDataItem.value/ _total * 100];
-        str = [str stringByAppendingString:titleText];
+        NSString* str = [titleValue stringByAppendingString:[NSString stringWithFormat:@"\n%@",titleText]];
         descriptionLabel.text = str ;
     }
     

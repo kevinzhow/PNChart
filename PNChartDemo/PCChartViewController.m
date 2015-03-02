@@ -16,6 +16,11 @@
     [super viewDidLoad];
     self.titleLabel.textColor = PNFreshGreen;
     
+    self.leftSwitch.hidden = YES;
+    self.rightSwitch.hidden = YES;
+    self.leftLabel.hidden = YES;
+    self.rightLabel.hidden = YES;
+    
     if ([self.title isEqualToString:@"Line Chart"]) {
 
         self.titleLabel.text = @"Line Chart";
@@ -116,6 +121,11 @@
     else if ([self.title isEqualToString:@"Pie Chart"])
     {
         self.titleLabel.text = @"Pie Chart";
+        self.leftSwitch.hidden = NO;
+        self.rightSwitch.hidden = NO;
+        self.leftLabel.hidden = NO;
+        self.rightLabel.hidden = NO;
+        
         
         NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNLightGreen],
                            [PNPieChartDataItem dataItemWithValue:20 color:PNFreshGreen description:@"WWDC"],
@@ -126,6 +136,8 @@
         self.pieChart.descriptionTextColor = [UIColor whiteColor];
         self.pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
         self.pieChart.descriptionTextShadowColor = [UIColor clearColor];
+        self.pieChart.showAbsoluteValues = NO;
+        self.pieChart.showOnlyValues = NO;
         [self.pieChart strokeChart];
         
         
@@ -272,4 +284,27 @@
     return (NSArray*) array;
 }
 
+- (IBAction)rightSwitchChanged:(id)sender {
+    if ([self.title isEqualToString:@"Pie Chart"]){
+        UISwitch *showLabels = (UISwitch*) sender;
+        if (showLabels.on) {
+            self.pieChart.showOnlyValues = NO;
+        }else{
+            self.pieChart.showOnlyValues = YES;
+        }
+        [self.pieChart strokeChart];
+    }
+}
+
+- (IBAction)leftSwitchChanged:(id)sender {
+    if ([self.title isEqualToString:@"Pie Chart"]){
+        UISwitch *showRelative = (UISwitch*) sender;
+        if (showRelative.on) {
+            self.pieChart.showAbsoluteValues = NO;
+        }else{
+            self.pieChart.showAbsoluteValues = YES;
+        }
+        [self.pieChart strokeChart];
+    }
+}
 @end

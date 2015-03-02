@@ -31,6 +31,13 @@
 /** Default is 1.0. */
 @property (nonatomic) NSTimeInterval duration;
 
+/** Show only values, this is useful when legend is present */
+@property (nonatomic) BOOL showOnlyValues;
+
+
+/** Show absolute values not relative i.e. percentages */
+@property (nonatomic) BOOL showAbsoluteValues;
+
 - (void)strokeChart;
 
 @end

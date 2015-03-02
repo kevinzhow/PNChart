@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9Rt-UT-IxH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9Rt-UT-IxH">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -32,6 +32,30 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ORA-mb-hJl">
+                                <rect key="frame" x="16" y="489" width="51" height="31"/>
+                                <connections>
+                                    <action selector="leftSwitchChanged:" destination="Tha-Wr-sPW" eventType="valueChanged" id="q9T-QK-Sas"/>
+                                </connections>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qR7-40-7ir">
+                                <rect key="frame" x="261" y="489" width="51" height="31"/>
+                                <connections>
+                                    <action selector="rightSwitchChanged:" destination="Tha-Wr-sPW" eventType="valueChanged" id="n6V-lL-r8Q"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Percentage" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IKu-qh-ksi">
+                                <rect key="frame" x="16" y="528" width="88" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Labels" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ifm-a9-Wkq">
+                                <rect key="frame" x="211" y="527" width="99" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -44,6 +68,10 @@
                     <navigationItem key="navigationItem" title="PNChart" id="Ukg-Sg-E2z"/>
                     <connections>
                         <outlet property="changeValueButton" destination="L3F-13-Wf5" id="JnI-y3-Xpj"/>
+                        <outlet property="leftLabel" destination="IKu-qh-ksi" id="CPy-oy-qCP"/>
+                        <outlet property="leftSwitch" destination="ORA-mb-hJl" id="u1M-2f-6P1"/>
+                        <outlet property="rightLabel" destination="Ifm-a9-Wkq" id="QhE-j2-qpe"/>
+                        <outlet property="rightSwitch" destination="qR7-40-7ir" id="noL-6R-d3a"/>
                         <outlet property="titleLabel" destination="FUU-vZ-jMd" id="dA3-KC-Ht4"/>
                     </connections>
                 </viewController>
