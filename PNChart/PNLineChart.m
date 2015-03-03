@@ -104,6 +104,20 @@
     }
 }
 
+- (CGFloat)computeEqualWidthForXLabels:(NSArray *)xLabels
+{
+    CGFloat xLabelWidth;
+
+    if (_showLabel) {
+        xLabelWidth = _chartCavanWidth / [xLabels count];
+    } else {
+        xLabelWidth = (self.frame.size.width) / [xLabels count];
+    }
+
+    return xLabelWidth;
+}
+
+
 - (void)setXLabels:(NSArray *)xLabels
 {
     CGFloat xLabelWidth;

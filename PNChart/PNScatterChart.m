@@ -156,6 +156,24 @@
     }
 }
 
+- (NSArray*) getAxisMinMax:(NSArray*)xValues
+{
+    float min = [xValues[0] floatValue];
+    float max = [xValues[0] floatValue];
+    for (NSNumber *number in xValues)
+    {
+        if ([number floatValue] > max)
+            max = [number floatValue];
+        
+        if ([number floatValue] < min)
+            min = [number floatValue];
+    }
+    NSArray *result = @[[NSNumber numberWithFloat:min], [NSNumber numberWithFloat:max]];
+   
+    
+    return result;
+}
+
 - (void)setAxisXLabel:(NSArray *)array {
     if(array.count == ++_AxisX_partNumber){
         [_axisX_labels removeAllObjects];

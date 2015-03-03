@@ -27,4 +27,11 @@
 	return item;
 }
 
+- (void)setValue:(CGFloat)value{
+    NSAssert(value >= 0, @"value should >= 0");
+    if (value != _value){
+        _value = value;
+    }
+}
+
 @end
