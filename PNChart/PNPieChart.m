@@ -132,7 +132,7 @@
     if (self.showAbsoluteValues) {
         titleValue = [NSString stringWithFormat:@"%.0f",currentDataItem.value];
     }else{
-        titleValue = [NSString stringWithFormat:@"%.0f%%",currentDataItem.value/ _total * 100];
+        titleValue = [NSString stringWithFormat:@"%.0f%%",[self ratioForItemAtIndex:index] * 100];
     }
     if(!titleText || self.showOnlyValues){
         descriptionLabel.text = titleValue;
@@ -141,7 +141,6 @@
         NSString* str = [titleValue stringByAppendingString:[NSString stringWithFormat:@"\n%@",titleText]];
         descriptionLabel.text = str ;
     }
-    descriptionLabel.text = titleText;
     
     CGPoint center = CGPointMake(_outerCircleRadius + distance * sin(rad),
                                  _outerCircleRadius - distance * cos(rad));
