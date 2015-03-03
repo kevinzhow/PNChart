@@ -157,7 +157,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
     [_circle addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     _circle.strokeEnd   = [_current floatValue] / [_total floatValue];
 
-    [_countingLabel countFrom:0 to:[_current floatValue] withDuration:self.duration];
+    [_countingLabel countFrom:0 to:[_current floatValue]/([_total floatValue]/100.0) withDuration:self.duration];
 
 
     // Check if user wants to add a gradient from the start color to the bar color
