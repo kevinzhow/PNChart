@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "PNChartDelegate.h"
+#import "PNGenericChart.h"
 
-@interface PNLineChart : UIView
+@interface PNLineChart : PNGenericChart
 
 /**
  * Draws the chart in an animated fashion.
@@ -70,4 +71,17 @@
 
 - (void)updateChartData:(NSArray *)data;
 
+
+/**
+ *  returns the Legend View, or nil if no chart data is present. 
+ *  The origin of the legend frame is 0,0 but you can set it with setFrame:(CGRect)
+ *
+ *  @param mWidth Maximum width of legend. Height will depend on this and font size
+ *
+ *  @return UIView of Legend
+ */
+- (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth;
+
+
++ (CGSize)sizeOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font;
 @end

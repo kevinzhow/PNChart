@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "PNPieChartDataItem.h"
+#import "PNGenericChart.h"
 
-@interface PNPieChart : UIView
+@interface PNPieChart : PNGenericChart
 
 - (id)initWithFrame:(CGRect)frame items:(NSArray *)items;
 
@@ -29,6 +30,13 @@
 
 /** Default is 1.0. */
 @property (nonatomic) NSTimeInterval duration;
+
+/** Show only values, this is useful when legend is present */
+@property (nonatomic) BOOL showOnlyValues;
+
+
+/** Show absolute values not relative i.e. percentages */
+@property (nonatomic) BOOL showAbsoluteValues;
 
 - (void)strokeChart;
 

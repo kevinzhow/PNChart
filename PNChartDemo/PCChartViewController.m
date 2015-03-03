@@ -16,6 +16,11 @@
     [super viewDidLoad];
     self.titleLabel.textColor = PNFreshGreen;
     
+    self.leftSwitch.hidden = YES;
+    self.rightSwitch.hidden = YES;
+    self.leftLabel.hidden = YES;
+    self.rightLabel.hidden = YES;
+    
     if ([self.title isEqualToString:@"Line Chart"]) {
 
         self.titleLabel.text = @"Line Chart";
@@ -34,6 +39,7 @@
         // Line Chart #1
         NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2, @127.2, @176.2];
         PNLineChartData *data01 = [PNLineChartData new];
+        data01.dataTitle = @"Alpha";
         data01.color = PNFreshGreen;
         data01.alpha = 0.3f;
         data01.itemCount = data01Array.count;
@@ -46,10 +52,11 @@
         // Line Chart #2
         NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
         PNLineChartData *data02 = [PNLineChartData new];
+        data02.dataTitle = @"Beta Beta Beta Beta";
         data02.color = PNTwitterColor;
         data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
-        data02.inflexionPointStyle = PNLineChartPointStyleSquare;
+        data02.inflexionPointStyle = PNLineChartPointStyleNone;
         data02.getData = ^(NSUInteger index) {
             CGFloat yValue = [data02Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
@@ -61,6 +68,12 @@
         
 
         [self.view addSubview:self.lineChart];
+        self.lineChart.legendStyle = PNLegendItemStyleStacked;
+        self.lineChart.legendFontSize = 12.0;
+        
+        UIView *legend = [self.lineChart getLegendWithMaxWidth:200];
+        [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
+        [self.view addSubview:legend];
     }
     else if ([self.title isEqualToString:@"Bar Chart"])
     {
@@ -108,6 +121,11 @@
     else if ([self.title isEqualToString:@"Pie Chart"])
     {
         self.titleLabel.text = @"Pie Chart";
+        self.leftSwitch.hidden = NO;
+        self.rightSwitch.hidden = NO;
+        self.leftLabel.hidden = NO;
+        self.rightLabel.hidden = NO;
+        
         
         NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNLightGreen],
                            [PNPieChartDataItem dataItemWithValue:20 color:PNFreshGreen description:@"WWDC"],
@@ -118,8 +136,17 @@
         self.pieChart.descriptionTextColor = [UIColor whiteColor];
         self.pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
         self.pieChart.descriptionTextShadowColor = [UIColor clearColor];
+        self.pieChart.showAbsoluteValues = NO;
+        self.pieChart.showOnlyValues = NO;
         [self.pieChart strokeChart];
         
+        
+        self.pieChart.legendStyle = PNLegendItemStyleStacked;
+        self.pieChart.legendFontSize = 12.0;
+        
+        UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
+        [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
+        [self.view addSubview:legend];
     
         [self.view addSubview:self.pieChart];
         self.changeValueButton.hidden = YES;
@@ -257,4 +284,27 @@
     return (NSArray*) array;
 }
 
+- (IBAction)rightSwitchChanged:(id)sender {
+    if ([self.title isEqualToString:@"Pie Chart"]){
+        UISwitch *showLabels = (UISwitch*) sender;
+        if (showLabels.on) {
+            self.pieChart.showOnlyValues = NO;
+        }else{
+            self.pieChart.showOnlyValues = YES;
+        }
+        [self.pieChart strokeChart];
+    }
+}
+
+- (IBAction)leftSwitchChanged:(id)sender {
+    if ([self.title isEqualToString:@"Pie Chart"]){
+        UISwitch *showRelative = (UISwitch*) sender;
+        if (showRelative.on) {
+            self.pieChart.showAbsoluteValues = NO;
+        }else{
+            self.pieChart.showAbsoluteValues = YES;
+        }
+        [self.pieChart strokeChart];
+    }
+}
 @end

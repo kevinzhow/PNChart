@@ -7,6 +7,8 @@
 //
 
 #import "PNPieChart.h"
+//needed for the expected label size
+#import "PNLineChart.h"
 
 @interface PNPieChart()
 
@@ -124,11 +126,21 @@
     CGFloat rad = centerPercentage * 2 * M_PI;
     
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
-    NSString *titleText = [NSString stringWithFormat:@"%.0f%%",[self ratioForItemAtIndex:index] * 100];
-    if(currentDataItem.textDescription){
-        titleText = [titleText stringByAppendingFormat:@"\n%@",currentDataItem.textDescription];
+    NSString *titleText = currentDataItem.textDescription;
+    NSString *titleValue;
+    
+    if (self.showAbsoluteValues) {
+        titleValue = [NSString stringWithFormat:@"%.0f",currentDataItem.value];
+    }else{
+        titleValue = [NSString stringWithFormat:@"%.0f%%",[self ratioForItemAtIndex:index] * 100];
     }
-    descriptionLabel.text = titleText;
+    if(!titleText || self.showOnlyValues){
+        descriptionLabel.text = titleValue;
+    }
+    else {
+        NSString* str = [titleValue stringByAppendingString:[NSString stringWithFormat:@"\n%@",titleText]];
+        descriptionLabel.text = str ;
+    }
     
     CGPoint center = CGPointMake(_outerCircleRadius + distance * sin(rad),
                                  _outerCircleRadius - distance * cos(rad));
@@ -237,5 +249,99 @@
             [obj setAlpha:1];
         }];
     }];
+}
+
+- (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
+    if ([self.items count] < 1) {
+        return nil;
+    }
+    
+    /* This is a small circle that refers to the chart data */
+    CGFloat legendCircle = 10;
+    
+    /* x and y are the coordinates of the starting point of each legend item */
+    CGFloat x = 0;
+    CGFloat y = 0;
+    
+    /* accumulated width and height */
+    CGFloat totalWidth = 0;
+    CGFloat totalHeight = 0;
+    
+    NSMutableArray *legendViews = [[NSMutableArray alloc] init];
+    
+    
+    /* Determine the max width of each legend item */
+    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - legendCircle) : (mWidth / [self.items count] - legendCircle);
+    
+    /* this is used when labels wrap text and the line
+     * should be in the middle of the first row */
+    CGFloat singleRowHeight = [PNLineChart sizeOfString:@"Test"
+                                              withWidth:MAXFLOAT
+                                                   font:[UIFont systemFontOfSize:self.legendFontSize]].height;
+    
+    for (PNPieChartDataItem *pdata in self.items) {
+        /* Expected label size*/
+        CGSize labelsize = [PNLineChart sizeOfString:pdata.textDescription
+                                           withWidth:maxLabelWidth
+                                                font:[UIFont systemFontOfSize:self.legendFontSize]];
+        
+
+        // Add inflexion type
+        [legendViews addObject:[self drawInflexion:legendCircle * .8
+                                            center:CGPointMake(x + legendCircle / 2, y + singleRowHeight / 2)
+                                          andColor:pdata.color]];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendCircle, y, maxLabelWidth, labelsize.height)];
+        label.text = pdata.textDescription;
+        label.font = [UIFont systemFontOfSize:self.legendFontSize];
+        label.lineBreakMode = NSLineBreakByWordWrapping;
+        label.numberOfLines = 0;
+        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + legendCircle;
+        y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
+        
+        totalWidth = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalWidth, labelsize.width + legendCircle) : totalWidth + labelsize.width + legendCircle;
+        totalHeight = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalHeight, labelsize.height) : totalHeight + labelsize.height;
+        [legendViews addObject:label];
+    }
+    
+    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, totalHeight)];
+    
+    for (UIView* v in legendViews) {
+        [legend addSubview:v];
+    }
+    return legend;
+}
+
+
+- (UIImageView*)drawInflexion:(CGFloat)size center:(CGPoint)center andColor:(UIColor*)color
+{
+    //Make the size a little bigger so it includes also border stroke
+    CGSize aSize = CGSizeMake(size, size);
+    
+    
+    UIGraphicsBeginImageContextWithOptions(aSize, NO, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextAddArc(context, size/2, size/ 2, size/2, 0, M_PI*2, YES);
+
+    
+    //Set some fill color
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    
+    //Finally draw
+    CGContextDrawPath(context, kCGPathFill);
+    
+    //now get the image from the context
+    UIImage *squareImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    //// Translate origin
+    CGFloat originX = center.x - (size) / 2.0;
+    CGFloat originY = center.y - (size) / 2.0;
+    
+    UIImageView *squareImageView = [[UIImageView alloc]initWithImage:squareImage];
+    [squareImageView setFrame:CGRectMake(originX, originY, size, size)];
+    return squareImageView;
 }
 @end
