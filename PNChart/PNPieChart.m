@@ -273,10 +273,13 @@
     
     NSMutableArray *legendViews = [[NSMutableArray alloc] init];
     
-    NSUInteger numLabelsPerRow = ceil((float)[self.items count] / self.labelRowsInSerialMode);
-    
     /* Determine the max width of each legend item */
-    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - beforeLabel) : (mWidth / numLabelsPerRow - beforeLabel);
+    CGFloat maxLabelWidth;
+    if (self.legendStyle == PNLegendItemStyleStacked) {
+        maxLabelWidth = mWidth - beforeLabel;
+    }else{
+        maxLabelWidth = MAXFLOAT;
+    }
     
     /* this is used when labels wrap text and the line
      * should be in the middle of the first row */
@@ -285,6 +288,7 @@
                                                    font:[UIFont systemFontOfSize:self.legendFontSize]].height;
     
     NSUInteger counter = 0;
+    NSUInteger rowWidth = 0;
     NSUInteger rowMaxHeight = 0;
     
     for (PNPieChartDataItem *pdata in self.items) {
@@ -293,20 +297,20 @@
                                            withWidth:maxLabelWidth
                                                 font:[UIFont systemFontOfSize:self.legendFontSize]];
         
-
-        if (counter != 0 && counter % numLabelsPerRow == 0) {
+        if (rowWidth + labelsize.width > mWidth) {
+            rowWidth = 0;
             x = 0;
             y += rowMaxHeight;
             rowMaxHeight = 0;
         }
-
+        rowWidth += labelsize.width;
         // Add inflexion type
         [legendViews addObject:[self drawInflexion:legendCircle * .6
                                             center:CGPointMake(x + legendCircle / 2, y + singleRowHeight / 2)
                                           andColor:pdata.color]];
         
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + beforeLabel, y, maxLabelWidth, labelsize.height)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + beforeLabel, y, labelsize.width, labelsize.height)];
         label.text = pdata.textDescription;
         label.font = [UIFont systemFontOfSize:self.legendFontSize];
         label.lineBreakMode = NSLineBreakByWordWrapping;
@@ -314,7 +318,7 @@
         
         
         rowMaxHeight = fmaxf(rowMaxHeight, labelsize.height);
-        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : maxLabelWidth + beforeLabel;
+        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + beforeLabel;
         y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
         
 
