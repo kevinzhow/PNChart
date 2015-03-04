@@ -238,7 +238,11 @@
     }
     
     /* This is a small circle that refers to the chart data */
-    CGFloat legendCircle = 10;
+    CGFloat legendCircle = 16;
+    
+    CGFloat hSpacing = 0;
+    
+    CGFloat beforeLabel = legendCircle + hSpacing;
     
     /* x and y are the coordinates of the starting point of each legend item */
     CGFloat x = 0;
@@ -252,7 +256,7 @@
     
     
     /* Determine the max width of each legend item */
-    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - legendCircle) : (mWidth / [self.items count] - legendCircle);
+    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - beforeLabel) : (mWidth / [self.items count] - beforeLabel);
     
     /* this is used when labels wrap text and the line
      * should be in the middle of the first row */
@@ -268,20 +272,20 @@
         
 
         // Add inflexion type
-        [legendViews addObject:[self drawInflexion:legendCircle * .8
+        [legendViews addObject:[self drawInflexion:legendCircle * .6
                                             center:CGPointMake(x + legendCircle / 2, y + singleRowHeight / 2)
                                           andColor:pdata.color]];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendCircle, y, maxLabelWidth, labelsize.height)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + beforeLabel, y, maxLabelWidth, labelsize.height)];
         label.text = pdata.textDescription;
         label.font = [UIFont systemFontOfSize:self.legendFontSize];
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
-        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + legendCircle;
+        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + beforeLabel;
         y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
         
-        totalWidth = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalWidth, labelsize.width + legendCircle) : totalWidth + labelsize.width + legendCircle;
-        totalHeight = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalHeight, labelsize.height) : totalHeight + labelsize.height;
+        totalWidth = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalWidth, labelsize.width + beforeLabel) : totalWidth + labelsize.width + beforeLabel;
+        totalHeight = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(totalHeight, labelsize.height) : totalHeight + labelsize.height;
         [legendViews addObject:label];
     }
     
