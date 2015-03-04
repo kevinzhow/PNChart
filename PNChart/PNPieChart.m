@@ -57,6 +57,7 @@
         _descriptionTextShadowOffset =  CGSizeMake(0, 1);
         _duration = 1.0;
         
+        [super setupDefaultValues];
         [self loadDefault];
     }
     
@@ -268,20 +269,23 @@
     CGFloat y = 0;
     
     /* accumulated width and height */
-    CGFloat totalWidth = 0;
     CGFloat totalHeight = 0;
     
     NSMutableArray *legendViews = [[NSMutableArray alloc] init];
     
+    NSUInteger numLabelsPerRow = ceil((float)[self.items count] / self.labelRowsInSerialMode);
     
     /* Determine the max width of each legend item */
-    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - beforeLabel) : (mWidth / [self.items count] - beforeLabel);
+    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - beforeLabel) : (mWidth / numLabelsPerRow - beforeLabel);
     
     /* this is used when labels wrap text and the line
      * should be in the middle of the first row */
     CGFloat singleRowHeight = [PNLineChart sizeOfString:@"Test"
                                               withWidth:MAXFLOAT
                                                    font:[UIFont systemFontOfSize:self.legendFontSize]].height;
+    
+    NSUInteger counter = 0;
+    NSUInteger rowMaxHeight = 0;
     
     for (PNPieChartDataItem *pdata in self.items) {
         /* Expected label size*/
@@ -290,25 +294,36 @@
                                                 font:[UIFont systemFontOfSize:self.legendFontSize]];
         
 
+        if (counter != 0 && counter % numLabelsPerRow == 0) {
+            x = 0;
+            y += rowMaxHeight;
+            rowMaxHeight = 0;
+        }
+
         // Add inflexion type
         [legendViews addObject:[self drawInflexion:legendCircle * .6
                                             center:CGPointMake(x + legendCircle / 2, y + singleRowHeight / 2)
                                           andColor:pdata.color]];
+        
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + beforeLabel, y, maxLabelWidth, labelsize.height)];
         label.text = pdata.textDescription;
         label.font = [UIFont systemFontOfSize:self.legendFontSize];
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
-        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + beforeLabel;
+        
+        
+        rowMaxHeight = fmaxf(rowMaxHeight, labelsize.height);
+        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : maxLabelWidth + beforeLabel;
         y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
         
-        totalWidth = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalWidth, labelsize.width + beforeLabel) : totalWidth + labelsize.width + beforeLabel;
-        totalHeight = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(totalHeight, labelsize.height) : totalHeight + labelsize.height;
+
+        totalHeight = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(totalHeight, rowMaxHeight + y) : totalHeight + labelsize.height;
         [legendViews addObject:label];
+        counter ++;
     }
     
-    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, totalHeight)];
+    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mWidth, totalHeight)];
     
     for (UIView* v in legendViews) {
         [legend addSubview:v];
