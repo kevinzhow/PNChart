@@ -64,7 +64,6 @@ data02.getData = ^(NSUInteger index) {
 
 lineChart.chartData = @[data01, data02];
 [lineChart strokeChart];
-
 ```
 
 [![](https://dl.dropboxusercontent.com/u/1599662/bar.png)](https://dl.dropboxusercontent.com/u/1599662/bar.png)
@@ -149,6 +148,46 @@ CGPoint end = CGPointMake(80, 45);
 ***/
 scatterChart.delegate = self;
 ```
+
+#### Legend
+
+Legend has been added to PNChart for Line and Pie Charts. Legend items position can be stacked or in series.
+
+[![](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_1.png)](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_1.png)
+
+[![](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_2.png)](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_2.png)
+
+```objective-c
+#import "PNChart.h"
+
+//For Line Chart
+
+//Add Line Titles for the Legend
+data01.dataTitle = @"Alpha";
+data02.dataTitle = @"Beta Beta Beta Beta";
+
+//Build the legend
+self.lineChart.legendStyle = PNLegendItemStyleSerial;
+self.lineChart.legendFontSize = 12.0;        
+UIView *legend = [self.lineChart getLegendWithMaxWidth:320];
+
+//Move legend to the desired position and add to view
+[legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.height)];
+[self.view addSubview:legend];
+
+
+//For Pie Chart
+
+//Build the legend
+self.pieChart.legendStyle = PNLegendItemStyleStacked;
+self.pieChart.legendFontSize = 12.0;
+UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
+
+//Move legend to the desired position and add to view
+[legend setFrame:CGRectMake(130, 350, legend.frame.size.width, legend.frame.size.height)];
+[self.view addSubview:legend];
+```
+
 
 #### Update Value
 
