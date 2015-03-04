@@ -269,6 +269,7 @@
     CGFloat y = 0;
     
     /* accumulated width and height */
+    CGFloat totalWidth = 0;
     CGFloat totalHeight = 0;
     
     NSMutableArray *legendViews = [[NSMutableArray alloc] init];
@@ -297,13 +298,14 @@
                                            withWidth:maxLabelWidth
                                                 font:[UIFont systemFontOfSize:self.legendFontSize]];
         
-        if (rowWidth + labelsize.width > mWidth) {
+        if ((rowWidth + labelsize.width + beforeLabel > mWidth)&&(self.legendStyle == PNLegendItemStyleSerial)) {
             rowWidth = 0;
             x = 0;
             y += rowMaxHeight;
             rowMaxHeight = 0;
         }
-        rowWidth += labelsize.width;
+        rowWidth += labelsize.width + beforeLabel;
+        totalWidth = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(rowWidth, totalWidth) : fmaxf(totalWidth, labelsize.width + beforeLabel);
         // Add inflexion type
         [legendViews addObject:[self drawInflexion:legendCircle * .6
                                             center:CGPointMake(x + legendCircle / 2, y + singleRowHeight / 2)
@@ -327,7 +329,7 @@
         counter ++;
     }
     
-    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mWidth, totalHeight)];
+    UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, totalHeight)];
     
     for (UIView* v in legendViews) {
         [legend addSubview:v];
