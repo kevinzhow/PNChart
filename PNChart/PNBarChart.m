@@ -68,6 +68,10 @@
 {
     _yValues = yValues;
 
+    //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
+    int yLabelsDifTotal = [NSSet setWithArray:yValues].count;
+    _yLabelSum = yLabelsDifTotal % 2 == 0 ? yLabelsDifTotal : yLabelsDifTotal + 1;
+
     if (_yMaxValue) {
         _yValueMax = _yMaxValue;
     } else {
@@ -114,7 +118,8 @@
 {
     int max = [[yLabels valueForKeyPath:@"@max.intValue"] intValue];
 
-    _yValueMax = (int)max;
+    //ensure max is even
+    _yValueMax = max % 2 == 0 ? max : max + 1;
 
     if (_yValueMax == 0) {
         _yValueMax = _yMinValue;
