@@ -27,4 +27,6 @@
  */
 - (void)userClickedOnBarAtIndex:(NSInteger)barIndex;
 
+
+- (void)userClickedOnPieIndexItem:(NSInteger)pieIndex;
 @end

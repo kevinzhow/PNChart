@@ -252,6 +252,27 @@
     }];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches) {
+        CGPoint touchLocation = [touch locationInView:_contentView];
+        CGPoint circleCenter = CGPointMake(_contentView.bounds.size.width/2, _contentView.bounds.size.height/2);
+        CGFloat percentage = [self findPercentageOfAngleInCircle:circleCenter fromPoint:touchLocation];
+        int index = 0;
+        while (percentage > [self endPercentageForItemAtIndex:index]) {
+            index ++;
+        }
+        [self.delegate userClickedOnPieIndexItem:index];
+    }
+}
+
+- (CGFloat) findPercentageOfAngleInCircle:(CGPoint)center fromPoint:(CGPoint)reference{
+    //Find angle of line Passing In Reference And Center
+    CGFloat angleOfLine = atanf((reference.y - center.y) / (reference.x - center.x));
+    CGFloat percentage = (angleOfLine + M_PI/2)/(2 * M_PI);
+    return (reference.x - center.x) > 0 ? percentage : percentage + .5;
+}
+
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
     if ([self.items count] < 1) {
         return nil;
