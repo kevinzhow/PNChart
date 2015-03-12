@@ -29,4 +29,5 @@
 
 
 - (void)userClickedOnPieIndexItem:(NSInteger)pieIndex;
+- (void)didUnselectPieItem;
 @end
