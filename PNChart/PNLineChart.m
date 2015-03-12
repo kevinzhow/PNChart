@@ -52,7 +52,7 @@
 
 #pragma mark instance methods
 
-- (void)setYLabels:(NSArray *)yLabels
+- (void)setYLabels
 {
     CGFloat yStep = (_yValueMax - _yValueMin) / _yLabelNum;
     CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
@@ -100,6 +100,54 @@
             [_yChartLabels addObject:label];
             index += 1;
             num -= 1;
+        }
+    }
+}
+
+- (void)setYLabels:(NSArray *)yLabels
+{
+    _showGenYLabels = NO;
+    _yLabelNum = yLabels.count - 1;
+    
+    CGFloat yLabelHeight;
+    if (_showLabel) {
+        yLabelHeight = _chartCavanHeight / [yLabels count];
+    } else {
+        yLabelHeight = (self.frame.size.height) / [yLabels count];
+    }
+    
+    return [self setYLabels:yLabels withHeight:yLabelHeight];
+}
+
+- (void)setYLabels:(NSArray *)yLabels withHeight:(CGFloat)height
+{
+    _yLabels = yLabels;
+    _yLabelHeight = height;
+    if (_yChartLabels) {
+        for (PNChartLabel * label in _yChartLabels) {
+            [label removeFromSuperview];
+        }
+    }else{
+        _yChartLabels = [NSMutableArray new];
+    }
+    
+    NSString *labelText;
+    
+    if (_showLabel) {
+        CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+        
+        for (int index = 0; index < yLabels.count; index++) {
+            labelText = yLabels[index];
+            
+#warning modify origin
+            NSInteger y = (NSInteger)(_chartCavanHeight - index * yStepHeight);
+            
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
+            [label setTextAlignment:NSTextAlignmentRight];
+            label.text = labelText;
+            [self setCustomStyleForYLabel:label];
+            [self addSubview:label];
+            [_yChartLabels addObject:label];
         }
     }
 }
@@ -548,8 +596,8 @@
     _yValueMin = _yFixedValueMin ? _yFixedValueMin : yMin ;
     _yValueMax = _yFixedValueMax ? _yFixedValueMax : yMax + yMax / 10.0;
     
-    if (_showLabel) {
-        [self setYLabels:yLabelsArray];
+    if (_showGenYLabels) {
+        [self setYLabels];
     }
     
 }
@@ -682,7 +730,8 @@
     self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds   = YES;
     self.chartLineArray  = [NSMutableArray new];
-    _showLabel           = YES;
+    _showLabel            = YES;
+    _showGenYLabels        = YES;
     _pathPoints          = [[NSMutableArray alloc] init];
     _endPointsOfPath     = [[NSMutableArray alloc] init];
     self.userInteractionEnabled = YES;
