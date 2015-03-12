@@ -33,11 +33,22 @@
         
         //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
         //Only if you needed
-        self.lineChart.yFixedValueMax = 500.0;
-        self.lineChart.yFixedValueMin = 1.0;
+        self.lineChart.yFixedValueMax = 300.0;
+        self.lineChart.yFixedValueMin = 0.0;
+
+        [self.lineChart setYLabels:@[
+            @"0 min",
+            @"50 min",
+            @"100 min",
+            @"150 min",
+            @"200 min",
+            @"250 min",
+            @"300 min",
+            ]
+         ];
         
         // Line Chart #1
-        NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2, @127.2, @176.2];
+        NSArray * data01Array = @[@60.1, @160.1, @126.4, @0.0, @186.2, @127.2, @176.2];
         PNLineChartData *data01 = [PNLineChartData new];
         data01.dataTitle = @"Alpha";
         data01.color = PNFreshGreen;
@@ -50,7 +61,7 @@
         };
         
         // Line Chart #2
-        NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
+        NSArray * data02Array = @[@0.0, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
         PNLineChartData *data02 = [PNLineChartData new];
         data02.dataTitle = @"Beta Beta Beta Beta";
         data02.color = PNTwitterColor;
