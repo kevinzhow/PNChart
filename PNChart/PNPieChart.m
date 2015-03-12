@@ -277,13 +277,13 @@
      * should be in the middle of the first row */
     CGFloat singleRowHeight = [PNLineChart sizeOfString:@"Test"
                                               withWidth:MAXFLOAT
-                                                   font:[UIFont systemFontOfSize:self.legendFontSize]].height;
+                                                   font:self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f]].height;
     
     for (PNPieChartDataItem *pdata in self.items) {
         /* Expected label size*/
         CGSize labelsize = [PNLineChart sizeOfString:pdata.textDescription
                                            withWidth:maxLabelWidth
-                                                font:[UIFont systemFontOfSize:self.legendFontSize]];
+                                                font:self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f]];
         
 
         // Add inflexion type
@@ -293,7 +293,8 @@
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendCircle, y, maxLabelWidth, labelsize.height)];
         label.text = pdata.textDescription;
-        label.font = [UIFont systemFontOfSize:self.legendFontSize];
+        label.textColor = self.legendFontColor ? self.legendFontColor : [UIColor blackColor];
+        label.font = self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f];
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
         x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + legendCircle;

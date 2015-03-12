@@ -25,7 +25,8 @@ typedef NS_ENUM(NSUInteger, PNLegendItemStyle) {
 @property (assign, nonatomic) BOOL hasLegend;
 @property (assign, nonatomic) PNLegendPosition legendPosition;
 @property (assign, nonatomic) PNLegendItemStyle legendStyle;
-@property (assign, nonatomic) CGFloat legendFontSize;
+@property (assign, nonatomic) UIFont *legendFont;
+@property (assign, nonatomic) UIColor *legendFontColor;
 
 /**
  *  returns the Legend View, or nil if no chart data is present.

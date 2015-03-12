@@ -80,7 +80,8 @@
 
         [self.view addSubview:self.lineChart];
         self.lineChart.legendStyle = PNLegendItemStyleStacked;
-        self.lineChart.legendFontSize = 12.0;
+        self.lineChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
+        self.lineChart.legendFontColor = [UIColor redColor];
         
         UIView *legend = [self.lineChart getLegendWithMaxWidth:200];
         [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
@@ -153,7 +154,7 @@
         
         
         self.pieChart.legendStyle = PNLegendItemStyleStacked;
-        self.pieChart.legendFontSize = 12.0;
+        self.pieChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
         
         UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
         [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
