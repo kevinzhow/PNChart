@@ -24,37 +24,11 @@
 }
 */
 
-- (UIView*) drawLegend{
-    return nil;
-}
-
-
-- (id)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    
-    if (self) {
-        [self setupDefaultValues];
-    }
-    
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    
-    if (self) {
-        [self setupDefaultValues];
-    }
-    
-    return self;
-}
-
 - (void) setupDefaultValues{
     self.hasLegend = YES;
     self.legendPosition = PNLegendPositionBottom;
     self.legendStyle = PNLegendItemStyleStacked;
+    self.labelRowsInSerialMode = 1;
 }
 
 
@@ -67,6 +41,13 @@
     return nil;
 }
 
+- (void) setLabelRowsInSerialMode:(NSUInteger)num{
+    if (self.legendStyle == PNLegendItemStyleSerial) {
+        _labelRowsInSerialMode = num;
+    }else{
+        _labelRowsInSerialMode = 1;
+    }
+}
 
 
 @end

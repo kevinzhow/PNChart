@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, PNLegendItemStyle) {
 @property (assign, nonatomic) BOOL hasLegend;
 @property (assign, nonatomic) PNLegendPosition legendPosition;
 @property (assign, nonatomic) PNLegendItemStyle legendStyle;
+@property (assign, nonatomic) NSUInteger labelRowsInSerialMode;
 @property (assign, nonatomic) CGFloat legendFontSize;
 
 /**
@@ -37,4 +38,6 @@ typedef NS_ENUM(NSUInteger, PNLegendItemStyle) {
  */
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth;
 
+
+- (void) setupDefaultValues;
 @end
