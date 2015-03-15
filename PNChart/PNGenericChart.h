@@ -25,8 +25,10 @@ typedef NS_ENUM(NSUInteger, PNLegendItemStyle) {
 @property (assign, nonatomic) BOOL hasLegend;
 @property (assign, nonatomic) PNLegendPosition legendPosition;
 @property (assign, nonatomic) PNLegendItemStyle legendStyle;
+
 @property (assign, nonatomic) UIFont *legendFont;
 @property (assign, nonatomic) UIColor *legendFontColor;
+@property (assign, nonatomic) NSUInteger labelRowsInSerialMode;
 
 /**
  *  returns the Legend View, or nil if no chart data is present.
@@ -38,4 +40,6 @@ typedef NS_ENUM(NSUInteger, PNLegendItemStyle) {
  */
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth;
 
+
+- (void) setupDefaultValues;
 @end

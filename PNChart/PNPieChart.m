@@ -21,7 +21,7 @@
 @property (nonatomic) UIView         *contentView;
 @property (nonatomic) CAShapeLayer   *pieLayer;
 @property (nonatomic) NSMutableArray *descriptionLabels;
-
+@property (strong, nonatomic) CAShapeLayer *sectorHighlight;
 
 - (void)loadDefault;
 
@@ -57,6 +57,7 @@
         _descriptionTextShadowOffset =  CGSizeMake(0, 1);
         _duration = 1.0;
         
+        [super setupDefaultValues];
         [self loadDefault];
     }
     
@@ -101,6 +102,7 @@
         
         CGFloat radius = _innerCircleRadius + (_outerCircleRadius - _innerCircleRadius) / 2;
         CGFloat borderWidth = _outerCircleRadius - _innerCircleRadius;
+        
         CAShapeLayer *currentPieLayer =	[self newCircleLayerWithRadius:radius
                                                            borderWidth:borderWidth
                                                              fillColor:[UIColor clearColor]
@@ -251,13 +253,78 @@
     }];
 }
 
+- (void)didTouchAt:(CGPoint)touchLocation
+{
+    CGPoint circleCenter = CGPointMake(_contentView.bounds.size.width/2, _contentView.bounds.size.height/2);
+    
+    CGFloat distanceFromCenter = sqrtf(powf((touchLocation.y - circleCenter.y),2) + powf((touchLocation.x - circleCenter.x),2));
+    
+    if (distanceFromCenter < _innerCircleRadius) {
+        if ([self.delegate respondsToSelector:@selector(didUnselectPieItem)]) {
+            [self.delegate didUnselectPieItem];
+        }
+        [self.sectorHighlight removeFromSuperlayer];
+        return;
+    }
+    
+    CGFloat percentage = [self findPercentageOfAngleInCircle:circleCenter fromPoint:touchLocation];
+    int index = 0;
+    while (percentage > [self endPercentageForItemAtIndex:index]) {
+        index ++;
+    }
+
+    if ([self.delegate respondsToSelector:@selector(userClickedOnPieIndexItem:)]) {
+        [self.delegate userClickedOnPieIndexItem:index];
+    }
+    
+    if (self.sectorHighlight) {
+        [self.sectorHighlight removeFromSuperlayer];
+    }
+    PNPieChartDataItem *currentItem = [self dataItemForIndex:index];
+    
+    CGFloat red,green,blue,alpha;
+    UIColor *old = currentItem.color;
+    [old getRed:&red green:&green blue:&blue alpha:&alpha];
+    alpha /= 2;
+    UIColor *newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+    
+    CGFloat startPercnetage = [self startPercentageForItemAtIndex:index];
+    CGFloat endPercentage   = [self endPercentageForItemAtIndex:index];
+    self.sectorHighlight =	[self newCircleLayerWithRadius:_outerCircleRadius + 5
+                                              borderWidth:10
+                                                fillColor:[UIColor clearColor]
+                                              borderColor:newColor
+                                          startPercentage:startPercnetage
+                                            endPercentage:endPercentage];
+    [_contentView.layer addSublayer:self.sectorHighlight];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches) {
+        CGPoint touchLocation = [touch locationInView:_contentView];
+        [self didTouchAt:touchLocation];
+    }
+}
+
+- (CGFloat) findPercentageOfAngleInCircle:(CGPoint)center fromPoint:(CGPoint)reference{
+    //Find angle of line Passing In Reference And Center
+    CGFloat angleOfLine = atanf((reference.y - center.y) / (reference.x - center.x));
+    CGFloat percentage = (angleOfLine + M_PI/2)/(2 * M_PI);
+    return (reference.x - center.x) > 0 ? percentage : percentage + .5;
+}
+
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
     if ([self.items count] < 1) {
         return nil;
     }
     
     /* This is a small circle that refers to the chart data */
-    CGFloat legendCircle = 10;
+    CGFloat legendCircle = 16;
+    
+    CGFloat hSpacing = 0;
+    
+    CGFloat beforeLabel = legendCircle + hSpacing;
     
     /* x and y are the coordinates of the starting point of each legend item */
     CGFloat x = 0;
@@ -269,9 +336,13 @@
     
     NSMutableArray *legendViews = [[NSMutableArray alloc] init];
     
-    
     /* Determine the max width of each legend item */
-    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - legendCircle) : (mWidth / [self.items count] - legendCircle);
+    CGFloat maxLabelWidth;
+    if (self.legendStyle == PNLegendItemStyleStacked) {
+        maxLabelWidth = mWidth - beforeLabel;
+    }else{
+        maxLabelWidth = MAXFLOAT;
+    }
     
     /* this is used when labels wrap text and the line
      * should be in the middle of the first row */
@@ -279,30 +350,46 @@
                                               withWidth:MAXFLOAT
                                                    font:self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f]].height;
     
+    NSUInteger counter = 0;
+    NSUInteger rowWidth = 0;
+    NSUInteger rowMaxHeight = 0;
+    
     for (PNPieChartDataItem *pdata in self.items) {
         /* Expected label size*/
         CGSize labelsize = [PNLineChart sizeOfString:pdata.textDescription
                                            withWidth:maxLabelWidth
                                                 font:self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f]];
         
-
+        if ((rowWidth + labelsize.width + beforeLabel > mWidth)&&(self.legendStyle == PNLegendItemStyleSerial)) {
+            rowWidth = 0;
+            x = 0;
+            y += rowMaxHeight;
+            rowMaxHeight = 0;
+        }
+        rowWidth += labelsize.width + beforeLabel;
+        totalWidth = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(rowWidth, totalWidth) : fmaxf(totalWidth, labelsize.width + beforeLabel);
         // Add inflexion type
-        [legendViews addObject:[self drawInflexion:legendCircle * .8
+        [legendViews addObject:[self drawInflexion:legendCircle * .6
                                             center:CGPointMake(x + legendCircle / 2, y + singleRowHeight / 2)
                                           andColor:pdata.color]];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendCircle, y, maxLabelWidth, labelsize.height)];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + beforeLabel, y, labelsize.width, labelsize.height)];
         label.text = pdata.textDescription;
         label.textColor = self.legendFontColor ? self.legendFontColor : [UIColor blackColor];
         label.font = self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f];
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
-        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + legendCircle;
+        
+        
+        rowMaxHeight = fmaxf(rowMaxHeight, labelsize.height);
+        x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + beforeLabel;
         y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
         
-        totalWidth = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalWidth, labelsize.width + legendCircle) : totalWidth + labelsize.width + legendCircle;
-        totalHeight = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalHeight, labelsize.height) : totalHeight + labelsize.height;
+
+        totalHeight = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(totalHeight, rowMaxHeight + y) : totalHeight + labelsize.height;
         [legendViews addObject:label];
+        counter ++;
     }
     
     UIView *legend = [[UIView alloc] initWithFrame:CGRectMake(0, 0, totalWidth, totalHeight)];

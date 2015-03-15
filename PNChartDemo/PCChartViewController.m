@@ -20,6 +20,7 @@
     self.rightSwitch.hidden = YES;
     self.leftLabel.hidden = YES;
     self.rightLabel.hidden = YES;
+    self.changeValueButton.hidden = YES;
     
     if ([self.title isEqualToString:@"Line Chart"]) {
 
@@ -67,7 +68,7 @@
         data02.color = PNTwitterColor;
         data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
-        data02.inflexionPointStyle = PNLineChartPointStyleNone;
+        data02.inflexionPointStyle = PNLineChartPointStyleCircle;
         data02.getData = ^(NSUInteger index) {
             CGFloat yValue = [data02Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
@@ -79,12 +80,13 @@
         
 
         [self.view addSubview:self.lineChart];
+
         self.lineChart.legendStyle = PNLegendItemStyleStacked;
         self.lineChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
         self.lineChart.legendFontColor = [UIColor redColor];
         
-        UIView *legend = [self.lineChart getLegendWithMaxWidth:200];
-        [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
+        UIView *legend = [self.lineChart getLegendWithMaxWidth:320];
+        [legend setFrame:CGRectMake(30, 340, legend.frame.size.width, legend.frame.size.width)];
         [self.view addSubview:legend];
     }
     else if ([self.title isEqualToString:@"Bar Chart"])
@@ -157,7 +159,7 @@
         self.pieChart.legendFont = [UIFont boldSystemFontOfSize:12.0f];
         
         UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
-        [legend setFrame:CGRectMake(100, 400, legend.frame.size.width, legend.frame.size.width)];
+        [legend setFrame:CGRectMake(130, 350, legend.frame.size.width, legend.frame.size.height)];
         [self.view addSubview:legend];
     
         [self.view addSubview:self.pieChart];
