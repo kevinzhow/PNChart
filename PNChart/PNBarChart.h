@@ -11,10 +11,10 @@
 #import "PNChartDelegate.h"
 #import "PNBar.h"
 
-#define xLabelMargin 15
-#define yLabelMargin 15
-#define yLabelHeight 11
-#define xLabelHeight 20
+#define kXLabelMargin 15
+#define kYLabelMargin 15
+#define kYLabelHeight 11
+#define kXLabelHeight 20
 
 typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 

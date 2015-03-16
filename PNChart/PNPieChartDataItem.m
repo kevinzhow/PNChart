@@ -7,6 +7,7 @@
 //
 
 #import "PNPieChartDataItem.h"
+#import <UIKit/UIKit.h>
 
 @implementation PNPieChartDataItem
 

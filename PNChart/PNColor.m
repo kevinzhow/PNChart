@@ -7,6 +7,7 @@
 //
 
 #import "PNColor.h"
+#import <UIKit/UIKit.h>
 
 @implementation PNColor
 
