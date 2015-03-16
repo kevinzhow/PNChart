@@ -69,7 +69,7 @@
     _yValues = yValues;
 
     //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
-    int yLabelsDifTotal = [NSSet setWithArray:yValues].count;
+    int yLabelsDifTotal = (int)[NSSet setWithArray:yValues].count;
     _yLabelSum = yLabelsDifTotal % 2 == 0 ? yLabelsDifTotal : yLabelsDifTotal + 1;
 
     if (_yMaxValue) {
