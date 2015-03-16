@@ -87,16 +87,16 @@
     if (_showLabel) {
         //Add y labels
         
-        float yLabelSectionHeight = (self.frame.size.height - _chartMargin * 2 - xLabelHeight) / _yLabelSum;
+        float yLabelSectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
         
         for (int index = 0; index < _yLabelSum; index++) {
             
             NSString *labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - index) / (float)_yLabelSum ));
             
             PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0,
-                                                                                  yLabelSectionHeight * index + _chartMargin - yLabelHeight/2.0,
+                                                                                  yLabelSectionHeight * index + _chartMargin - kYLabelHeight/2.0,
                                                                                   _yChartLabelWidth,
-                                                                                  yLabelHeight)];
+                                                                                  kYLabelHeight)];
             label.font = _labelFont;
             label.textColor = _labelTextColor;
             [label setTextAlignment:NSTextAlignmentRight];
@@ -144,7 +144,7 @@
             
             if (labelAddCount == _xLabelSkip) {
                 NSString *labelText = [_xLabels[index] description];
-                PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0, 0, _xLabelWidth, xLabelHeight)];
+                PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0, 0, _xLabelWidth, kXLabelHeight)];
                 label.font = _labelFont;
                 label.textColor = _labelTextColor;
                 [label setTextAlignment:NSTextAlignmentCenter];
@@ -159,7 +159,7 @@
                     labelXPosition = (index *  _xLabelWidth + _chartMargin + _xLabelWidth /2.0 );
                 }
                 label.center = CGPointMake(labelXPosition,
-                                           self.frame.size.height - xLabelHeight - _chartMargin + label.frame.size.height /2.0 + _labelMarginTop);
+                                           self.frame.size.height - kXLabelHeight - _chartMargin + label.frame.size.height /2.0 + _labelMarginTop);
                 labelAddCount = 0;
                 
                 [_xChartLabels addObject:label];
@@ -179,7 +179,7 @@
 {
     
     //Add bars
-    CGFloat chartCavanHeight = self.frame.size.height - _chartMargin * 2 - xLabelHeight;
+    CGFloat chartCavanHeight = self.frame.size.height - _chartMargin * 2 - kXLabelHeight;
     NSInteger index = 0;
     
     for (NSNumber *valueString in _yValues) {
@@ -208,7 +208,7 @@
             }
             
             bar = [[PNBar alloc] initWithFrame:CGRectMake(barXPosition, //Bar X position
-                                                          self.frame.size.height - chartCavanHeight - xLabelHeight - _chartMargin, //Bar Y position
+                                                          self.frame.size.height - chartCavanHeight - kXLabelHeight - _chartMargin, //Bar Y position
                                                           barWidth, // Bar witdh
                                                           chartCavanHeight)]; //Bar height
             
@@ -270,8 +270,8 @@
 
         UIBezierPath *progressline = [UIBezierPath bezierPath];
 
-        [progressline moveToPoint:CGPointMake(_chartMargin, self.frame.size.height - xLabelHeight - _chartMargin)];
-        [progressline addLineToPoint:CGPointMake(self.frame.size.width - _chartMargin,  self.frame.size.height - xLabelHeight - _chartMargin)];
+        [progressline moveToPoint:CGPointMake(_chartMargin, self.frame.size.height - kXLabelHeight - _chartMargin)];
+        [progressline addLineToPoint:CGPointMake(self.frame.size.width - _chartMargin,  self.frame.size.height - kXLabelHeight - _chartMargin)];
 
         [progressline setLineWidth:1.0];
         [progressline setLineCapStyle:kCGLineCapSquare];
@@ -302,7 +302,7 @@
 
         UIBezierPath *progressLeftline = [UIBezierPath bezierPath];
 
-        [progressLeftline moveToPoint:CGPointMake(_chartMargin, self.frame.size.height - xLabelHeight - _chartMargin)];
+        [progressLeftline moveToPoint:CGPointMake(_chartMargin, self.frame.size.height - kXLabelHeight - _chartMargin)];
         [progressLeftline addLineToPoint:CGPointMake(_chartMargin,  _chartMargin)];
 
         [progressLeftline setLineWidth:1.0];
