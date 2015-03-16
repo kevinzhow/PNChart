@@ -818,7 +818,7 @@
      * should be in the middle of the first row */
     CGFloat singleRowHeight = [PNLineChart sizeOfString:@"Test"
                                               withWidth:MAXFLOAT
-                                                   font:[UIFont systemFontOfSize:self.legendFontSize]].height;
+                                                   font:self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f]].height;
 
     NSUInteger counter = 0;
     NSUInteger rowMaxHeight = 0;
@@ -827,7 +827,7 @@
         /* Expected label size*/
         CGSize labelsize = [PNLineChart sizeOfString:pdata.dataTitle
                                            withWidth:maxLabelWidth
-                                                font:[UIFont systemFontOfSize:self.legendFontSize]];
+                                                font:self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f]];
         
         /* draw lines */
         
@@ -874,7 +874,8 @@
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendLineWidth, y, maxLabelWidth, labelsize.height)];
         label.text = pdata.dataTitle;
-        label.font = [UIFont systemFontOfSize:self.legendFontSize];
+        label.textColor = self.legendFontColor ? self.legendFontColor : [UIColor blackColor];
+        label.font = self.legendFont ? self.legendFont : [UIFont systemFontOfSize:12.0f];
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
         
