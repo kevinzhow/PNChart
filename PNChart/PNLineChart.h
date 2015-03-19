@@ -47,6 +47,7 @@
 @property (nonatomic) CGFloat chartCavanWidth;
 @property (nonatomic) CGFloat chartMargin;
 @property (nonatomic) BOOL showLabel;
+@property (nonatomic) BOOL thousandsSeparator;
 
 /**
  * Controls whether to show the coordinate axis. Default is NO.

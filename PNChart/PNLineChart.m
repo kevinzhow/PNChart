@@ -56,7 +56,6 @@
 {
     CGFloat yStep = (_yValueMax - _yValueMin) / _yLabelNum;
     CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
-    NSString *yLabelFormat = self.yLabelFormat ? : @"%1.f";
 
     if (_yChartLabels) {
         for (PNChartLabel * label in _yChartLabels) {
@@ -68,19 +67,19 @@
 
     if (yStep == 0.0) {
         PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)_chartCavanHeight, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
-        minLabel.text = [NSString stringWithFormat:yLabelFormat, 0.0];
+        minLabel.text = [self formatYLabel:0.0];
         [self setCustomStyleForYLabel:minLabel];
         [self addSubview:minLabel];
         [_yChartLabels addObject:minLabel];
 
         PNChartLabel *midLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight / 2), (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
-        midLabel.text = [NSString stringWithFormat:yLabelFormat, _yValueMax];
+        midLabel.text = [self formatYLabel:_yValueMax];
         [self setCustomStyleForYLabel:midLabel];
         [self addSubview:midLabel];
         [_yChartLabels addObject:midLabel];
 
         PNChartLabel *maxLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
-        maxLabel.text = [NSString stringWithFormat:yLabelFormat, _yValueMax * 2];
+        maxLabel.text = [self formatYLabel:_yValueMax * 2];
         [self setCustomStyleForYLabel:maxLabel];
         [self addSubview:maxLabel];
         [_yChartLabels addObject:maxLabel];
@@ -93,7 +92,7 @@
         {
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight - index * yStepHeight), (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
             [label setTextAlignment:NSTextAlignmentRight];
-            label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
+            label.text = [self formatYLabel:_yValueMin + (yStep * index)];
             [self setCustomStyleForYLabel:label];
             [self addSubview:label];
             [_yChartLabels addObject:label];
@@ -542,8 +541,8 @@
         yMin = 0.0f;
     }
     
-    _yValueMin = _yFixedValueMin ? _yFixedValueMin : yMin ;
-    _yValueMax = _yFixedValueMax ? _yFixedValueMax : yMax + yMax / 10.0;
+    _yValueMin = (_yFixedValueMin > -FLT_MAX) ? _yFixedValueMin : yMin ;
+    _yValueMax = (_yFixedValueMax > -FLT_MAX) ? _yFixedValueMax : yMax + yMax / 10.0;
     
     if (_showLabel) {
         [self setYLabels:yLabelsArray];
@@ -684,6 +683,8 @@
     _endPointsOfPath     = [[NSMutableArray alloc] init];
     self.userInteractionEnabled = YES;
 
+    _yFixedValueMin = -FLT_MAX;
+    _yFixedValueMax = -FLT_MAX;
     _yLabelNum = 5.0;
     _yLabelHeight = [[[[PNChartLabel alloc] init] font] pointSize];
 
@@ -743,6 +744,19 @@
 }
 
 
+- (NSString*) formatYLabel:(double)value{
+    if (!self.thousandsSeparator) {
+        NSString *format = self.yLabelFormat ? : @"%1.f";
+        return [NSString stringWithFormat:format,value];
+    }
+    
+    NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setFormatterBehavior: NSNumberFormatterBehavior10_4];
+    [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
+    return [numberFormatter stringFromNumber: [NSNumber numberWithDouble:value]];
+}
+
+
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
     if ([self.chartData count] < 1) {
         return nil;
@@ -757,13 +771,17 @@
     
     /* accumulated height */
     CGFloat totalHeight = 0;
+    CGFloat totalWidth = 0;
     
     NSMutableArray *legendViews = [[NSMutableArray alloc] init];
-    
-    NSUInteger numLabelsPerRow = ceil((float)[self.chartData count] / self.labelRowsInSerialMode);
 
     /* Determine the max width of each legend item */
-    CGFloat maxLabelWidth = self.legendStyle == PNLegendItemStyleStacked ? (mWidth - legendLineWidth) : (mWidth / numLabelsPerRow - legendLineWidth);
+    CGFloat maxLabelWidth;
+    if (self.legendStyle == PNLegendItemStyleStacked) {
+        maxLabelWidth = mWidth - legendLineWidth;
+    }else{
+        maxLabelWidth = MAXFLOAT;
+    }
     
     /* this is used when labels wrap text and the line 
      * should be in the middle of the first row */
@@ -772,6 +790,7 @@
                                                    font:[UIFont systemFontOfSize:self.legendFontSize]].height;
 
     NSUInteger counter = 0;
+    NSUInteger rowWidth = 0;
     NSUInteger rowMaxHeight = 0;
     
     for (PNLineChartData *pdata in self.chartData) {
@@ -781,12 +800,14 @@
                                                 font:[UIFont systemFontOfSize:self.legendFontSize]];
         
         /* draw lines */
-        
-        if (counter != 0 && counter % numLabelsPerRow == 0) {
+        if ((rowWidth + labelsize.width + legendLineWidth > mWidth)&&(self.legendStyle == PNLegendItemStyleSerial)) {
+            rowWidth = 0;
             x = 0;
             y += rowMaxHeight;
             rowMaxHeight = 0;
         }
+        rowWidth += labelsize.width + legendLineWidth;
+        totalWidth = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(rowWidth, totalWidth) : fmaxf(totalWidth, labelsize.width + legendLineWidth);
         
         /* If there is inflection decorator, the line is composed of two lines 
          * and this is the space that separates two lines in order to put inflection
@@ -823,18 +844,19 @@
                                               andColor:pdata.color
                                               andAlpha:pdata.alpha]];
 
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendLineWidth, y, maxLabelWidth, labelsize.height)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendLineWidth, y, labelsize.width, labelsize.height)];
         label.text = pdata.dataTitle;
         label.font = [UIFont systemFontOfSize:self.legendFontSize];
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.numberOfLines = 0;
-        
+
         rowMaxHeight = fmaxf(rowMaxHeight, labelsize.height);
         x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + legendLineWidth;
         y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
         
-
-        totalHeight = self.legendStyle == PNLegendItemStyleStacked ? fmaxf(totalHeight, rowMaxHeight + y) : totalHeight + labelsize.height;
+        
+        totalHeight = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(totalHeight, rowMaxHeight + y) : totalHeight + labelsize.height;
+        
         [legendViews addObject:label];
         counter++;
     }
