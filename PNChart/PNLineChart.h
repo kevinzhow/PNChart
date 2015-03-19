@@ -48,6 +48,7 @@
 @property (nonatomic) CGFloat chartMargin;
 @property (nonatomic) BOOL showLabel;
 @property (nonatomic) BOOL showGenYLabels;
+@property (nonatomic) BOOL thousandsSeparator;
 
 
 /**
