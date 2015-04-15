@@ -394,7 +394,7 @@
             if (!(_yValueMax - _yValueMin)) {
                 innerGrade = 0.5;
             } else {
-                innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin);
+                innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin) == 0 ? 0.5 : (yValue - _yValueMin) / (_yValueMax - _yValueMin);
             }
             
             CGFloat offSetX = (_chartCavanWidth) / (chartData.itemCount);
