@@ -21,7 +21,9 @@
 		0AF7A880182AA9F6003645C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7A87F182AA9F6003645C4 /* Images.xcassets */; };
 		0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8AE182AAEEF003645C4 /* PCChartViewController.m */; };
 		5C728F7B8AACCC0864A63B26 /* libPods-PNChartTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0A0D7DDAB496680487BF1E5 /* libPods-PNChartTests.a */; };
-		6E984E561AE2AF2D00E817A0 /* PNChartTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E984E551AE2AF2D00E817A0 /* PNChartTests.m */; };
+		6E984E5D1AE2B00600E817A0 /* PNBarChartTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E984E5C1AE2B00600E817A0 /* PNBarChartTests.m */; };
+		6E984E5E1AE2B03800E817A0 /* PNBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 91177EC9198DFAC400017E27 /* PNBar.m */; };
+		6E984E5F1AE2B03E00E817A0 /* PNBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 91177ECB198DFAC400017E27 /* PNBarChart.m */; };
 		91177ED8198DFAC400017E27 /* PNBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 91177EC9198DFAC400017E27 /* PNBar.m */; };
 		91177EDA198DFAC400017E27 /* PNBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 91177ECB198DFAC400017E27 /* PNBarChart.m */; };
 		91177EDC198DFAC400017E27 /* PNCircleChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 91177ECD198DFAC400017E27 /* PNCircleChart.m */; };
@@ -75,7 +77,7 @@
 		4D54B84CA1CAEB2BBBC9DCFA /* Pods-PNChartTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PNChartTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PNChartTests/Pods-PNChartTests.release.xcconfig"; sourceTree = "<group>"; };
 		6E984E511AE2AF2D00E817A0 /* PNChartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PNChartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E984E541AE2AF2D00E817A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E984E551AE2AF2D00E817A0 /* PNChartTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNChartTests.m; sourceTree = "<group>"; };
+		6E984E5C1AE2B00600E817A0 /* PNBarChartTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNBarChartTests.m; sourceTree = "<group>"; };
 		91177EC8198DFAC400017E27 /* PNBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNBar.h; sourceTree = "<group>"; };
 		91177EC9198DFAC400017E27 /* PNBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNBar.m; sourceTree = "<group>"; };
 		91177ECA198DFAC400017E27 /* PNBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNBarChart.h; sourceTree = "<group>"; };
@@ -215,8 +217,8 @@
 		6E984E521AE2AF2D00E817A0 /* PNChartTests */ = {
 			isa = PBXGroup;
 			children = (
-				6E984E551AE2AF2D00E817A0 /* PNChartTests.m */,
 				6E984E531AE2AF2D00E817A0 /* Supporting Files */,
+				6E984E5C1AE2B00600E817A0 /* PNBarChartTests.m */,
 			);
 			path = PNChartTests;
 			sourceTree = "<group>";
@@ -456,7 +458,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E984E561AE2AF2D00E817A0 /* PNChartTests.m in Sources */,
+				6E984E5F1AE2B03E00E817A0 /* PNBarChart.m in Sources */,
+				6E984E5E1AE2B03800E817A0 /* PNBar.m in Sources */,
+				6E984E5D1AE2B00600E817A0 /* PNBarChartTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
