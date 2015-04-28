@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "PNChart"
-  s.version      = "0.8.2"
+  s.version      = "0.8.3"
   s.summary      = "A simple and beautiful chart lib with animation used in Piner for iOS"
 
   s.description  = <<-DESC
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 
                   ## Requirements
 
-                  PNChart works on iOS 6.0 and later version and is compatible with ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
+                  PNChart works on iOS 7.0 and later version and is compatible with ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
                   * Foundation.framework
                   * UIKit.framework
@@ -77,7 +77,7 @@ Pod::Spec.new do |s|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "7.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -90,7 +90,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/kevinzhow/PNChart.git", :tag => "0.8.2" }
+  s.source       = { :git => "https://github.com/kevinzhow/PNChart.git", :tag => "0.8.3" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -143,6 +143,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency 'UICountingLabel', '~> 1.0.0'
+  s.dependency 'UICountingLabel', '~> 1.2.0'
 
 end
