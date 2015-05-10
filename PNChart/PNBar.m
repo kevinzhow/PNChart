@@ -8,6 +8,7 @@
 
 #import "PNBar.h"
 #import "PNColor.h"
+#import <CoreText/CoreText.h>
 
 @implementation PNBar
 
@@ -39,11 +40,13 @@
 - (void)setGrade:(float)grade
 {
     NSLog(@"New garde %f",grade);
+    
+    CGFloat startPosY = (1 - grade) * self.frame.size.height;
 
     UIBezierPath *progressline = [UIBezierPath bezierPath];
 
     [progressline moveToPoint:CGPointMake(self.frame.size.width / 2.0, self.frame.size.height)];
-    [progressline addLineToPoint:CGPointMake(self.frame.size.width / 2.0, (1 - grade) * self.frame.size.height)];
+    [progressline addLineToPoint:CGPointMake(self.frame.size.width / 2.0, startPosY)];
 
     [progressline setLineWidth:1.0];
     [progressline setLineCapStyle:kCGLineCapSquare];
@@ -73,6 +76,12 @@
             // Add gradient
             [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
             self.gradientMask.path = progressline.CGPath;
+            
+            // add text
+            [self setGradeFrame:grade startPosY:startPosY];
+            CABasicAnimation* opacityAnimation = [self fadeAnimation];
+            [self.textLayer addAnimation:opacityAnimation forKey:nil];
+
         }
         
     }else{
@@ -115,6 +124,11 @@
             
             self.gradientMask.strokeEnd = 1.0;
             [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+            
+            //set grade
+            [self setGradeFrame:grade startPosY:startPosY];
+            CABasicAnimation* opacityAnimation = [self fadeAnimation];
+            [self.textLayer addAnimation:opacityAnimation forKey:nil];
         }
     }
     
@@ -152,5 +166,56 @@
     CGContextFillRect(context, rect);
 }
 
+
+// add number display on the top of bar
+-(CGPathRef)gradePath:(CGRect)rect
+{
+    return nil;
+}
+
+-(CATextLayer*)textLayer
+{
+    if (!_textLayer) {
+        _textLayer = [[CATextLayer alloc]init];
+        [_textLayer setString:@"0"];
+        [_textLayer setAlignmentMode:kCAAlignmentCenter];
+        [_textLayer setForegroundColor:[[UIColor blackColor] CGColor]];
+    }
+
+    return _textLayer;
+}
+
+-(void)setGradeFrame:(CGFloat)grade startPosY:(CGFloat)startPosY
+{
+    CGFloat textheigt = self.bounds.size.width;
+    CGFloat textWidth = self.bounds.size.width;
+    CGFloat textStartPosY;
+    
+    
+    if (startPosY < textheigt) {
+        textStartPosY = startPosY;
+    }
+    else {
+        textStartPosY = startPosY - textheigt;
+    }
+    
+    [_chartLine addSublayer:self.textLayer];
+    [self.textLayer setFontSize:textheigt/2];
+
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%ld",(NSInteger)(grade*100)]];
+    [self.textLayer setFrame:CGRectMake(0, textStartPosY, textWidth,  textheigt)];
+    self.textLayer.contentsScale = [UIScreen mainScreen].scale;
+
+}
+
+-(CABasicAnimation*)fadeAnimation
+{
+    CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+    fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
+    fadeAnimation.duration = 2.0;
+    
+    return fadeAnimation;
+}
 
 @end
