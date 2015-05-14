@@ -10,6 +10,7 @@
 #import "PNColor.h"
 #import "PNChartLabel.h"
 
+#define defaultYSum 0   //默认的Y显示值的个数,
 
 @interface PNBarChart () {
     NSMutableArray *_xChartLabels;
@@ -70,8 +71,12 @@
 
     //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
     int yLabelsDifTotal = (int)[NSSet setWithArray:yValues].count;
-    _yLabelSum = yLabelsDifTotal % 2 == 0 ? yLabelsDifTotal : yLabelsDifTotal + 1;
-
+  
+    // !!!: 调整Y坐标的显示值
+    if (_yLabelSum==defaultYSum) {
+        _yLabelSum = yLabelsDifTotal % 2 == 0 ? yLabelsDifTotal : yLabelsDifTotal + 1;
+    }
+  
     if (_yMaxValue) {
         _yValueMax = _yMaxValue;
     } else {
@@ -86,10 +91,36 @@
     
     if (_showLabel) {
         //Add y labels
+      float yLabelSectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
+      
+      // !!!: 用户自行修改Y轴坐标值
+      if (_yLabels) {
         
-        float yLabelSectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
+        [self getYValueMax:_yLabels];
         
-        for (int index = 0; index < _yLabelSum; index++) {
+        for (int i=0; i<_yLabels.count; i++) {
+          float yAsixValues=[[_yLabels objectAtIndex:_yLabels.count-i-1] floatValue];
+          NSString *labelText= _yLabelFormatter(yAsixValues);
+          
+          
+          
+          PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0,
+                                                                                yLabelSectionHeight * i + _chartMargin - kYLabelHeight/2.0,
+                                                                                _yChartLabelWidth,
+                                                                                kYLabelHeight)];
+          label.font = _labelFont;
+          label.textColor = _labelTextColor;
+          [label setTextAlignment:NSTextAlignmentRight];
+          label.text = labelText;
+          
+          [_yChartLabels addObject:label];
+          [self addSubview:label];
+          
+        }
+        
+      }else{
+
+               for (int index = 0; index < _yLabelSum; index++) {
             
             NSString *labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - index) / (float)_yLabelSum ));
             
@@ -106,6 +137,7 @@
             [self addSubview:label];
             
         }
+      }
     }
 }
 
