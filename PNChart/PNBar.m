@@ -39,8 +39,8 @@
 
 - (void)setGrade:(float)grade
 {
-    NSLog(@"New garde %f",grade);
-    
+//    NSLog(@"New garde %f",grade);
+  
     CGFloat startPosY = (1 - grade) * self.frame.size.height;
 
     UIBezierPath *progressline = [UIBezierPath bezierPath];
@@ -201,8 +201,8 @@
     
     [_chartLine addSublayer:self.textLayer];
     [self.textLayer setFontSize:textheigt/2];
-
-    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%ld",(NSInteger)(grade*100)]];
+  
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%0.f",grade*100]];
     [self.textLayer setFrame:CGRectMake(0, textStartPosY, textWidth,  textheigt)];
     self.textLayer.contentsScale = [UIScreen mainScreen].scale;
 
