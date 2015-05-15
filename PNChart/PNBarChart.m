@@ -10,8 +10,6 @@
 #import "PNColor.h"
 #import "PNChartLabel.h"
 
-#define defaultYSum 0   //默认的Y显示值的个数,
-
 @interface PNBarChart () {
     NSMutableArray *_xChartLabels;
     NSMutableArray *_yChartLabels;
@@ -87,8 +85,8 @@
   } else {
     [self getYValueMax:yAxisValues];
   }
-
-  if (_yLabelSum==defaultYSum) {
+  
+  if (_yLabelSum==4) {
     _yLabelSum = yAxisValues.count;
     (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
   }
