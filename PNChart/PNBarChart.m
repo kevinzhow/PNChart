@@ -64,7 +64,7 @@
     _yChartLabelWidth    = 18;
     _rotateForXAxisText  = false;
 }
-
+/*
 - (void)setYValues:(NSArray *)yValues
 {
     _yValues = yValues;
@@ -145,6 +145,53 @@
       [self addSubview:label];
       
     }
+  }
+}
+*/
+
+- (void)setYValues:(NSArray *)yValues
+{
+  _yValues = yValues;
+  
+  if (_showLabel) {
+    [self __addYCoordinateLabelsValues];
+  }
+}
+
+#pragma mark - Private Method
+- (void)__addYCoordinateLabelsValues
+{
+  [self viewCleanupForCollection:_yChartLabels];
+  
+  NSArray *yAxisValues = _yLabels ? _yLabels : _yValues;
+  if (_yMaxValue) {
+    _yValueMax = _yMaxValue;
+  } else {
+    [self getYValueMax:yAxisValues];
+  }
+  
+  _yLabelSum = yAxisValues.count;
+  (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
+  
+  float sectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
+  for (int i = 0; i < _yLabelSum; i++) {
+    NSString *labelText;
+    if (_yLabels) {
+      float yAsixValue = [_yLabels[_yLabels.count - i - 1] floatValue];
+      labelText= _yLabelFormatter(yAsixValue);
+    } else {
+      labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - i) / (float)_yLabelSum ));
+    }
+    
+    CGRect frame = (CGRect){0, sectionHeight * i + _chartMargin - kYLabelHeight/2.0, _yChartLabelWidth, kYLabelHeight};
+    PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:frame];
+    label.font = _labelFont;
+    label.textColor = _labelTextColor;
+    [label setTextAlignment:NSTextAlignmentRight];
+    label.text = labelText;
+    [self addSubview:label];
+    
+    [_yChartLabels addObject:label];
   }
 }
 
