@@ -64,94 +64,11 @@
     _yChartLabelWidth    = 18;
     _rotateForXAxisText  = false;
 }
-/*
+
 - (void)setYValues:(NSArray *)yValues
 {
     _yValues = yValues;
-
-    //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
-    int yLabelsDifTotal = (int)[NSSet setWithArray:yValues].count;
-  
-    // !!!: 生效Y轴坐标的最大值
-    if (_yLabelSum==defaultYSum) {
-        _yLabelSum = yLabelsDifTotal % 2 == 0 ? yLabelsDifTotal : yLabelsDifTotal + 1;
-    }
-  
-    if (_yMaxValue) {
-        _yValueMax = _yMaxValue;
-    } else {
-        [self getYValueMax:yValues];
-    }
-    
-    if (_yChartLabels) {
-        [self viewCleanupForCollection:_yChartLabels];
-    } else {
-        _yLabels = [NSMutableArray new];
-    }
-    
-    if (_showLabel) {
-        //Add y labels
-      float yLabelSectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
-      
-      [self __addYCoordinateLabelsValuesWithyLabelSectionHeight:yLabelSectionHeight];
-     
-    }
-}
-
-#pragma mark - Private Method
-#pragma mark - 添加柱状图的Y轴坐标
-- (void)__addYCoordinateLabelsValuesWithyLabelSectionHeight:(float)yLabelSectionHeight{
-  
-  if (_yLabels) {
-    
-    [self getYValueMax:_yLabels];
-    
-    for (int i=0; i<_yLabels.count; i++) {
-      float yAsixValues=[[_yLabels objectAtIndex:_yLabels.count-i-1] floatValue];
-      NSString *labelText= _yLabelFormatter(yAsixValues);
-      
-      
-      
-      PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0,
-                                                                            yLabelSectionHeight * i + _chartMargin - kYLabelHeight/2.0,
-                                                                            _yChartLabelWidth,
-                                                                            kYLabelHeight)];
-      label.font = _labelFont;
-      label.textColor = _labelTextColor;
-      [label setTextAlignment:NSTextAlignmentRight];
-      label.text = labelText;
-      
-      [_yChartLabels addObject:label];
-      [self addSubview:label];
-      
-    }
-    
-  }else{
-    
-    for (int index = 0; index < _yLabelSum; index++) {
-      
-      NSString *labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - index) / (float)_yLabelSum ));
-      
-      PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0,
-                                                                            yLabelSectionHeight * index + _chartMargin - kYLabelHeight/2.0,
-                                                                            _yChartLabelWidth,
-                                                                            kYLabelHeight)];
-      label.font = _labelFont;
-      label.textColor = _labelTextColor;
-      [label setTextAlignment:NSTextAlignmentRight];
-      label.text = labelText;
-      
-      [_yChartLabels addObject:label];
-      [self addSubview:label];
-      
-    }
-  }
-}
-*/
-
-- (void)setYValues:(NSArray *)yValues
-{
-  _yValues = yValues;
+  //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
   
   if (_showLabel) {
     [self __addYCoordinateLabelsValues];
@@ -159,8 +76,9 @@
 }
 
 #pragma mark - Private Method
-- (void)__addYCoordinateLabelsValues
-{
+#pragma mark - 添加柱状图的Y轴坐标
+- (void)__addYCoordinateLabelsValues{
+  
   [self viewCleanupForCollection:_yChartLabels];
   
   NSArray *yAxisValues = _yLabels ? _yLabels : _yValues;
@@ -169,9 +87,11 @@
   } else {
     [self getYValueMax:yAxisValues];
   }
-  
-  _yLabelSum = yAxisValues.count;
-  (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
+
+  if (_yLabelSum==defaultYSum) {
+    _yLabelSum = yAxisValues.count;
+    (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
+  }
   
   float sectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
   for (int i = 0; i < _yLabelSum; i++) {
@@ -194,6 +114,8 @@
     [_yChartLabels addObject:label];
   }
 }
+
+
 
 -(void)updateChartData:(NSArray *)data{
     self.yValues = data;
@@ -324,7 +246,7 @@
         float value = [valueString floatValue];
         
         float grade = (float)value / (float)_yValueMax;
-        
+      
         if (isnan(grade)) {
             grade = 0;
         }
