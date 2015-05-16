@@ -135,9 +135,10 @@
     }else{
         _xChartLabels = [NSMutableArray new];
     }
-    
-    if (_showLabel) {
-        _xLabelWidth = (self.frame.size.width - _chartMargin * 2) / [xLabels count];
+	
+	_xLabelWidth = (self.frame.size.width - _chartMargin * 2) / [xLabels count];
+	
+    if (_showLabel) {		
         int labelAddCount = 0;
         for (int index = 0; index < _xLabels.count; index++) {
             labelAddCount += 1;
