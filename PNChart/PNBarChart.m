@@ -62,7 +62,7 @@
     _yChartLabelWidth    = 18;
     _rotateForXAxisText  = false;
 	
-	yLabelFormatter = ^(CGFloat yValue){
+	_yLabelFormatter = ^(CGFloat yValue){
 		return [NSString stringWithFormat:@"%1.f",yValue];
 	};
 }

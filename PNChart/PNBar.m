@@ -179,7 +179,7 @@
         _textLayer = [[CATextLayer alloc]init];
         [_textLayer setString:@"0"];
         [_textLayer setAlignmentMode:kCAAlignmentCenter];
-        [_textLayer setForegroundColor:[[UIColor blackColor] CGColor]];
+        [_textLayer setForegroundColor:[[UIColor grayColor] CGColor]];
     }
 
     return _textLayer;
