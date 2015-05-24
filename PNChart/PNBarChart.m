@@ -10,7 +10,6 @@
 #import "PNColor.h"
 #import "PNChartLabel.h"
 
-
 @interface PNBarChart () {
     NSMutableArray *_xChartLabels;
     NSMutableArray *_yChartLabels;
@@ -62,52 +61,63 @@
     _showChartBorder     = NO;
     _yChartLabelWidth    = 18;
     _rotateForXAxisText  = false;
+	
+	yLabelFormatter = ^(CGFloat yValue){
+		return [NSString stringWithFormat:@"%1.f",yValue];
+	};
 }
 
 - (void)setYValues:(NSArray *)yValues
 {
     _yValues = yValues;
-
-    //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
-    int yLabelsDifTotal = (int)[NSSet setWithArray:yValues].count;
-    _yLabelSum = yLabelsDifTotal % 2 == 0 ? yLabelsDifTotal : yLabelsDifTotal + 1;
-
-    if (_yMaxValue) {
-        _yValueMax = _yMaxValue;
-    } else {
-        [self getYValueMax:yValues];
-    }
-    
-    if (_yChartLabels) {
-        [self viewCleanupForCollection:_yChartLabels];
-    }else{
-        _yLabels = [NSMutableArray new];
-    }
-    
-    if (_showLabel) {
-        //Add y labels
-        
-        float yLabelSectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
-        
-        for (int index = 0; index < _yLabelSum; index++) {
-            
-            NSString *labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - index) / (float)_yLabelSum ));
-            
-            PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0,
-                                                                                  yLabelSectionHeight * index + _chartMargin - kYLabelHeight/2.0,
-                                                                                  _yChartLabelWidth,
-                                                                                  kYLabelHeight)];
-            label.font = _labelFont;
-            label.textColor = _labelTextColor;
-            [label setTextAlignment:NSTextAlignmentRight];
-            label.text = labelText;
-            
-            [_yChartLabels addObject:label];
-            [self addSubview:label];
-            
-        }
-    }
+  //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
+  
+  if (_showLabel) {
+    [self __addYCoordinateLabelsValues];
+  }
 }
+
+#pragma mark - Private Method
+#pragma mark - 添加柱状图的Y轴坐标
+- (void)__addYCoordinateLabelsValues{
+  
+  [self viewCleanupForCollection:_yChartLabels];
+  
+  NSArray *yAxisValues = _yLabels ? _yLabels : _yValues;
+  if (_yMaxValue) {
+    _yValueMax = _yMaxValue;
+  } else {
+    [self getYValueMax:yAxisValues];
+  }
+  
+  if (_yLabelSum==4) {
+    _yLabelSum = yAxisValues.count;
+    (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
+  }
+  
+  float sectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
+  for (int i = 0; i < _yLabelSum; i++) {
+    NSString *labelText;
+    if (_yLabels) {
+      float yAsixValue = [_yLabels[_yLabels.count - i - 1] floatValue];
+      labelText= _yLabelFormatter(yAsixValue);
+    } else {
+      labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - i) / (float)_yLabelSum ));
+    }
+    
+    CGRect frame = (CGRect){0, sectionHeight * i + _chartMargin - kYLabelHeight/2.0, _yChartLabelWidth, kYLabelHeight};
+    PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:frame];
+    label.font = _labelFont;
+    label.textColor = _labelTextColor;
+    [label setTextAlignment:NSTextAlignmentRight];
+    label.text = labelText;
+    [self addSubview:label];
+    
+    [_yChartLabels addObject:label];
+  }
+}
+
+
 
 -(void)updateChartData:(NSArray *)data{
     self.yValues = data;
@@ -135,9 +145,10 @@
     }else{
         _xChartLabels = [NSMutableArray new];
     }
-    
-    if (_showLabel) {
-        _xLabelWidth = (self.frame.size.width - _chartMargin * 2) / [xLabels count];
+	
+	_xLabelWidth = (self.frame.size.width - _chartMargin * 2) / [xLabels count];
+	
+    if (_showLabel) {		
         int labelAddCount = 0;
         for (int index = 0; index < _xLabels.count; index++) {
             labelAddCount += 1;
@@ -238,7 +249,7 @@
         float value = [valueString floatValue];
         
         float grade = (float)value / (float)_yValueMax;
-        
+      
         if (isnan(grade)) {
             grade = 0;
         }

@@ -11,6 +11,7 @@
 #import "PNChartLabel.h"
 #import "PNLineChartData.h"
 #import "PNLineChartDataItem.h"
+#import <CoreText/CoreText.h>
 
 @interface PNLineChart ()
 
@@ -20,6 +21,9 @@
 @property (nonatomic) NSMutableArray *chartPath;       // Array of line path, one for each line.
 @property (nonatomic) NSMutableArray *pointPath;       // Array of point path, one for each line
 @property (nonatomic) NSMutableArray *endPointsOfPath;      // Array of start and end points of each line path, one for each line
+
+// display grade
+@property (nonatomic) NSMutableArray *gradeStringPaths;
 
 @end
 
@@ -312,6 +316,7 @@
 {
     _chartPath = [[NSMutableArray alloc] init];
     _pointPath = [[NSMutableArray alloc] init];
+    _gradeStringPaths = [NSMutableArray array];
 
     [self calculateChartPath:_chartPath andPointsPath:_pointPath andPathKeyPoints:_pathPoints andPathStartEndPoints:_endPointsOfPath];
     // Draw each line
@@ -350,6 +355,12 @@
         }
 
         [CATransaction commit];
+        
+        NSMutableArray* textLayerArray = [self.gradeStringPaths objectAtIndex:lineIndex];
+        for (CATextLayer* textLayer in textLayerArray) {
+            CABasicAnimation* fadeAnimation = [self fadeAnimation];
+            [textLayer addAnimation:fadeAnimation forKey:nil];
+        }
 
         UIGraphicsEndImageContext();
     }
@@ -374,6 +385,10 @@
         [chartPath insertObject:progressline atIndex:lineIndex];
         [pointsPath insertObject:pointPath atIndex:lineIndex];
         
+        
+        NSMutableArray* gradePathArray = [NSMutableArray array];
+        [self.gradeStringPaths addObject:gradePathArray];
+        
         if (!_showLabel) {
             _chartCavanHeight = self.frame.size.height - 2 * _yLabelHeight;
             _chartCavanWidth = self.frame.size.width;
@@ -394,7 +409,7 @@
             if (!(_yValueMax - _yValueMin)) {
                 innerGrade = 0.5;
             } else {
-                innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin) == 0 ? 0.5 : (yValue - _yValueMin) / (_yValueMax - _yValueMin);
+                innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin);
             }
             
             CGFloat offSetX = (_chartCavanWidth) / (chartData.itemCount);
@@ -410,6 +425,11 @@
                 
                 [pointPath moveToPoint:CGPointMake(circleCenter.x + (inflexionWidth / 2), circleCenter.y)];
                 [pointPath addArcWithCenter:circleCenter radius:inflexionWidth / 2 startAngle:0 endAngle:2 * M_PI clockwise:YES];
+                
+                //jet text display text
+                CATextLayer* textLayer = [self createTextLayer];
+                [self setGradeFrame:textLayer grade:yValue pointCenter:circleCenter width:inflexionWidth];
+                [gradePathArray addObject:textLayer];
                 
                 if ( i != 0 ) {
                     
@@ -441,6 +461,11 @@
                 [pointPath addLineToPoint:CGPointMake(squareCenter.x + (inflexionWidth / 2), squareCenter.y + (inflexionWidth / 2))];
                 [pointPath addLineToPoint:CGPointMake(squareCenter.x - (inflexionWidth / 2), squareCenter.y + (inflexionWidth / 2))];
                 [pointPath closePath];
+                
+                // text display text
+                CATextLayer* textLayer = [self createTextLayer];
+                [self setGradeFrame:textLayer grade:yValue pointCenter:squareCenter width:inflexionWidth];
+                [gradePathArray addObject:textLayer];
                 
                 if ( i != 0 ) {
                     
@@ -474,6 +499,11 @@
                 [pointPath addLineToPoint:middlePoint];
                 [pointPath addLineToPoint:endPoint];
                 [pointPath closePath];
+                
+                // text display text
+                CATextLayer* textLayer = [self createTextLayer];
+                [self setGradeFrame:textLayer grade:yValue pointCenter:middlePoint width:inflexionWidth];
+                [gradePathArray addObject:textLayer];
                 
                 if ( i != 0 ) {
                     // calculate the point for triangle
@@ -961,6 +991,50 @@
     UIImageView *squareImageView = [[UIImageView alloc]initWithImage:squareImage];
     [squareImageView setFrame:CGRectMake(originX, originY, size + sw, size + sw)];
     return squareImageView;
+}
+
+#pragma mark setter and getter
+
+-(CATextLayer*)createTextLayer
+{
+    CATextLayer * textLayer = [[CATextLayer alloc]init];
+    [textLayer setString:@"0"];
+    [textLayer setAlignmentMode:kCAAlignmentCenter];
+    [textLayer setForegroundColor:[[UIColor blackColor] CGColor]];
+    return textLayer;
+}
+
+-(void)setGradeFrame:(CATextLayer*)textLayer grade:(CGFloat)grade pointCenter:(CGPoint)pointCenter width:(CGFloat)width
+{
+    CGFloat textheigt = width*3;
+    CGFloat textWidth = width*4;
+    CGFloat textStartPosY;
+    
+    if (pointCenter.y > textheigt) {
+        textStartPosY = pointCenter.y - textheigt;
+    }
+    else {
+        textStartPosY = pointCenter.y;
+    }
+    
+    [self.layer addSublayer:textLayer];
+    [textLayer setFontSize:textheigt/2];
+    
+    [textLayer setString:[[NSString alloc]initWithFormat:@"%ld",(NSInteger)(grade*100)]];
+    [textLayer setFrame:CGRectMake(0, 0, textWidth,  textheigt)];
+    [textLayer setPosition:CGPointMake(pointCenter.x, textStartPosY)];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+
+}
+
+-(CABasicAnimation*)fadeAnimation
+{
+    CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+    fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
+    fadeAnimation.duration = 2.0;
+    
+    return fadeAnimation;
 }
 
 @end

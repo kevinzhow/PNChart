@@ -20,4 +20,8 @@
 @property (nonatomic) CGFloat barRadius;
 @property (nonatomic) CAShapeLayer *gradientMask;
 
+@property (nonatomic) CAShapeLayer *gradeLayer;
+@property (nonatomic) CATextLayer* textLayer;
+
+
 @end
