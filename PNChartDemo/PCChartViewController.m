@@ -103,7 +103,12 @@
         self.barChart.labelMarginTop = 5.0;
         [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         self.barChart.rotateForXAxisText = true ;
+      
+      self.barChart.yLabelSum=5;
+      self.barChart.yMaxValue=100;
+      
         [self.barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
+//      self.barChart.yLabels = @[@0,@20,@40,@60];
         [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
         // Adding gradient
         self.barChart.barColorGradientStart = [UIColor blueColor];
