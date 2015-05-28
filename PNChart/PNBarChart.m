@@ -56,9 +56,10 @@
     _xLabelSkip          = 1;
     _yLabelSum           = 4;
     _labelMarginTop      = 0;
-    _chartMargin         = 15.0;
+    _chartMargin         = 25.0;
     _barRadius           = 2.0;
     _showChartBorder     = NO;
+    _showLevelLine       = NO;
     _yChartLabelWidth    = 18;
     _rotateForXAxisText  = false;
 }
@@ -80,6 +81,7 @@
   [self viewCleanupForCollection:_yChartLabels];
   
   NSArray *yAxisValues = _yLabels ? _yLabels : _yValues;
+  _yLabelSum = _yLabels ? _yLabels.count - 1 :_yLabelSum;
   if (_yMaxValue) {
     _yValueMax = _yMaxValue;
   } else {
@@ -92,7 +94,7 @@
   }
   
   float sectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
-  for (int i = 0; i < _yLabelSum; i++) {
+  for (int i = 0; i <= _yLabelSum; i++) {
     NSString *labelText;
     if (_yLabels) {
       float yAsixValue = [_yLabels[_yLabels.count - i - 1] floatValue];
@@ -214,10 +216,10 @@
             }
             
             bar = [[PNBar alloc] initWithFrame:CGRectMake(barXPosition, //Bar X position
-                                                          self.frame.size.height - chartCavanHeight - kXLabelHeight - _chartMargin, //Bar Y position
+                                                          self.frame.size.height - chartCavanHeight - kXLabelHeight - _chartMargin , //Bar Y position
                                                           barWidth, // Bar witdh
-                                                          chartCavanHeight)]; //Bar height
-            
+                                                          self.showLevelLine ? chartCavanHeight/2.0:chartCavanHeight)]; //Bar height
+          
             //Change Bar Radius
             bar.barRadius = _barRadius;
             
@@ -243,12 +245,21 @@
         //Height Of Bar
         float value = [valueString floatValue];
         
-        float grade = (float)value / (float)_yValueMax;
+        float grade =ABS((float)value / (float)_yValueMax);
       
         if (isnan(grade)) {
             grade = 0;
         }
         bar.grade = grade;
+       CGRect originalFrame = bar.frame;
+       if (value<0) {
+         CGAffineTransform transform =CGAffineTransformMakeRotation(M_PI);
+         [bar setTransform:transform];
+         
+         originalFrame.origin.y = bar.frame.origin.y + bar.frame.size.height;
+         bar.frame = originalFrame;
+         bar.isNegative = YES;
+      }
         
         index += 1;
     }
@@ -297,7 +308,7 @@
         _chartBottomLine.strokeEnd = 1.0;
 
         [self.layer addSublayer:_chartBottomLine];
-
+      
         //Add left Chart Line
 
         _chartLeftLine = [CAShapeLayer layer];
@@ -330,6 +341,39 @@
 
         [self.layer addSublayer:_chartLeftLine];
     }
+  
+  // Add Level Separator Line
+  if (_showLevelLine) {
+    _chartLevelLine = [CAShapeLayer layer];
+    _chartLevelLine.lineCap      = kCALineCapButt;
+    _chartLevelLine.fillColor    = [[UIColor whiteColor] CGColor];
+    _chartLevelLine.lineWidth    = 1.0;
+    _chartLevelLine.strokeEnd    = 0.0;
+    
+    UIBezierPath *progressline = [UIBezierPath bezierPath];
+    
+    [progressline moveToPoint:CGPointMake(_chartMargin, (self.frame.size.height - kXLabelHeight )/2.0)];
+    [progressline addLineToPoint:CGPointMake(self.frame.size.width - _chartMargin,  (self.frame.size.height - kXLabelHeight )/2.0)];
+    
+    [progressline setLineWidth:1.0];
+    [progressline setLineCapStyle:kCGLineCapSquare];
+    _chartLevelLine.path = progressline.CGPath;
+    
+    
+    _chartLevelLine.strokeColor = PNLightGrey.CGColor;
+    
+    
+    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    pathAnimation.duration = 0.5;
+    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    pathAnimation.fromValue = @0.0f;
+    pathAnimation.toValue = @1.0f;
+    [_chartLevelLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+    
+    _chartLevelLine.strokeEnd = 1.0;
+    
+    [self.layer addSublayer:_chartLevelLine];
+  }
 }
 
 

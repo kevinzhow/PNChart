@@ -208,6 +208,23 @@
 
 }
 
+- (void)setIsNegative:(BOOL)isNegative{
+  if (isNegative) {
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"-%0.f",_grade*100]];
+    CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI];
+    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    rotationAnimation.duration = 0.1;
+    rotationAnimation.repeatCount = 0;//你可以设置到最大的整数值
+    rotationAnimation.cumulative = NO;
+    rotationAnimation.removedOnCompletion = NO;
+    rotationAnimation.fillMode = kCAFillModeForwards;
+    [self.textLayer addAnimation:rotationAnimation forKey:@"Rotation"];
+    
+  }
+}
+
 -(CABasicAnimation*)fadeAnimation
 {
     CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
