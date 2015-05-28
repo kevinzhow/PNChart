@@ -252,15 +252,14 @@
         }
         bar.grade = grade;
        CGRect originalFrame = bar.frame;
-       if (value<0) {
+       if (value<0 && self.showLevelLine) {
          CGAffineTransform transform =CGAffineTransformMakeRotation(M_PI);
          [bar setTransform:transform];
          
          originalFrame.origin.y = bar.frame.origin.y + bar.frame.size.height;
          bar.frame = originalFrame;
          bar.isNegative = YES;
-      }
-        
+      }        
         index += 1;
     }
 }
