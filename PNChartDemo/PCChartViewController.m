@@ -110,10 +110,9 @@
         self.barChart.yValueMax=10;
         self.barChart.yLabels = @[@-10,@0,@10];
         [self.barChart setYValues:@[@1,@5,@(0-8),@10]];
-  
         [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen]];
-        // Adding gradient
-//        self.barChart.barColorGradientStart = [UIColor blueColor];
+      self.barChart.isGradientShow = NO;
+      self.barChart.isShowNumbers = NO;
       
         [self.barChart strokeChart];
         

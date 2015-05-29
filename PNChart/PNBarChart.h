@@ -103,5 +103,10 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 
+/**whether show gradient bar*/
+@property (nonatomic, assign) BOOL isGradientShow;
+
+/** whether show numbers*/
+@property (nonatomic, assign) BOOL isShowNumbers;
 
 @end

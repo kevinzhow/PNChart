@@ -62,6 +62,8 @@
     _showLevelLine       = NO;
     _yChartLabelWidth    = 18;
     _rotateForXAxisText  = false;
+    _isGradientShow      = YES;
+    _isShowNumbers       = YES;
 }
 
 - (void)setYValues:(NSArray *)yValues
@@ -232,9 +234,12 @@
             }else{
                 bar.barColor = [self barColorAtIndex:index];
             }
+          
             // Add gradient
-            bar.barColorGradientStart = bar.barColor;
-            
+            if (self.isGradientShow) {
+             bar.barColorGradientStart = bar.barColor;
+            }
+          
             //For Click Index
             bar.tag = index;
             
@@ -252,6 +257,7 @@
         }
         bar.maxDivisor = (float)_yValueMax;
         bar.grade = grade;
+      bar.isShowNumber = self.isShowNumbers;
         CGRect originalFrame = bar.frame;
        if (value<0 && self.showLevelLine) {
          CGAffineTransform transform =CGAffineTransformMakeRotation(M_PI);
@@ -259,7 +265,9 @@
          
          originalFrame.origin.y = bar.frame.origin.y + bar.frame.size.height;
          bar.frame = originalFrame;
+         
          bar.isNegative = YES;
+         
       }        
         index += 1;
     }

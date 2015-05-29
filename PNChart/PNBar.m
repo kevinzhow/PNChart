@@ -10,6 +10,12 @@
 #import "PNColor.h"
 #import <CoreText/CoreText.h>
 
+@interface PNBar ()
+
+@property (nonatomic) float copyGrade;
+
+@end
+
 @implementation PNBar
 
 - (id)initWithFrame:(CGRect)frame
@@ -40,7 +46,7 @@
 - (void)setGrade:(float)grade
 {
     NSLog(@"New garde %f",grade);
-    _grade = grade;
+    _copyGrade = grade;
     CGFloat startPosY = (1 - grade) * self.frame.size.height;
 
     UIBezierPath *progressline = [UIBezierPath bezierPath];
@@ -76,9 +82,7 @@
             // Add gradient
             [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
             self.gradientMask.path = progressline.CGPath;
-            
-            // add text
-            [self setGradeFrame:grade startPosY:startPosY];
+  
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
             [self.textLayer addAnimation:opacityAnimation forKey:nil];
 
@@ -125,9 +129,7 @@
             
             self.gradientMask.strokeEnd = 1.0;
             [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-            
-            //set grade
-            [self setGradeFrame:grade startPosY:startPosY];
+
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
             [self.textLayer addAnimation:opacityAnimation forKey:nil];
         }
@@ -181,6 +183,7 @@
         [_textLayer setString:@"0"];
         [_textLayer setAlignmentMode:kCAAlignmentCenter];
         [_textLayer setForegroundColor:[[UIColor colorWithRed:178/255.0 green:178/255. blue:178/255.0 alpha:1.0] CGColor]];
+       _textLayer.hidden = YES;
     }
 
     return _textLayer;
@@ -215,6 +218,14 @@
 
 }
 
+- (void)setIsShowNumber:(BOOL)isShowNumber{
+  if (isShowNumber) {
+    self.textLayer.hidden = NO;
+    [self setGradeFrame:_copyGrade startPosY:0];
+  }else{
+    self.textLayer.hidden = YES;
+  }
+}
 - (void)setIsNegative:(BOOL)isNegative{
   if (isNegative) {
     [self.textLayer setString:[[NSString alloc]initWithFormat:@"-%0.f",_grade*self.maxDivisor]];
