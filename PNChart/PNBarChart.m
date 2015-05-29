@@ -233,7 +233,7 @@
                 bar.barColor = [self barColorAtIndex:index];
             }
             // Add gradient
-            bar.barColorGradientStart = _barColorGradientStart;
+            bar.barColorGradientStart = bar.barColor;
             
             //For Click Index
             bar.tag = index;
@@ -250,8 +250,9 @@
         if (isnan(grade)) {
             grade = 0;
         }
+      bar.maxDivisor = (float)_yValueMax;
         bar.grade = grade;
-       CGRect originalFrame = bar.frame;
+        CGRect originalFrame = bar.frame;
        if (value<0 && self.showLevelLine) {
          CGAffineTransform transform =CGAffineTransformMakeRotation(M_PI);
          [bar setTransform:transform];

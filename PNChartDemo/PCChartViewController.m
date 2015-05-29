@@ -107,14 +107,14 @@
         self.barChart.rotateForXAxisText = true ;
       
         self.barChart.yLabelSum=5;
-        self.barChart.yMaxValue=100;
+        self.barChart.yValueMax=10;
         self.barChart.yLabels = @[@-10,@0,@10];
-        [self.barChart setYValues:@[@1,@24,@(0-12),@18]];
+        [self.barChart setYValues:@[@1,@5,@(0-8),@10]];
   
-        [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
+        [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen]];
         // Adding gradient
         self.barChart.barColorGradientStart = [UIColor blueColor];
-        
+      
         [self.barChart strokeChart];
         
         self.barChart.delegate = self;

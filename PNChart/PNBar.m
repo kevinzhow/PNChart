@@ -108,13 +108,14 @@
             
             
             CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-            gradientLayer.startPoint = CGPointMake(0.5,1.0);
-            gradientLayer.endPoint = CGPointMake(0.5,0.0);
+            gradientLayer.startPoint = CGPointMake(0.0,0.0);
+            gradientLayer.endPoint = CGPointMake(1.0 ,0.0);
             gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-            UIColor *endColor = (_barColor ? _barColor : [UIColor greenColor]);
+            UIColor *middleColor = [UIColor colorWithWhite:255/255 alpha:0.8];
             NSArray *colors = @[
-                                (id)_barColorGradientStart.CGColor,
-                                (id)endColor.CGColor
+                                (__bridge id)self.barColor.CGColor,
+                                (__bridge id)middleColor.CGColor,
+                                (__bridge id)self.barColor.CGColor
                                 ];
             gradientLayer.colors = colors;
             
@@ -202,7 +203,7 @@
     [_chartLine addSublayer:self.textLayer];
     [self.textLayer setFontSize:textheigt/2];
   
-    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%0.f",grade*100]];
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%0.f",grade*self.maxDivisor]];
     [self.textLayer setFrame:CGRectMake(0, textStartPosY, textWidth,  textheigt)];
     self.textLayer.contentsScale = [UIScreen mainScreen].scale;
 
@@ -210,7 +211,7 @@
 
 - (void)setIsNegative:(BOOL)isNegative{
   if (isNegative) {
-    [self.textLayer setString:[[NSString alloc]initWithFormat:@"-%0.f",_grade*100]];
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"-%0.f",_grade*self.maxDivisor]];
     CABasicAnimation* rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI];
