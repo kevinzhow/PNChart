@@ -250,7 +250,7 @@
         if (isnan(grade)) {
             grade = 0;
         }
-      bar.maxDivisor = (float)_yValueMax;
+        bar.maxDivisor = (float)_yValueMax;
         bar.grade = grade;
         CGRect originalFrame = bar.frame;
        if (value<0 && self.showLevelLine) {

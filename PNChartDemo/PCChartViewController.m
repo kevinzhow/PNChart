@@ -113,7 +113,7 @@
   
         [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen]];
         // Adding gradient
-        self.barChart.barColorGradientStart = [UIColor blueColor];
+//        self.barChart.barColorGradientStart = [UIColor blueColor];
       
         [self.barChart strokeChart];
         
