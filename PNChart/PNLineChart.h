@@ -66,6 +66,11 @@
  */
 @property (nonatomic, strong) NSString *yLabelFormat;
 
+/**
+ * Block formatter for custom string in y-axis labels. If not set, defaults to yLabelFormat
+ */
+@property (nonatomic, copy) NSString* (^yLabelBlockFormatter)(CGFloat);
+
 - (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width;
 
 /**
