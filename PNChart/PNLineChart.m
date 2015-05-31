@@ -821,19 +821,25 @@
     }
 }
 
-
 - (NSString*) formatYLabel:(double)value{
-    if (!self.thousandsSeparator) {
-        NSString *format = self.yLabelFormat ? : @"%1.f";
-        return [NSString stringWithFormat:format,value];
-    }
-    
-    NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setFormatterBehavior: NSNumberFormatterBehavior10_4];
-    [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
-    return [numberFormatter stringFromNumber: [NSNumber numberWithDouble:value]];
-}
 
+    if (self.yLabelBlockFormatter)
+    {
+        return self.yLabelBlockFormatter(value);
+    }
+    else
+    {
+        if (!self.thousandsSeparator) {
+            NSString *format = self.yLabelFormat ? : @"%1.f";
+            return [NSString stringWithFormat:format,value];
+        }
+        
+        NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setFormatterBehavior: NSNumberFormatterBehavior10_4];
+        [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
+        return [numberFormatter stringFromNumber: [NSNumber numberWithDouble:value]];
+    }
+}
 
 - (UIView*) getLegendWithMaxWidth:(CGFloat)mWidth{
     if ([self.chartData count] < 1) {
