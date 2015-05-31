@@ -11,18 +11,18 @@
 {
     self = [super init];
     if (self) {
-        
-        [self setDefaultValues];
+        [self setupDefaultValues];
     }
     
     return self;
 }
 
-- (void)setDefaultValues
+- (void)setupDefaultValues
 {
     _inflexionPointStyle = PNLineChartPointStyleNone;
     _inflexionPointWidth = 6.f;
     _lineWidth = 2.f;
+    _alpha = 1.f;
 }
 
 @end

@@ -8,18 +8,37 @@
 
 #import <UIKit/UIKit.h>
 #import "PNPieChartDataItem.h"
+#import "PNGenericChart.h"
+#import "PNChartDelegate.h"
 
-@interface PNPieChart : UIView
+@interface PNPieChart : PNGenericChart
 
 - (id)initWithFrame:(CGRect)frame items:(NSArray *)items;
 
 @property (nonatomic, readonly) NSArray	*items;
 
-@property (nonatomic) UIFont  *descriptionTextFont;  //default is [UIFont fontWithName:@"Avenir-Medium" size:18.0];
-@property (nonatomic) UIColor *descriptionTextColor; //default is [UIColor whiteColor]
-@property (nonatomic) UIColor *descriptionTextShadowColor; //default is [[UIColor blackColor] colorWithAlphaComponent:0.4]
-@property (nonatomic) CGSize   descriptionTextShadowOffset; //default is CGSizeMake(0, 1)
-@property (nonatomic) NSTimeInterval duration;//default is 1.0
+/** Default is 18-point Avenir Medium. */
+@property (nonatomic) UIFont  *descriptionTextFont;
+
+/** Default is white. */
+@property (nonatomic) UIColor *descriptionTextColor;
+
+/** Default is black, with an alpha of 0.4. */
+@property (nonatomic) UIColor *descriptionTextShadowColor;
+
+/** Default is CGSizeMake(0, 1). */
+@property (nonatomic) CGSize   descriptionTextShadowOffset;
+
+/** Default is 1.0. */
+@property (nonatomic) NSTimeInterval duration;
+
+/** Show only values, this is useful when legend is present */
+@property (nonatomic) BOOL showOnlyValues;
+
+/** Show absolute values not relative i.e. percentages */
+@property (nonatomic) BOOL showAbsoluteValues;
+
+@property (nonatomic, weak) id<PNChartDelegate> delegate;
 
 - (void)strokeChart;
 

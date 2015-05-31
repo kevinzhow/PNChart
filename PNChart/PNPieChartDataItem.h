@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface PNPieChartDataItem : NSObject
 
@@ -17,8 +18,8 @@
                             color:(UIColor*)color
                       description:(NSString *)description;
 
-@property (nonatomic, readonly) CGFloat   value;
-@property (nonatomic, readonly) UIColor  *color;
-@property (nonatomic, readonly) NSString *description;
+@property (nonatomic) CGFloat   value;
+@property (nonatomic) UIColor  *color;
+@property (nonatomic) NSString *textDescription;
 
 @end

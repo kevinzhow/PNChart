@@ -8,6 +8,7 @@
 
 #import "PNBar.h"
 #import "PNColor.h"
+#import <CoreText/CoreText.h>
 
 @implementation PNBar
 
@@ -16,7 +17,6 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        // Initialization code
         _chartLine              = [CAShapeLayer layer];
         _chartLine.lineCap      = kCALineCapButt;
         _chartLine.fillColor    = [[UIColor whiteColor] CGColor];
@@ -39,15 +39,18 @@
 
 - (void)setGrade:(float)grade
 {
-    _grade = grade;
+//    NSLog(@"New garde %f",grade);
+  
+    CGFloat startPosY = (1 - grade) * self.frame.size.height;
+
     UIBezierPath *progressline = [UIBezierPath bezierPath];
 
     [progressline moveToPoint:CGPointMake(self.frame.size.width / 2.0, self.frame.size.height)];
-    [progressline addLineToPoint:CGPointMake(self.frame.size.width / 2.0, (1 - grade) * self.frame.size.height)];
+    [progressline addLineToPoint:CGPointMake(self.frame.size.width / 2.0, startPosY)];
 
     [progressline setLineWidth:1.0];
     [progressline setLineCapStyle:kCGLineCapSquare];
-    _chartLine.path = progressline.CGPath;
+
 
     if (_barColor) {
         _chartLine.strokeColor = [_barColor CGColor];
@@ -56,46 +59,80 @@
         _chartLine.strokeColor = [PNGreen CGColor];
     }
 
-    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    pathAnimation.duration = 1.0;
-    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    pathAnimation.fromValue = @0.0f;
-    pathAnimation.toValue = @1.0f;
-    [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+    if (_grade) {
+        
+        CABasicAnimation * pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        pathAnimation.fromValue = (id)_chartLine.path;
+        pathAnimation.toValue = (id)[progressline CGPath];
+        pathAnimation.duration = 0.5f;
+        pathAnimation.autoreverses = NO;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        [_chartLine addAnimation:pathAnimation forKey:@"animationKey"];
+        
+        _chartLine.path = progressline.CGPath;
+        
+        if (_barColorGradientStart) {
+            
+            // Add gradient
+            [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
+            self.gradientMask.path = progressline.CGPath;
+            
+            // add text
+            [self setGradeFrame:grade startPosY:startPosY];
+            CABasicAnimation* opacityAnimation = [self fadeAnimation];
+            [self.textLayer addAnimation:opacityAnimation forKey:nil];
 
-    _chartLine.strokeEnd = 1.0;
-    
-    // Check if user wants to add a gradient from the start color to the bar color
-    if (_barColorGradientStart) {
+        }
         
-        // Add gradient
-        CAShapeLayer *gradientMask = [CAShapeLayer layer];
-        gradientMask.fillColor = [[UIColor clearColor] CGColor];
-        gradientMask.strokeColor = [[UIColor blackColor] CGColor];
-        //gradientMask.lineWidth = 4;
-        gradientMask.lineWidth    = self.frame.size.width;
-        gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-        gradientMask.path = progressline.CGPath;
+    }else{
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        pathAnimation.duration = 1.0;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        pathAnimation.fromValue = @0.0f;
+        pathAnimation.toValue = @1.0f;
+        [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
         
+        _chartLine.strokeEnd = 1.0;
         
-        CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-        gradientLayer.startPoint = CGPointMake(0.5,1.0);
-        gradientLayer.endPoint = CGPointMake(0.5,0.0);
-        gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-        UIColor *endColor = (_barColor ? _barColor : [UIColor greenColor]);
-        NSArray *colors = @[
-                            (id)_barColorGradientStart.CGColor,
-                            (id)endColor.CGColor
-                            ];
-        gradientLayer.colors = colors;
-        
-        [gradientLayer setMask:gradientMask];
-        
-        [_chartLine addSublayer:gradientLayer];
-        
-        gradientMask.strokeEnd = 1.0;
-        [gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        _chartLine.path = progressline.CGPath;
+        // Check if user wants to add a gradient from the start color to the bar color
+        if (_barColorGradientStart) {
+            
+            // Add gradient
+            self.gradientMask = [CAShapeLayer layer];
+            self.gradientMask.fillColor = [[UIColor clearColor] CGColor];
+            self.gradientMask.strokeColor = [[UIColor blackColor] CGColor];
+            self.gradientMask.lineWidth    = self.frame.size.width;
+            self.gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+            self.gradientMask.path = progressline.CGPath;
+            
+            
+            CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+            gradientLayer.startPoint = CGPointMake(0.5,1.0);
+            gradientLayer.endPoint = CGPointMake(0.5,0.0);
+            gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+            UIColor *endColor = (_barColor ? _barColor : [UIColor greenColor]);
+            NSArray *colors = @[
+                                (id)_barColorGradientStart.CGColor,
+                                (id)endColor.CGColor
+                                ];
+            gradientLayer.colors = colors;
+            
+            [gradientLayer setMask:self.gradientMask];
+            
+            [_chartLine addSublayer:gradientLayer];
+            
+            self.gradientMask.strokeEnd = 1.0;
+            [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+            
+            //set grade
+            [self setGradeFrame:grade startPosY:startPosY];
+            CABasicAnimation* opacityAnimation = [self fadeAnimation];
+            [self.textLayer addAnimation:opacityAnimation forKey:nil];
+        }
     }
+    
+    _grade = grade;
 
 }
 
@@ -114,21 +151,71 @@
         [sublayer removeFromSuperlayer];
     }
     _barColorGradientStart = barColorGradientStart;
-    
+
     [self setGrade:_grade];
-    
+
 }
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    //Draw BG
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGContextSetFillColorWithColor(context, self.backgroundColor.CGColor);
     CGContextFillRect(context, rect);
 }
 
+
+// add number display on the top of bar
+-(CGPathRef)gradePath:(CGRect)rect
+{
+    return nil;
+}
+
+-(CATextLayer*)textLayer
+{
+    if (!_textLayer) {
+        _textLayer = [[CATextLayer alloc]init];
+        [_textLayer setString:@"0"];
+        [_textLayer setAlignmentMode:kCAAlignmentCenter];
+        [_textLayer setForegroundColor:[[UIColor grayColor] CGColor]];
+    }
+
+    return _textLayer;
+}
+
+-(void)setGradeFrame:(CGFloat)grade startPosY:(CGFloat)startPosY
+{
+    CGFloat textheigt = self.bounds.size.width;
+    CGFloat textWidth = self.bounds.size.width;
+    CGFloat textStartPosY;
+    
+    
+    if (startPosY < textheigt) {
+        textStartPosY = startPosY;
+    }
+    else {
+        textStartPosY = startPosY - textheigt;
+    }
+    
+    [_chartLine addSublayer:self.textLayer];
+    [self.textLayer setFontSize:textheigt/2];
+  
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%0.f",grade*100]];
+    [self.textLayer setFrame:CGRectMake(0, textStartPosY, textWidth,  textheigt)];
+    self.textLayer.contentsScale = [UIScreen mainScreen].scale;
+
+}
+
+-(CABasicAnimation*)fadeAnimation
+{
+    CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+    fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
+    fadeAnimation.duration = 2.0;
+    
+    return fadeAnimation;
+}
 
 @end

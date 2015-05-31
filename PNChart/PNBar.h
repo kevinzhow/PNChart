@@ -18,5 +18,10 @@
 @property (nonatomic) UIColor *barColor;
 @property (nonatomic) UIColor *barColorGradientStart;
 @property (nonatomic) CGFloat barRadius;
+@property (nonatomic) CAShapeLayer *gradientMask;
+
+@property (nonatomic) CAShapeLayer *gradeLayer;
+@property (nonatomic) CATextLayer* textLayer;
+
 
 @end

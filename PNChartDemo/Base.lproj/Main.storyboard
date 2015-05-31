@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9Rt-UT-IxH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9Rt-UT-IxH">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Chart View Controller - PNChart-->
+        <!--PNChart-->
         <scene sceneID="lC9-iu-Smd">
             <objects>
                 <viewController id="Tha-Wr-sPW" customClass="PCChartViewController" sceneMemberID="viewController">
@@ -16,15 +16,70 @@
                     <view key="view" contentMode="scaleToFill" id="PPb-b8-nBo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L3F-13-Wf5">
+                                <rect key="frame" x="113" y="364" width="95" height="30"/>
+                                <state key="normal" title="Change Value">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeValue:" destination="Tha-Wr-sPW" eventType="touchUpInside" id="zeG-Cp-Wjs"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FUU-vZ-jMd">
+                                <rect key="frame" x="53" y="81" width="215" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="23"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ORA-mb-hJl">
+                                <rect key="frame" x="16" y="489" width="51" height="31"/>
+                                <connections>
+                                    <action selector="leftSwitchChanged:" destination="Tha-Wr-sPW" eventType="valueChanged" id="q9T-QK-Sas"/>
+                                </connections>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qR7-40-7ir">
+                                <rect key="frame" x="261" y="489" width="51" height="31"/>
+                                <connections>
+                                    <action selector="rightSwitchChanged:" destination="Tha-Wr-sPW" eventType="valueChanged" id="n6V-lL-r8Q"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Percentage" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IKu-qh-ksi">
+                                <rect key="frame" x="16" y="528" width="88" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Labels" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ifm-a9-Wkq">
+                                <rect key="frame" x="211" y="527" width="99" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FUU-vZ-jMd" firstAttribute="top" secondItem="znr-YO-4a4" secondAttribute="bottom" constant="17" id="DLv-qJ-h7R"/>
+                            <constraint firstAttribute="centerX" secondItem="FUU-vZ-jMd" secondAttribute="centerX" id="YGT-a5-Zka"/>
+                            <constraint firstItem="L3F-13-Wf5" firstAttribute="top" secondItem="znr-YO-4a4" secondAttribute="bottom" constant="300" id="ewm-kv-p8k"/>
+                            <constraint firstAttribute="centerX" secondItem="L3F-13-Wf5" secondAttribute="centerX" id="zXw-WV-mro"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PNChart" id="Ukg-Sg-E2z"/>
+                    <connections>
+                        <outlet property="changeValueButton" destination="L3F-13-Wf5" id="JnI-y3-Xpj"/>
+                        <outlet property="leftLabel" destination="IKu-qh-ksi" id="CPy-oy-qCP"/>
+                        <outlet property="leftSwitch" destination="ORA-mb-hJl" id="u1M-2f-6P1"/>
+                        <outlet property="rightLabel" destination="Ifm-a9-Wkq" id="QhE-j2-qpe"/>
+                        <outlet property="rightSwitch" destination="qR7-40-7ir" id="noL-6R-d3a"/>
+                        <outlet property="titleLabel" destination="FUU-vZ-jMd" id="dA3-KC-Ht4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kDa-u3-t6i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="536" y="31"/>
         </scene>
-        <!--Charts Table View Controller - PNChart-->
+        <!--PNChart-->
         <scene sceneID="pBo-qW-N8B">
             <objects>
                 <tableViewController id="cc5-BF-Ga2" customClass="PCChartsTableViewController" sceneMemberID="viewController">
@@ -115,6 +170,24 @@
                                             <segue destination="Tha-Wr-sPW" kind="push" identifier="pieChart" id="pvQ-oy-a9a"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="0.0" textLabel="YOU-SK-mQU" style="IBUITableViewCellStyleDefault" id="JJR-oU-C7n">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JJR-oU-C7n" id="iJk-3W-tcy">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ScatterChart" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YOU-SK-mQU">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Tha-Wr-sPW" kind="push" identifier="scatterChart" id="V7s-JV-4Nx"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -147,6 +220,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="pvQ-oy-a9a"/>
+        <segue reference="V7s-JV-4Nx"/>
     </inferredMetricsTieBreakers>
 </document>
