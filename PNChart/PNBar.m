@@ -183,6 +183,7 @@
         [_textLayer setAlignmentMode:kCAAlignmentCenter];
         [_textLayer setForegroundColor:[[UIColor colorWithRed:178/255.0 green:178/255. blue:178/255.0 alpha:1.0] CGColor]];
        _textLayer.hidden = YES;
+
     }
 
     return _textLayer;

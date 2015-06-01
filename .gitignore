@@ -18,6 +18,6 @@ DerivedData
 *.hmap
 *.xccheckout
 Build/
-
+*.lock
 #CocoaPods
 Pods
