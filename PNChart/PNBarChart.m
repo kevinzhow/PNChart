@@ -117,8 +117,6 @@
   }
 }
 
-
-
 -(void)updateChartData:(NSArray *)data{
     self.yValues = data;
     [self updateBar];
@@ -126,10 +124,10 @@
 
 - (void)getYValueMax:(NSArray *)yLabels
 {
-    int max = [[yLabels valueForKeyPath:@"@max.intValue"] intValue];
+    CGFloat max = [[yLabels valueForKeyPath:@"@max.floatValue"] floatValue];
 
     //ensure max is even
-    _yValueMax = max % 2 == 0 ? max : max + 1;
+   _yValueMax = max ;
 
     if (_yValueMax == 0) {
         _yValueMax = _yMinValue;
@@ -227,7 +225,6 @@
             
             //Change Bar Background color
             bar.backgroundColor = _barBackgroundColor;
-            
             //Bar StrokColor First
             if (self.strokeColor) {
                 bar.barColor = self.strokeColor;
@@ -249,27 +246,26 @@
         
         //Height Of Bar
         float value = [valueString floatValue];
-        
-        float grade =ABS((float)value / (float)_yValueMax);
+        float grade =fabsf((float)value / (float)_yValueMax);
       
         if (isnan(grade)) {
             grade = 0;
         }
         bar.maxDivisor = (float)_yValueMax;
         bar.grade = grade;
-      bar.isShowNumber = self.isShowNumbers;
+        bar.isShowNumber = self.isShowNumbers;
         CGRect originalFrame = bar.frame;
-       if (value<0 && self.showLevelLine) {
-         CGAffineTransform transform =CGAffineTransformMakeRotation(M_PI);
-         [bar setTransform:transform];
-         
-         originalFrame.origin.y = bar.frame.origin.y + bar.frame.size.height;
-         bar.frame = originalFrame;
-         
-         bar.isNegative = YES;
-         
-      }        
-        index += 1;
+        NSString *currentNumber =  [NSString stringWithFormat:@"%f",value];
+      
+        if ([[currentNumber substringToIndex:1] isEqualToString:@"-"] && self.showLevelLine) {
+        CGAffineTransform transform =CGAffineTransformMakeRotation(M_PI);
+        [bar setTransform:transform];
+        originalFrame.origin.y = bar.frame.origin.y + bar.frame.size.height;
+        bar.frame = originalFrame;
+        bar.isNegative = YES;
+        
+      }
+      index += 1;
     }
 }
 
@@ -301,10 +297,7 @@
         [progressline setLineWidth:1.0];
         [progressline setLineCapStyle:kCGLineCapSquare];
         _chartBottomLine.path = progressline.CGPath;
-
-
         _chartBottomLine.strokeColor = PNLightGrey.CGColor;
-
 
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathAnimation.duration = 0.5;
@@ -333,10 +326,7 @@
         [progressLeftline setLineWidth:1.0];
         [progressLeftline setLineCapStyle:kCGLineCapSquare];
         _chartLeftLine.path = progressLeftline.CGPath;
-
-
         _chartLeftLine.strokeColor = PNLightGrey.CGColor;
-
 
         CABasicAnimation *pathLeftAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathLeftAnimation.duration = 0.5;
@@ -367,9 +357,7 @@
     [progressline setLineCapStyle:kCGLineCapSquare];
     _chartLevelLine.path = progressline.CGPath;
     
-    
     _chartLevelLine.strokeColor = PNLightGrey.CGColor;
-    
     
     CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     pathAnimation.duration = 0.5;
@@ -381,9 +369,13 @@
     _chartLevelLine.strokeEnd = 1.0;
     
     [self.layer addSublayer:_chartLevelLine];
+  } else {
+    if (_chartLevelLine) {
+      [_chartLevelLine removeFromSuperlayer];
+      _chartLevelLine = nil;
+    }
   }
 }
-
 
 - (void)viewCleanupForCollection:(NSMutableArray *)array
 {
@@ -406,7 +398,6 @@
     }
 }
 
-
 #pragma mark - Touch detection
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -414,7 +405,6 @@
     [self touchPoint:touches withEvent:event];
     [super touchesBegan:touches withEvent:event];
 }
-
 
 - (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
 {

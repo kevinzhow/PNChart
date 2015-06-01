@@ -45,7 +45,6 @@
 
 - (void)setGrade:(float)grade
 {
-    NSLog(@"New garde %f",grade);
     _copyGrade = grade;
     CGFloat startPosY = (1 - grade) * self.frame.size.height;
 
@@ -228,7 +227,7 @@
 }
 - (void)setIsNegative:(BOOL)isNegative{
   if (isNegative) {
-    [self.textLayer setString:[[NSString alloc]initWithFormat:@"-%0.f",_grade*self.maxDivisor]];
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"- %1.f",_grade*self.maxDivisor]];
     
     CGSize size = CGSizeMake(320,2000); //设置一个行高上限
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0]};

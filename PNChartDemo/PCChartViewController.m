@@ -97,23 +97,17 @@
         self.barChart.backgroundColor = [UIColor clearColor];
         self.barChart.yLabelFormatter = ^(CGFloat yValue){
             CGFloat yValueParsed = yValue;
-            NSString * labelText = [NSString stringWithFormat:@"%1.f",yValueParsed];
+            NSString * labelText = [NSString stringWithFormat:@"%0.f",yValueParsed];
             return labelText;
         };
         self.barChart.labelMarginTop = 5.0;
-        self.barChart.showLevelLine = YES;
         self.barChart.showChartBorder = YES;
         [self.barChart setXLabels:@[@"2",@"3",@"4",@"5"]];
-        self.barChart.rotateForXAxisText = true ;
-      
-        self.barChart.yLabelSum=5;
-        self.barChart.yValueMax=10;
-        self.barChart.yLabels = @[@-10,@0,@10];
-        [self.barChart setYValues:@[@1,@5,@(0-8),@10]];
+//       self.barChart.yLabels = @[@-10,@0,@10];
+        [self.barChart setYValues:@[@10.82,@1.88,@6.96,@33.93]];
         [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen]];
-      self.barChart.isGradientShow = NO;
-      self.barChart.isShowNumbers = NO;
-      
+//      self.barChart.isGradientShow = NO;
+        self.barChart.isShowNumbers = YES;
         [self.barChart strokeChart];
         
         self.barChart.delegate = self;
