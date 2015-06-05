@@ -427,9 +427,9 @@
                 [pointPath addArcWithCenter:circleCenter radius:inflexionWidth / 2 startAngle:0 endAngle:2 * M_PI clockwise:YES];
                 
                 //jet text display text
-                CATextLayer* textLayer = [self createTextLayer];
-                [self setGradeFrame:textLayer grade:yValue pointCenter:circleCenter width:inflexionWidth];
-                [gradePathArray addObject:textLayer];
+//                CATextLayer* textLayer = [self createTextLayer];
+//                [self setGradeFrame:textLayer grade:yValue pointCenter:circleCenter width:inflexionWidth];
+//                [gradePathArray addObject:textLayer];
                 
                 if ( i != 0 ) {
                     
@@ -501,9 +501,9 @@
                 [pointPath closePath];
                 
                 // text display text
-                CATextLayer* textLayer = [self createTextLayer];
-                [self setGradeFrame:textLayer grade:yValue pointCenter:middlePoint width:inflexionWidth];
-                [gradePathArray addObject:textLayer];
+//                CATextLayer* textLayer = [self createTextLayer];
+//                [self setGradeFrame:textLayer grade:yValue pointCenter:middlePoint width:inflexionWidth];
+//                [gradePathArray addObject:textLayer];
                 
                 if ( i != 0 ) {
                     // calculate the point for triangle
@@ -1013,7 +1013,7 @@
 -(void)setGradeFrame:(CATextLayer*)textLayer grade:(CGFloat)grade pointCenter:(CGPoint)pointCenter width:(CGFloat)width
 {
     CGFloat textheigt = width*3;
-    CGFloat textWidth = width*4;
+    CGFloat textWidth = width*8;
     CGFloat textStartPosY;
     
     if (pointCenter.y > textheigt) {

@@ -64,7 +64,7 @@
         // Line Chart #2
         NSArray * data02Array = @[@0.0, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
         PNLineChartData *data02 = [PNLineChartData new];
-        data02.dataTitle = @"Beta Beta Beta Beta";
+        data02.dataTitle = @"Beta";
         data02.color = PNTwitterColor;
         data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
