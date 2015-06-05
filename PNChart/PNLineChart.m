@@ -1012,7 +1012,6 @@
 
 -(void)setGradeFrame:(CATextLayer*)textLayer grade:(CGFloat)grade pointCenter:(CGPoint)pointCenter width:(CGFloat)width
 {
-    return;
     CGFloat textheigt = width*3;
     CGFloat textWidth = width*4;
     CGFloat textStartPosY;
