@@ -463,9 +463,9 @@
                 [pointPath closePath];
                 
                 // text display text
-                CATextLayer* textLayer = [self createTextLayer];
-                [self setGradeFrame:textLayer grade:yValue pointCenter:squareCenter width:inflexionWidth];
-                [gradePathArray addObject:textLayer];
+//                CATextLayer* textLayer = [self createTextLayer];
+//                [self setGradeFrame:textLayer grade:yValue pointCenter:squareCenter width:inflexionWidth];
+//                [gradePathArray addObject:textLayer];
                 
                 if ( i != 0 ) {
                     
