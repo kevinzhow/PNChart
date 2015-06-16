@@ -228,7 +228,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
     [_circle addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     
     if (_displayCountingLabel) {
-        [self.countingLabel countFrom:fmin([_current floatValue], [_total floatValue]) to:fmin([current floatValue], [total floatValue]) withDuration:self.duration];
+        [self.countingLabel countFrom:fmin([_current floatValue], [_total floatValue]) to:[current floatValue]/([total floatValue]/100.0) withDuration:self.duration];
     }
     
     _current = current;
