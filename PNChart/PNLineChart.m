@@ -1026,7 +1026,7 @@
     [self.layer addSublayer:textLayer];
     [textLayer setFontSize:textheigt/2];
     
-    [textLayer setString:[[NSString alloc]initWithFormat:@"%ld",(NSInteger)(grade*100)]];
+    [textLayer setString:[[NSString alloc]initWithFormat:@"%d",(int)(grade*100)]];
     [textLayer setFrame:CGRectMake(0, 0, textWidth,  textheigt)];
     [textLayer setPosition:CGPointMake(pointCenter.x, textStartPosY)];
     textLayer.contentsScale = [UIScreen mainScreen].scale;
