@@ -94,6 +94,7 @@
         self.titleLabel.text = @"Bar Chart";
         
         self.barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+        self.barChart.showLabel = NO;
         self.barChart.backgroundColor = [UIColor clearColor];
         self.barChart.yLabelFormatter = ^(CGFloat yValue){
             CGFloat yValueParsed = yValue;
@@ -108,6 +109,7 @@
         [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNGreen,PNRed,PNGreen]];
         self.barChart.isGradientShow = NO;
         self.barChart.isShowNumbers = NO;
+
         [self.barChart strokeChart];
         
         self.barChart.delegate = self;
