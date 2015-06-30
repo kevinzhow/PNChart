@@ -76,7 +76,24 @@
   
   if (_showLabel) {
     [self __addYCoordinateLabelsValues];
+  } else {
+    [self processYMaxValue];
   }
+}
+
+- (void)processYMaxValue {
+    NSArray *yAxisValues = _yLabels ? _yLabels : _yValues;
+    _yLabelSum = _yLabels ? _yLabels.count - 1 :_yLabelSum;
+    if (_yMaxValue) {
+        _yValueMax = _yMaxValue;
+    } else {
+        [self getYValueMax:yAxisValues];
+    }
+    
+    if (_yLabelSum==4) {
+        _yLabelSum = yAxisValues.count;
+        (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
+    }
 }
 
 #pragma mark - Private Method
@@ -85,18 +102,7 @@
   
   [self viewCleanupForCollection:_yChartLabels];
   
-  NSArray *yAxisValues = _yLabels ? _yLabels : _yValues;
-  _yLabelSum = _yLabels ? _yLabels.count - 1 :_yLabelSum;
-  if (_yMaxValue) {
-    _yValueMax = _yMaxValue;
-  } else {
-    [self getYValueMax:yAxisValues];
-  }
-  
-  if (_yLabelSum==4) {
-    _yLabelSum = yAxisValues.count;
-    (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
-  }
+  [self processYMaxValue];
   
   float sectionHeight = (self.frame.size.height - _chartMargin * 2 - kXLabelHeight) / _yLabelSum;
   for (int i = 0; i <= _yLabelSum; i++) {
