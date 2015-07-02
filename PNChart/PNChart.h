@@ -18,3 +18,5 @@
 #import "PNChartDelegate.h"
 #import "PNPieChart.h"
 #import "PNScatterChart.h"
+#import "PNRadarChart.h"
+#import "PNRadarChartDataItem.h"

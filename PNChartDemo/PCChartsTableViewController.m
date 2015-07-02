@@ -45,6 +45,11 @@
         //Add scatter chart
         
         viewController.title = @"Scatter Chart";
+    }else if ([segue.identifier isEqualToString:@"radarChart"])
+    {
+        //Add radar chart
+        
+        viewController.title = @"Radar Chart";
     }
 }
 

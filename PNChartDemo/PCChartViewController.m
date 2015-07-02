@@ -206,6 +206,29 @@
         self.changeValueButton.hidden = YES;
         [self.view addSubview:self.scatterChart];
     }
+    else if ([self.title isEqualToString:@"Radar Chart"])
+    {
+        self.titleLabel.text = @"Radar Chart";
+        
+        self.leftSwitch.hidden = NO;
+        self.rightSwitch.hidden = NO;
+        self.leftLabel.hidden = NO;
+        self.rightLabel.hidden = NO;
+        self.leftLabel.text = @"Labels Style";
+        self.rightLabel.text = @"Graduation";
+        
+        NSArray *items = @[[PNRadarChartDataItem dataItemWithValue:3 description:@"Art"],
+                           [PNRadarChartDataItem dataItemWithValue:2 description:@"Math"],
+                           [PNRadarChartDataItem dataItemWithValue:8 description:@"Sports"],
+                           [PNRadarChartDataItem dataItemWithValue:5 description:@"Literature"],
+                           [PNRadarChartDataItem dataItemWithValue:4 description:@"Other"],
+                           ];
+        self.radarChart = [[PNRadarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 300.0) items:items valueDivider:1];
+        [self.radarChart strokeChart];
+        
+        [self.view addSubview:self.radarChart];
+    }
+
 }
 
 
@@ -310,6 +333,15 @@
         }
         [self.pieChart strokeChart];
     }
+    if ([self.title isEqualToString:@"Radar Chart"]){
+        UISwitch *showLabels = (UISwitch*) sender;
+        if (showLabels.on) {
+            self.radarChart.isShowGraduation = NO;
+        }else{
+            self.radarChart.isShowGraduation = YES;
+        }
+        [self.radarChart strokeChart];
+    }
 }
 
 - (IBAction)leftSwitchChanged:(id)sender {
@@ -321,6 +353,15 @@
             self.pieChart.showAbsoluteValues = YES;
         }
         [self.pieChart strokeChart];
+    }
+    if ([self.title isEqualToString:@"Radar Chart"]){
+        UISwitch *showRelative = (UISwitch*) sender;
+        if (showRelative.on) {
+            self.radarChart.labelStyle = PNRadarChartLabelStyleHorizontal;
+        }else{
+            self.radarChart.labelStyle = PNRadarChartLabelStyleCircle;
+        }
+        [self.radarChart strokeChart];
     }
 }
 @end
