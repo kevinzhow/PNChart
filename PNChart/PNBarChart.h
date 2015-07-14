@@ -46,6 +46,12 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Formats the ylabel text. */
 @property (copy) PNYLabelFormatter yLabelFormatter;
 
+/** Prefix to y label values, none if unset. */
+@property (nonatomic) NSString *yLabelPrefix;
+
+/** Suffix to y label values, none if unset. */
+@property (nonatomic) NSString *yLabelSuffix;
+
 @property (nonatomic) CGFloat chartMargin;
 
 /** Controls whether labels should be displayed. */
