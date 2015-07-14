@@ -56,6 +56,7 @@
         _descriptionTextShadowColor  = [[UIColor blackColor] colorWithAlphaComponent:0.4];
         _descriptionTextShadowOffset =  CGSizeMake(0, 1);
         _duration = 1.0;
+        _shouldHighlightSectorOnTouch = YES;
         
         [super setupDefaultValues];
         [self loadDefault];
@@ -277,26 +278,30 @@
         [self.delegate userClickedOnPieIndexItem:index];
     }
     
-    if (self.sectorHighlight) {
-        [self.sectorHighlight removeFromSuperlayer];
+    if (self.shouldHighlightSectorOnTouch) {
+        
+        if (self.sectorHighlight) {
+            [self.sectorHighlight removeFromSuperlayer];
+        }
+        
+        PNPieChartDataItem *currentItem = [self dataItemForIndex:index];
+        
+        CGFloat red,green,blue,alpha;
+        UIColor *old = currentItem.color;
+        [old getRed:&red green:&green blue:&blue alpha:&alpha];
+        alpha /= 2;
+        UIColor *newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+        
+        CGFloat startPercnetage = [self startPercentageForItemAtIndex:index];
+        CGFloat endPercentage   = [self endPercentageForItemAtIndex:index];
+        self.sectorHighlight =	[self newCircleLayerWithRadius:_outerCircleRadius + 5
+                                                  borderWidth:10
+                                                    fillColor:[UIColor clearColor]
+                                                  borderColor:newColor
+                                              startPercentage:startPercnetage
+                                                endPercentage:endPercentage];
+        [_contentView.layer addSublayer:self.sectorHighlight];
     }
-    PNPieChartDataItem *currentItem = [self dataItemForIndex:index];
-    
-    CGFloat red,green,blue,alpha;
-    UIColor *old = currentItem.color;
-    [old getRed:&red green:&green blue:&blue alpha:&alpha];
-    alpha /= 2;
-    UIColor *newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
-    
-    CGFloat startPercnetage = [self startPercentageForItemAtIndex:index];
-    CGFloat endPercentage   = [self endPercentageForItemAtIndex:index];
-    self.sectorHighlight =	[self newCircleLayerWithRadius:_outerCircleRadius + 5
-                                              borderWidth:10
-                                                fillColor:[UIColor clearColor]
-                                              borderColor:newColor
-                                          startPercentage:startPercnetage
-                                            endPercentage:endPercentage];
-    [_contentView.layer addSublayer:self.sectorHighlight];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
