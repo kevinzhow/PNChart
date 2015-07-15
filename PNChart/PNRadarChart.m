@@ -29,7 +29,8 @@
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 
         //Public iVar
-        if ([items count]< 3) {
+        if ([items count]< 3)//At least three corners of A polygon ,If the count of items is less than 3 will add 3 default values
+        {
             NSLog( @"At least three items!");
             NSArray *defaultArray = @[[PNRadarChartDataItem dataItemWithValue:0 description:@"Default"],
                                       [PNRadarChartDataItem dataItemWithValue:0 description:@"Default"],
@@ -62,6 +63,8 @@
         _chartPlot.fillColor = _plotColor.CGColor;
         _chartPlot.lineWidth = 1.0;
         [self.layer addSublayer:_chartPlot];
+        
+        [super setupDefaultValues];
          //init detailLabel
         _detailLabel = [[UILabel alloc] init];
         _detailLabel.backgroundColor = [UIColor colorWithRed:.9 green:.9 blue:.1 alpha:.9];
@@ -140,7 +143,7 @@
 #pragma mark - Draw
 
 - (void)drawRect:(CGRect)rect {
-    // Drawing code
+    // Drawing backgound
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextClearRect(context, rect);
     int section = 0;
