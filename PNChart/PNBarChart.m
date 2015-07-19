@@ -119,7 +119,7 @@
     label.font = _labelFont;
     label.textColor = _labelTextColor;
     [label setTextAlignment:NSTextAlignmentRight];
-    label.text = labelText;
+    label.text = [NSString stringWithFormat:@"%@%@%@", _yLabelPrefix, labelText, _yLabelSuffix];
     [self addSubview:label];
     
     [_yChartLabels addObject:label];
