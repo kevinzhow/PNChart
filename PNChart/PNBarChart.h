@@ -32,7 +32,7 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 @property (nonatomic) NSMutableArray * bars;
 
 @property (nonatomic) CGFloat xLabelWidth;
-@property (nonatomic) int yValueMax;
+@property (nonatomic) float yValueMax;
 @property (nonatomic) UIColor *strokeColor;
 @property (nonatomic) NSArray *strokeColors;
 
@@ -46,6 +46,12 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Formats the ylabel text. */
 @property (copy) PNYLabelFormatter yLabelFormatter;
 
+/** Prefix to y label values, none if unset. */
+@property (nonatomic) NSString *yLabelPrefix;
+
+/** Suffix to y label values, none if unset. */
+@property (nonatomic) NSString *yLabelSuffix;
+
 @property (nonatomic) CGFloat chartMargin;
 
 /** Controls whether labels should be displayed. */
@@ -54,8 +60,14 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Controls whether the chart border line should be displayed. */
 @property (nonatomic) BOOL showChartBorder;
 
+/** Controls whether the chart Horizontal separator should be displayed. */
+@property (nonatomic, assign) BOOL showLevelLine;
+
 /** Chart bottom border, co-linear with the x-axis. */
 @property (nonatomic) CAShapeLayer * chartBottomLine;
+
+/** Chart bottom border, level separator-linear with the x-axis. */
+@property (nonatomic) CAShapeLayer * chartLevelLine;
 
 /** Chart left border, co-linear with the y-axis. */
 @property (nonatomic) CAShapeLayer * chartLeftLine;
@@ -96,5 +108,11 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 @property (nonatomic) BOOL rotateForXAxisText;
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
+
+/**whether show gradient bar*/
+@property (nonatomic, assign) BOOL isGradientShow;
+
+/** whether show numbers*/
+@property (nonatomic, assign) BOOL isShowNumbers;
 
 @end

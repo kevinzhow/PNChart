@@ -10,6 +10,12 @@
 #import "PNColor.h"
 #import <CoreText/CoreText.h>
 
+@interface PNBar ()
+
+@property (nonatomic) float copyGrade;
+
+@end
+
 @implementation PNBar
 
 - (id)initWithFrame:(CGRect)frame
@@ -39,8 +45,7 @@
 
 - (void)setGrade:(float)grade
 {
-//    NSLog(@"New garde %f",grade);
-  
+    _copyGrade = grade;
     CGFloat startPosY = (1 - grade) * self.frame.size.height;
 
     UIBezierPath *progressline = [UIBezierPath bezierPath];
@@ -76,9 +81,7 @@
             // Add gradient
             [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
             self.gradientMask.path = progressline.CGPath;
-            
-            // add text
-            [self setGradeFrame:grade startPosY:startPosY];
+  
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
             [self.textLayer addAnimation:opacityAnimation forKey:nil];
 
@@ -108,13 +111,14 @@
             
             
             CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-            gradientLayer.startPoint = CGPointMake(0.5,1.0);
-            gradientLayer.endPoint = CGPointMake(0.5,0.0);
+            gradientLayer.startPoint = CGPointMake(0.0,0.0);
+            gradientLayer.endPoint = CGPointMake(1.0 ,0.0);
             gradientLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-            UIColor *endColor = (_barColor ? _barColor : [UIColor greenColor]);
+            UIColor *middleColor = [UIColor colorWithWhite:255/255 alpha:0.8];
             NSArray *colors = @[
-                                (id)_barColorGradientStart.CGColor,
-                                (id)endColor.CGColor
+                                (__bridge id)self.barColor.CGColor,
+                                (__bridge id)middleColor.CGColor,
+                                (__bridge id)self.barColor.CGColor
                                 ];
             gradientLayer.colors = colors;
             
@@ -124,9 +128,7 @@
             
             self.gradientMask.strokeEnd = 1.0;
             [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-            
-            //set grade
-            [self setGradeFrame:grade startPosY:startPosY];
+
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
             [self.textLayer addAnimation:opacityAnimation forKey:nil];
         }
@@ -179,7 +181,9 @@
         _textLayer = [[CATextLayer alloc]init];
         [_textLayer setString:@"0"];
         [_textLayer setAlignmentMode:kCAAlignmentCenter];
-        [_textLayer setForegroundColor:[[UIColor grayColor] CGColor]];
+        [_textLayer setForegroundColor:[[UIColor colorWithRed:178/255.0 green:178/255. blue:178/255.0 alpha:1.0] CGColor]];
+       _textLayer.hidden = YES;
+
     }
 
     return _textLayer;
@@ -187,25 +191,65 @@
 
 -(void)setGradeFrame:(CGFloat)grade startPosY:(CGFloat)startPosY
 {
-    CGFloat textheigt = self.bounds.size.width;
-    CGFloat textWidth = self.bounds.size.width;
-    CGFloat textStartPosY;
-    
-    
-    if (startPosY < textheigt) {
-        textStartPosY = startPosY;
-    }
-    else {
-        textStartPosY = startPosY - textheigt;
-    }
-    
-    [_chartLine addSublayer:self.textLayer];
-    [self.textLayer setFontSize:textheigt/2];
+    CGFloat textheigt = self.bounds.size.height*self.grade;
   
-    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%0.f",grade*100]];
-    [self.textLayer setFrame:CGRectMake(0, textStartPosY, textWidth,  textheigt)];
+    CGFloat topSpace = self.bounds.size.height * (1-self.grade);
+    CGFloat textWidth = self.bounds.size.width;
+  
+    [_chartLine addSublayer:self.textLayer];
+    [self.textLayer setFontSize:18.0];
+  
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"%0.f",grade*self.maxDivisor]];
+  
+    CGSize size = CGSizeMake(320,2000); //设置一个行高上限
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0]};
+    size = [self.textLayer.string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+    float verticalY ;
+  
+    if (size.height>=textheigt) {
+      
+      verticalY = topSpace - size.height;
+    } else {
+      verticalY = topSpace +  (textheigt-size.height)/2.0;
+    }
+  
+    [self.textLayer setFrame:CGRectMake((textWidth-size.width)/2.0,verticalY, size.width,size.height)];
     self.textLayer.contentsScale = [UIScreen mainScreen].scale;
 
+}
+
+- (void)setIsShowNumber:(BOOL)isShowNumber{
+  if (isShowNumber) {
+    self.textLayer.hidden = NO;
+    [self setGradeFrame:_copyGrade startPosY:0];
+  }else{
+    self.textLayer.hidden = YES;
+  }
+}
+- (void)setIsNegative:(BOOL)isNegative{
+  if (isNegative) {
+    [self.textLayer setString:[[NSString alloc]initWithFormat:@"- %1.f",_grade*self.maxDivisor]];
+    
+    CGSize size = CGSizeMake(320,2000); //设置一个行高上限
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:18.0]};
+    size = [self.textLayer.string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+    CGRect frame = self.textLayer.frame;
+    frame.origin.x = (self.bounds.size.width - size.width)/2.0;
+    frame.size = size;
+    self.textLayer.frame = frame;
+    
+    CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI];
+    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    rotationAnimation.duration = 0.1;
+    rotationAnimation.repeatCount = 0;//你可以设置到最大的整数值
+    rotationAnimation.cumulative = NO;
+    rotationAnimation.removedOnCompletion = NO;
+    rotationAnimation.fillMode = kCAFillModeForwards;
+    [self.textLayer addAnimation:rotationAnimation forKey:@"Rotation"];
+    
+  }
 }
 
 -(CABasicAnimation*)fadeAnimation

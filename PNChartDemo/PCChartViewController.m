@@ -64,7 +64,7 @@
         // Line Chart #2
         NSArray * data02Array = @[@0.0, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
         PNLineChartData *data02 = [PNLineChartData new];
-        data02.dataTitle = @"Beta Beta Beta Beta";
+        data02.dataTitle = @"Beta";
         data02.color = PNTwitterColor;
         data02.alpha = 0.5f;
         data02.itemCount = data02Array.count;
@@ -94,25 +94,22 @@
         self.titleLabel.text = @"Bar Chart";
         
         self.barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+//        self.barChart.showLabel = NO;
         self.barChart.backgroundColor = [UIColor clearColor];
         self.barChart.yLabelFormatter = ^(CGFloat yValue){
             CGFloat yValueParsed = yValue;
-            NSString * labelText = [NSString stringWithFormat:@"%1.f",yValueParsed];
+            NSString * labelText = [NSString stringWithFormat:@"%0.f",yValueParsed];
             return labelText;
         };
         self.barChart.labelMarginTop = 5.0;
-        [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
-        self.barChart.rotateForXAxisText = true ;
-      
-      self.barChart.yLabelSum=5;
-      self.barChart.yMaxValue=100;
-      
-        [self.barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
-//      self.barChart.yLabels = @[@0,@20,@40,@60];
-        [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
-        // Adding gradient
-        self.barChart.barColorGradientStart = [UIColor blueColor];
-        
+        self.barChart.showChartBorder = YES;
+        [self.barChart setXLabels:@[@"2",@"3",@"4",@"5",@"2",@"3",@"4",@"5"]];
+//       self.barChart.yLabels = @[@-10,@0,@10];
+        [self.barChart setYValues:@[@10.82,@1.88,@6.96,@33.93,@10.82,@1.88,@6.96,@33.93]];
+        [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNGreen,PNRed,PNGreen]];
+        self.barChart.isGradientShow = NO;
+        self.barChart.isShowNumbers = NO;
+
         [self.barChart strokeChart];
         
         self.barChart.delegate = self;

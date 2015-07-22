@@ -38,6 +38,9 @@
 /** Show absolute values not relative i.e. percentages */
 @property (nonatomic) BOOL showAbsoluteValues;
 
+/** Default YES. */
+@property (nonatomic) BOOL shouldHighlightSectorOnTouch;
+
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 
 - (void)strokeChart;
