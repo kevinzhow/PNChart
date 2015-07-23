@@ -27,26 +27,26 @@ typedef NS_ENUM(NSUInteger, PNRadarChartLabelStyle) {
 -(void)strokeChart;
 
 /** Array of `RadarChartDataItem` objects, one for each corner. */
-@property(nonatomic)NSArray *chartData;
+@property (nonatomic) NSArray *chartData;
 /** The unit of this chart ,default is 1 */
-@property(nonatomic)CGFloat valueDivider;
+@property (nonatomic) CGFloat valueDivider;
 /** The maximum for the range of values to display on the chart */
-@property(nonatomic)CGFloat maxValue;
+@property (nonatomic) CGFloat maxValue;
 /** Default is gray. */
-@property(nonatomic)UIColor *webColor;
+@property (nonatomic) UIColor *webColor;
 /** Default is green , with an alpha of 0.7 */
-@property(nonatomic)UIColor *plotColor;
+@property (nonatomic) UIColor *plotColor;
 /** Default is black */
-@property(nonatomic)UIColor *fontColor;
+@property (nonatomic) UIColor *fontColor;
 /** Default is orange */
-@property(nonatomic)UIColor *graduationColor;
+@property (nonatomic) UIColor *graduationColor;
 /** Default is 15 */
-@property(nonatomic)CGFloat fontSize;
+@property (nonatomic) CGFloat fontSize;
 /** Controls the labels display style that around chart */
-@property(nonatomic,assign)PNRadarChartLabelStyle labelStyle;
+@property (nonatomic, assign) PNRadarChartLabelStyle labelStyle;
 /** Tap the label will display detail value ,default is YES. */
-@property(nonatomic,assign)BOOL isLabelTouchable;
+@property (nonatomic, assign) BOOL isLabelTouchable;
 /** is show graduation on the chart ,default is NO. */
-@property(nonatomic,assign)BOOL isShowGraduation;
+@property (nonatomic, assign) BOOL isShowGraduation;
 
 @end

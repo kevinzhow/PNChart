@@ -10,19 +10,20 @@
 
 @interface PNRadarChart()
 
-@property(nonatomic)CGFloat centerX;
-@property(nonatomic)CGFloat centerY;
-@property(nonatomic)NSMutableArray *pointsToWebArrayArray;
-@property(nonatomic)NSMutableArray *pointsToPlotArray;
-@property(nonatomic)UILabel *detailLabel;
-@property(nonatomic)CGFloat lengthUnit;
-@property(nonatomic)CAShapeLayer *chartPlot;
+@property (nonatomic) CGFloat centerX;
+@property (nonatomic) CGFloat centerY;
+@property (nonatomic) NSMutableArray *pointsToWebArrayArray;
+@property (nonatomic) NSMutableArray *pointsToPlotArray;
+@property (nonatomic) UILabel *detailLabel;
+@property (nonatomic) CGFloat lengthUnit;
+@property (nonatomic) CAShapeLayer *chartPlot;
 
 @end
 
+
 @implementation PNRadarChart
 
--(id)initWithFrame:(CGRect)frame items:(NSArray *)items valueDivider:(CGFloat)unitValue{
+- (id)initWithFrame:(CGRect)frame items:(NSArray *)items valueDivider:(CGFloat)unitValue {
     self=[super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
@@ -80,7 +81,7 @@
 }
 
 #pragma mark - main
--(void)calculateChartPoints{
+- (void)calculateChartPoints {
     [_pointsToPlotArray removeAllObjects];
     [_pointsToWebArrayArray removeAllObjects];
     
@@ -181,7 +182,7 @@
     
 }
 
--(void)strokeChart{
+- (void)strokeChart {
     
     [self calculateChartPoints];
     [self setNeedsDisplay];
@@ -226,7 +227,7 @@
 
 #pragma mark - Helper
 
--(void)drawLabelWithMaxLength:(CGFloat)maxLength labelArray:(NSArray *)labelArray angleArray:(NSArray *)angleArray{
+- (void)drawLabelWithMaxLength:(CGFloat)maxLength labelArray:(NSArray *)labelArray angleArray:(NSArray *)angleArray {
     //set labels
     int labelTag = 121;
     while (true) {
@@ -283,7 +284,7 @@
     
 }
 
--(void)tapLabel:(UITapGestureRecognizer *)recognizer{
+- (void)tapLabel:(UITapGestureRecognizer *)recognizer {
     UILabel *label=(UILabel*)recognizer.view;
     _detailLabel.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y-30, 50, 25);
     for (PNRadarChartDataItem *item in _chartData) {
@@ -296,7 +297,7 @@
     
 }
 
--(void)showGraduation{
+- (void)showGraduation {
     int labelTag = 112;
     while (true) {
         UIView *label = [self viewWithTag:labelTag];
@@ -322,7 +323,7 @@
 
 }
 
--(NSArray *)getWebPointWithLength:(CGFloat)length angleArray:(NSArray *)angleArray{
+- (NSArray *)getWebPointWithLength:(CGFloat)length angleArray:(NSArray *)angleArray {
     NSMutableArray *pointArray = [NSMutableArray array];
     for (NSNumber *angleNumber in angleArray) {
         CGFloat angle = [angleNumber floatValue];
@@ -334,7 +335,7 @@
     
 }
 
--(NSArray *)getLengthArrayWithCircleNum:(int)plotCircles{
+- (NSArray *)getLengthArrayWithCircleNum:(int)plotCircles {
     NSMutableArray *lengthArray = [NSMutableArray array];
     CGFloat length = 0;
     for (int i = 0; i < plotCircles; i++) {
@@ -344,7 +345,7 @@
     return lengthArray;
 }
 
--(CGFloat)getMaxWidthLabelFromArray:(NSArray *)keyArray withFontSize:(CGFloat)size{
+- (CGFloat)getMaxWidthLabelFromArray:(NSArray *)keyArray withFontSize:(CGFloat)size {
     CGFloat maxWidth = 0;
     for (NSString *str in keyArray) {
         CGSize detailSize = [str sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize]}];
@@ -353,7 +354,7 @@
     return maxWidth;
 }
 
--(CGFloat)getMaxValueFromArray:(NSArray *)valueArray{
+- (CGFloat)getMaxValueFromArray:(NSArray *)valueArray {
     CGFloat max = _maxValue;
     for (NSNumber *valueNum in valueArray) {
         CGFloat valueFloat = [valueNum floatValue];
