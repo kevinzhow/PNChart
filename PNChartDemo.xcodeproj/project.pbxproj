@@ -35,6 +35,8 @@
 		9FE15DF8190BB014004129F5 /* PNChartLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE15DE9190BB014004129F5 /* PNChartLabel.m */; };
 		9FE15DFA190BB014004129F5 /* PNColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE15DEE190BB014004129F5 /* PNColor.m */; };
 		A9C75FA61A9F1DA900A54638 /* PNGenericChart.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C75FA51A9F1DA900A54638 /* PNGenericChart.m */; };
+		ABD79D021B43700800A7C300 /* PNRadarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD79D011B43700800A7C300 /* PNRadarChart.m */; };
+		ABD79D051B43CF8000A7C300 /* PNRadarChartDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD79D041B43CF8000A7C300 /* PNRadarChartDataItem.m */; };
 		E2C3ED5773A1409C8367CC70 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA6321352024B1FBA0158B0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +105,10 @@
 		9FE15DEE190BB014004129F5 /* PNColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNColor.m; sourceTree = "<group>"; };
 		A9C75FA41A9F1DA900A54638 /* PNGenericChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNGenericChart.h; sourceTree = "<group>"; };
 		A9C75FA51A9F1DA900A54638 /* PNGenericChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNGenericChart.m; sourceTree = "<group>"; };
+		ABD79D001B43700800A7C300 /* PNRadarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNRadarChart.h; sourceTree = "<group>"; };
+		ABD79D011B43700800A7C300 /* PNRadarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNRadarChart.m; sourceTree = "<group>"; };
+		ABD79D031B43CF8000A7C300 /* PNRadarChartDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNRadarChartDataItem.h; sourceTree = "<group>"; };
+		ABD79D041B43CF8000A7C300 /* PNRadarChartDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNRadarChartDataItem.m; sourceTree = "<group>"; };
 		B0A0D7DDAB496680487BF1E5 /* libPods-PNChartTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PNChartTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE4F6360943ED4001072124 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		FB2FFF68E5C9B426137EDD03 /* Pods-PNChartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PNChartTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PNChartTests/Pods-PNChartTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -263,6 +269,10 @@
 				91177ED7198DFAC400017E27 /* PNPieChartDataItem.m */,
 				A9C75FA41A9F1DA900A54638 /* PNGenericChart.h */,
 				A9C75FA51A9F1DA900A54638 /* PNGenericChart.m */,
+				ABD79D001B43700800A7C300 /* PNRadarChart.h */,
+				ABD79D011B43700800A7C300 /* PNRadarChart.m */,
+				ABD79D031B43CF8000A7C300 /* PNRadarChartDataItem.h */,
+				ABD79D041B43CF8000A7C300 /* PNRadarChartDataItem.m */,
 			);
 			path = PNChart;
 			sourceTree = "<group>";
@@ -434,11 +444,13 @@
 			files = (
 				91177EDE198DFAC400017E27 /* PNLineChart.m in Sources */,
 				9FE15DF8190BB014004129F5 /* PNChartLabel.m in Sources */,
+				ABD79D021B43700800A7C300 /* PNRadarChart.m in Sources */,
 				91177EDC198DFAC400017E27 /* PNCircleChart.m in Sources */,
 				9FE15DFA190BB014004129F5 /* PNColor.m in Sources */,
 				91177ED8198DFAC400017E27 /* PNBar.m in Sources */,
 				91177EE2198DFAC400017E27 /* PNLineChartDataItem.m in Sources */,
 				0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */,
+				ABD79D051B43CF8000A7C300 /* PNRadarChartDataItem.m in Sources */,
 				0A29228A1A423FB300A42BC4 /* PNScatterChartDataItem.m in Sources */,
 				A9C75FA61A9F1DA900A54638 /* PNGenericChart.m in Sources */,
 				91177EE6198DFAC400017E27 /* PNPieChartDataItem.m in Sources */,
