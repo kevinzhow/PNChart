@@ -145,6 +145,12 @@
         descriptionLabel.text = str ;
     }
     
+    //If value is less than cutoff, show no label
+    if ([self ratioForItemAtIndex:index] < self.labelPercentageCutoff )
+    {
+        descriptionLabel.text = nil;
+    }
+    
     CGPoint center = CGPointMake(_outerCircleRadius + distance * sin(rad),
                                  _outerCircleRadius - distance * cos(rad));
     
