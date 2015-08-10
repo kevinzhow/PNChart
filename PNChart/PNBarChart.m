@@ -64,6 +64,8 @@
     _rotateForXAxisText  = false;
     _isGradientShow      = YES;
     _isShowNumbers       = YES;
+    _yLabelPrefix        = @"";
+    _yLabelSuffix        = @"";
 	_yLabelFormatter = ^(CGFloat yValue){
 		return [NSString stringWithFormat:@"%1.f",yValue];
 	};
@@ -97,7 +99,7 @@
 }
 
 #pragma mark - Private Method
-#pragma mark - 添加柱状图的Y轴坐标
+#pragma mark - Add Y Label
 - (void)__addYCoordinateLabelsValues{
   
   [self viewCleanupForCollection:_yChartLabels];
