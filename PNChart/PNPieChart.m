@@ -15,9 +15,6 @@
 @property (nonatomic) NSArray *items;
 @property (nonatomic) NSArray *endPercentages;
 
-@property (nonatomic) CGFloat outerCircleRadius;
-@property (nonatomic) CGFloat innerCircleRadius;
-
 @property (nonatomic) UIView         *contentView;
 @property (nonatomic) CAShapeLayer   *pieLayer;
 @property (nonatomic) NSMutableArray *descriptionLabels;
@@ -48,9 +45,6 @@
     self = [self initWithFrame:frame];
     if(self){
         _items = [NSArray arrayWithArray:items];
-        _outerCircleRadius  = CGRectGetWidth(self.bounds) / 2;
-        _innerCircleRadius  = CGRectGetWidth(self.bounds) / 6;
-        
         _descriptionTextColor = [UIColor whiteColor];
         _descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
         _descriptionTextShadowColor  = [[UIColor blackColor] colorWithAlphaComponent:0.4];
@@ -86,12 +80,20 @@
     
     _pieLayer = [CAShapeLayer layer];
     [_contentView.layer addSublayer:_pieLayer];
+
+}
+
+/** Override this to change how inner attributes are computed. **/
+- (void)recompute {
+    self.outerCircleRadius = CGRectGetWidth(self.bounds) / 2;
+    self.innerCircleRadius = CGRectGetWidth(self.bounds) / 6;
 }
 
 #pragma mark -
 
 - (void)strokeChart{
     [self loadDefault];
+    [self recompute];
     
     PNPieChartDataItem *currentItem;
     for (int i = 0; i < _items.count; i++) {
@@ -443,4 +445,11 @@
     [squareImageView setFrame:CGRectMake(originX, originY, size, size)];
     return squareImageView;
 }
+
+/* Redraw the chart on autolayout */
+-(void)layoutSubviews {
+    [super layoutSubviews];
+    [self strokeChart];
+}
+
 @end
