@@ -344,6 +344,15 @@
     }
 }
 
+- (IBAction)centerSwitchChanged:(id)sender
+{
+    if (self.pieChart)
+    {
+        [self.pieChart setEnableMultipleSelection:self.centerSwitch.on];
+        [self.pieChart strokeChart];
+    }
+}
+
 - (IBAction)leftSwitchChanged:(id)sender {
     if ([self.title isEqualToString:@"Pie Chart"]){
         UISwitch *showRelative = (UISwitch*) sender;
