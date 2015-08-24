@@ -131,6 +131,12 @@ displayCountingLabel:(BOOL)displayCountingLabel
             case PNChartFormatTypeDollar:
                 format = @"$%d";
                 break;
+            case PNChartFormatTypeDecimal:
+                format = @"%.1f";
+                break;
+            case PNChartFormatTypeDecimalTwoPlaces:
+                format = @"%.2f";
+                break;
             case PNChartFormatTypeNone:
             default:
                 format = @"%d";
