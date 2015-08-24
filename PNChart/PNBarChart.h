@@ -52,7 +52,10 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Suffix to y label values, none if unset. */
 @property (nonatomic) NSString *yLabelSuffix;
 
-@property (nonatomic) CGFloat chartMargin;
+@property (nonatomic) CGFloat chartMarginLeft;
+@property (nonatomic) CGFloat chartMarginRight;
+@property (nonatomic) CGFloat chartMarginTop;
+@property (nonatomic) CGFloat chartMarginBottom;
 
 /** Controls whether labels should be displayed. */
 @property (nonatomic) BOOL showLabel;
