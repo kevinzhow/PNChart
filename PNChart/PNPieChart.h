@@ -46,6 +46,9 @@
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 
+/** Multiple selection */
+@property (nonatomic, assign) BOOL enableMultipleSelection;
+
 - (void)strokeChart;
 
 @end

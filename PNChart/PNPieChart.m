@@ -23,6 +23,8 @@
 @property (nonatomic) NSMutableArray *descriptionLabels;
 @property (strong, nonatomic) CAShapeLayer *sectorHighlight;
 
+@property (nonatomic, strong) NSMutableDictionary *selectedItems;
+
 - (void)loadDefault;
 
 - (UILabel *)descriptionLabelForItemAtIndex:(NSUInteger)index;
@@ -48,6 +50,7 @@
     self = [self initWithFrame:frame];
     if(self){
         _items = [NSArray arrayWithArray:items];
+        _selectedItems = [NSMutableDictionary dictionary];
         _outerCircleRadius  = CGRectGetWidth(self.bounds) / 2;
         _innerCircleRadius  = CGRectGetWidth(self.bounds) / 6;
         
@@ -57,6 +60,7 @@
         _descriptionTextShadowOffset =  CGSizeMake(0, 1);
         _duration = 1.0;
         _shouldHighlightSectorOnTouch = YES;
+        _enableMultipleSelection = NO;
         
         [super setupDefaultValues];
         [self loadDefault];
@@ -279,15 +283,17 @@
     while (percentage > [self endPercentageForItemAtIndex:index]) {
         index ++;
     }
-
+    
     if ([self.delegate respondsToSelector:@selector(userClickedOnPieIndexItem:)]) {
         [self.delegate userClickedOnPieIndexItem:index];
     }
     
-    if (self.shouldHighlightSectorOnTouch) {
-        
-        if (self.sectorHighlight) {
-            [self.sectorHighlight removeFromSuperlayer];
+    if (self.shouldHighlightSectorOnTouch)
+    {
+        if (!self.enableMultipleSelection)
+        {
+            if (self.sectorHighlight)
+                [self.sectorHighlight removeFromSuperlayer];
         }
         
         PNPieChartDataItem *currentItem = [self dataItemForIndex:index];
@@ -300,13 +306,33 @@
         
         CGFloat startPercnetage = [self startPercentageForItemAtIndex:index];
         CGFloat endPercentage   = [self endPercentageForItemAtIndex:index];
-        self.sectorHighlight =	[self newCircleLayerWithRadius:_outerCircleRadius + 5
+        
+        self.sectorHighlight = [self newCircleLayerWithRadius:_outerCircleRadius + 5
                                                   borderWidth:10
                                                     fillColor:[UIColor clearColor]
                                                   borderColor:newColor
                                               startPercentage:startPercnetage
                                                 endPercentage:endPercentage];
-        [_contentView.layer addSublayer:self.sectorHighlight];
+        
+        if (self.enableMultipleSelection)
+        {
+            NSString *dictIndex = [NSString stringWithFormat:@"%d", index];
+            CAShapeLayer *indexShape = [self.selectedItems valueForKey:dictIndex];
+            if (indexShape)
+            {
+                [indexShape removeFromSuperlayer];
+                [self.selectedItems removeObjectForKey:dictIndex];
+            }
+            else
+            {
+                [self.selectedItems setObject:self.sectorHighlight forKey:dictIndex];
+                [_contentView.layer addSublayer:self.sectorHighlight];
+            }
+        }
+        else
+        {
+            [_contentView.layer addSublayer:self.sectorHighlight];
+        }
     }
 }
 
@@ -397,7 +423,7 @@
         x += self.legendStyle == PNLegendItemStyleStacked ? 0 : labelsize.width + beforeLabel;
         y += self.legendStyle == PNLegendItemStyleStacked ? labelsize.height : 0;
         
-
+        
         totalHeight = self.legendStyle == PNLegendItemStyleSerial ? fmaxf(totalHeight, rowMaxHeight + y) : totalHeight + labelsize.height;
         [legendViews addObject:label];
         counter ++;
@@ -422,7 +448,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGContextAddArc(context, size/2, size/ 2, size/2, 0, M_PI*2, YES);
-
+    
     
     //Set some fill color
     CGContextSetFillColorWithColor(context, color.CGColor);
