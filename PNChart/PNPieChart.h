@@ -55,6 +55,9 @@
 /** Update chart items. Does not update chart itself. */
 - (void)updateChartData:(NSArray *)data;
 
+/** Multiple selection */
+@property (nonatomic, assign) BOOL enableMultipleSelection;
+
 - (void)strokeChart;
 
 - (void)recompute;
