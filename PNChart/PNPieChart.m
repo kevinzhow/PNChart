@@ -171,6 +171,10 @@
     return descriptionLabel;
 }
 
+- (void)updateChartData:(NSArray *)items {
+    self.items = items;
+}
+
 - (PNPieChartDataItem *)dataItemForIndex:(NSUInteger)index{
     return self.items[index];
 }

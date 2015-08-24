@@ -52,6 +52,9 @@
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 
+/** Update chart items. Does not update chart itself. */
+- (void)updateChartData:(NSArray *)data;
+
 - (void)strokeChart;
 
 - (void)recompute;
