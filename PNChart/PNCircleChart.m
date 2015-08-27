@@ -46,7 +46,7 @@
                        current:current
                      clockwise:clockwise
                         shadow:shadow
-                   shadowColor:PNGreen
+                   shadowColor:backgroundShadowColor
           displayCountingLabel:displayCountingLabel
              overrideLineWidth:@8.0f];
     
