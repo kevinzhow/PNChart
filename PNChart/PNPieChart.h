@@ -32,6 +32,9 @@
 /** Default is 1.0. */
 @property (nonatomic) NSTimeInterval duration;
 
+/** show only tiles, not values or percentage */
+@property (nonatomic) BOOL hideValues;
+
 /** Show only values, this is useful when legend is present */
 @property (nonatomic) BOOL showOnlyValues;
 
