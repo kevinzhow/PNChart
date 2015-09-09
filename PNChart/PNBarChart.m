@@ -62,6 +62,7 @@
     _chartMarginBottom   = 25.0;
     _barRadius           = 2.0;
     _showChartBorder     = NO;
+    _chartBorderColor    = PNLightGrey;
     _showLevelLine       = NO;
     _yChartLabelWidth    = 18;
     _rotateForXAxisText  = false;
@@ -234,7 +235,7 @@
             }
 
             bar = [[PNBar alloc] initWithFrame:CGRectMake(barXPosition, //Bar X position
-                                                          self.frame.size.height - chartCavanHeight - kXLabelHeight - _chartMarginTop , //Bar Y position
+                                                          self.frame.size.height - chartCavanHeight - kXLabelHeight - _chartMarginBottom + _chartMarginTop , //Bar Y position
                                                           barWidth, // Bar witdh
                                                           self.showLevelLine ? chartCavanHeight/2.0:chartCavanHeight)]; //Bar height
 
@@ -248,6 +249,10 @@
                 bar.barColor = self.strokeColor;
             }else{
                 bar.barColor = [self barColorAtIndex:index];
+            }
+            
+            if (self.labelTextColor) {
+                bar.labelTextColor = self.labelTextColor;
             }
 
             // Add gradient
@@ -309,13 +314,13 @@
 
         UIBezierPath *progressline = [UIBezierPath bezierPath];
 
-        [progressline moveToPoint:CGPointMake(_chartMarginLeft, self.frame.size.height - kXLabelHeight - _chartMarginTop)];
-        [progressline addLineToPoint:CGPointMake(self.frame.size.width - _chartMarginRight,  self.frame.size.height - kXLabelHeight - _chartMarginTop)];
+        [progressline moveToPoint:CGPointMake(_chartMarginLeft, self.frame.size.height - kXLabelHeight - _chartMarginBottom + _chartMarginTop)];
+        [progressline addLineToPoint:CGPointMake(self.frame.size.width - _chartMarginRight,  self.frame.size.height - kXLabelHeight - _chartMarginBottom + _chartMarginTop)];
 
         [progressline setLineWidth:1.0];
         [progressline setLineCapStyle:kCGLineCapSquare];
         _chartBottomLine.path = progressline.CGPath;
-        _chartBottomLine.strokeColor = PNLightGrey.CGColor;
+        _chartBottomLine.strokeColor = [_chartBorderColor CGColor];;
 
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathAnimation.duration = 0.5;
@@ -344,7 +349,7 @@
         [progressLeftline setLineWidth:1.0];
         [progressLeftline setLineCapStyle:kCGLineCapSquare];
         _chartLeftLine.path = progressLeftline.CGPath;
-        _chartLeftLine.strokeColor = PNLightGrey.CGColor;
+        _chartLeftLine.strokeColor = [_chartBorderColor CGColor];
 
         CABasicAnimation *pathLeftAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathLeftAnimation.duration = 0.5;

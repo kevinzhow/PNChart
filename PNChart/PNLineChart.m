@@ -70,19 +70,19 @@
     }
 
     if (yStep == 0.0) {
-        PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)_chartCavanHeight, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
+        PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)_chartCavanHeight, (NSInteger)_chartMarginBottom, (NSInteger)_yLabelHeight)];
         minLabel.text = [self formatYLabel:0.0];
         [self setCustomStyleForYLabel:minLabel];
         [self addSubview:minLabel];
         [_yChartLabels addObject:minLabel];
 
-        PNChartLabel *midLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight / 2), (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
+        PNChartLabel *midLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight / 2), (NSInteger)_chartMarginBottom, (NSInteger)_yLabelHeight)];
         midLabel.text = [self formatYLabel:_yValueMax];
         [self setCustomStyleForYLabel:midLabel];
         [self addSubview:midLabel];
         [_yChartLabels addObject:midLabel];
 
-        PNChartLabel *maxLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
+        PNChartLabel *maxLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, (NSInteger)_chartMarginBottom, (NSInteger)_yLabelHeight)];
         maxLabel.text = [self formatYLabel:_yValueMax * 2];
         [self setCustomStyleForYLabel:maxLabel];
         [self addSubview:maxLabel];
@@ -94,7 +94,7 @@
 
         while (num > 0)
         {
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight - index * yStepHeight), (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight - index * yStepHeight), (NSInteger)_chartMarginBottom, (NSInteger)_yLabelHeight)];
             [label setTextAlignment:NSTextAlignmentRight];
             label.text = [self formatYLabel:_yValueMin + (yStep * index)];
             [self setCustomStyleForYLabel:label];
@@ -143,7 +143,7 @@
             
             NSInteger y = (NSInteger)(_chartCavanHeight - index * yStepHeight);
             
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y, (NSInteger)_chartMarginLeft * 0.9, (NSInteger)_yLabelHeight)];
             [label setTextAlignment:NSTextAlignmentRight];
             label.text = labelText;
             [self setCustomStyleForYLabel:label];
@@ -174,7 +174,7 @@
     if (_showLabel) {
         xLabelWidth = _chartCavanWidth / [xLabels count];
     } else {
-        xLabelWidth = (self.frame.size.width) / [xLabels count];
+        xLabelWidth = (self.frame.size.width - _chartMarginLeft - _chartMarginRight) / [xLabels count];
     }
 
     return [self setXLabels:xLabels withWidth:xLabelWidth];
@@ -198,10 +198,10 @@
         for (int index = 0; index < xLabels.count; index++) {
             labelText = xLabels[index];
 
-            NSInteger x = 2 * _chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2);
-            NSInteger y = _chartMargin + _chartCavanHeight;
+            NSInteger x = (index *  _xLabelWidth + _chartMarginLeft + _xLabelWidth /2.0 );
+            NSInteger y = _chartMarginBottom + _chartCavanHeight;
 
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger)_xLabelWidth, (NSInteger)_chartMargin)];
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger)_xLabelWidth, (NSInteger)_chartMarginBottom)];
             [label setTextAlignment:NSTextAlignmentCenter];
             label.text = labelText;
             [self setCustomStyleForXLabel:label];
@@ -392,7 +392,7 @@
         if (!_showLabel) {
             _chartCavanHeight = self.frame.size.height - 2 * _yLabelHeight;
             _chartCavanWidth = self.frame.size.width;
-            _chartMargin = chartData.inflexionPointWidth;
+            //_chartMargin = chartData.inflexionPointWidth;
             _xLabelWidth = (_chartCavanWidth / ([_xLabels count] - 1));
         }
         
@@ -412,10 +412,9 @@
                 innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin);
             }
             
-            CGFloat offSetX = (_chartCavanWidth) / (chartData.itemCount);
+            int x = i *  _xLabelWidth + _chartMarginLeft + _xLabelWidth /2.0;
 
-            int x = 2 * _chartMargin +  (i * offSetX);
-            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2);
+            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2)  + _chartMarginTop - _chartMarginBottom;
             
             // Circular point
             if (chartData.inflexionPointStyle == PNLineChartPointStyleCircle) {
@@ -427,9 +426,9 @@
                 [pointPath addArcWithCenter:circleCenter radius:inflexionWidth / 2 startAngle:0 endAngle:2 * M_PI clockwise:YES];
                 
                 //jet text display text
-//                CATextLayer* textLayer = [self createTextLayer];
-//                [self setGradeFrame:textLayer grade:yValue pointCenter:circleCenter width:inflexionWidth];
-//                [gradePathArray addObject:textLayer];
+                if (chartData.showPointLabel == YES) {
+                    [gradePathArray addObject:[self createPointLabelFor:chartData.getData(i).rawY pointCenter:circleCenter width:inflexionWidth withChartData:chartData]];
+                }
                 
                 if ( i != 0 ) {
                     
@@ -463,9 +462,9 @@
                 [pointPath closePath];
                 
                 // text display text
-//                CATextLayer* textLayer = [self createTextLayer];
-//                [self setGradeFrame:textLayer grade:yValue pointCenter:squareCenter width:inflexionWidth];
-//                [gradePathArray addObject:textLayer];
+                if (chartData.showPointLabel == YES) {
+                    [gradePathArray addObject:[self createPointLabelFor:chartData.getData(i).rawY pointCenter:squareCenter width:inflexionWidth withChartData:chartData]];
+                }
                 
                 if ( i != 0 ) {
                     
@@ -501,9 +500,9 @@
                 [pointPath closePath];
                 
                 // text display text
-//                CATextLayer* textLayer = [self createTextLayer];
-//                [self setGradeFrame:textLayer grade:yValue pointCenter:middlePoint width:inflexionWidth];
-//                [gradePathArray addObject:textLayer];
+                if (chartData.showPointLabel == YES) {
+                    [gradePathArray addObject:[self createPointLabelFor:chartData.getData(i).rawY pointCenter:middlePoint width:inflexionWidth withChartData:chartData]];
+                }
                 
                 if ( i != 0 ) {
                     // calculate the point for triangle
@@ -684,19 +683,19 @@
         CGContextSetLineWidth(ctx, self.axisWidth);
         CGContextSetStrokeColorWithColor(ctx, [self.axisColor CGColor]);
 
-        CGFloat xAxisWidth = CGRectGetWidth(rect) - _chartMargin / 2;
-        CGFloat yAxisHeight = _chartMargin + _chartCavanHeight;
+        CGFloat xAxisWidth = CGRectGetWidth(rect) - (_chartMarginLeft + _chartMarginRight) / 2;
+        CGFloat yAxisHeight = _chartMarginBottom + _chartCavanHeight;
 
         // draw coordinate axis
-        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, yAxisHeight);
+        CGContextMoveToPoint(ctx, _chartMarginBottom + yAxisOffset, 0);
+        CGContextAddLineToPoint(ctx, _chartMarginBottom + yAxisOffset, yAxisHeight);
         CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
         CGContextStrokePath(ctx);
 
         // draw y axis arrow
-        CGContextMoveToPoint(ctx, _chartMargin + yAxisOffset - 3, 6);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset, 0);
-        CGContextAddLineToPoint(ctx, _chartMargin + yAxisOffset + 3, 6);
+        CGContextMoveToPoint(ctx, _chartMarginBottom + yAxisOffset - 3, 6);
+        CGContextAddLineToPoint(ctx, _chartMarginBottom + yAxisOffset, 0);
+        CGContextAddLineToPoint(ctx, _chartMarginBottom + yAxisOffset + 3, 6);
         CGContextStrokePath(ctx);
 
         // draw x axis arrow
@@ -710,7 +709,7 @@
             // draw x axis separator
             CGPoint point;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(2 * _chartMargin +  (i * _xLabelWidth), _chartMargin + _chartCavanHeight);
+                point = CGPointMake(2 * _chartMarginLeft +  (i * _xLabelWidth), _chartMarginBottom + _chartCavanHeight);
                 CGContextMoveToPoint(ctx, point.x, point.y - 2);
                 CGContextAddLineToPoint(ctx, point.x, point.y);
                 CGContextStrokePath(ctx);
@@ -719,7 +718,7 @@
             // draw y axis separator
             CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(_chartMargin + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
+                point = CGPointMake(_chartMarginBottom + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
                 CGContextMoveToPoint(ctx, point.x, point.y);
                 CGContextAddLineToPoint(ctx, point.x + 2, point.y);
                 CGContextStrokePath(ctx);
@@ -731,14 +730,14 @@
         // draw y unit
         if ([self.yUnit length]) {
             CGFloat height = [PNLineChart sizeOfString:self.yUnit withWidth:30.f font:font].height;
-            CGRect drawRect = CGRectMake(_chartMargin + 10 + 5, 0, 30.f, height);
+            CGRect drawRect = CGRectMake(_chartMarginLeft + 10 + 5, 0, 30.f, height);
             [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
         }
 
         // draw x unit
         if ([self.xUnit length]) {
             CGFloat height = [PNLineChart sizeOfString:self.xUnit withWidth:30.f font:font].height;
-            CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMargin + 5, _chartMargin + _chartCavanHeight - height / 2, 25.f, height);
+            CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMarginLeft + 5, _chartMarginBottom + _chartCavanHeight - height / 2, 25.f, height);
             [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
         }
     }
@@ -766,15 +765,23 @@
     _yLabelNum = 5.0;
     _yLabelHeight = [[[[PNChartLabel alloc] init] font] pointSize];
 
-    _chartMargin = 40;
+//    _chartMargin = 40;
+    
+    _chartMarginLeft     = 25.0;
+    _chartMarginRight    = 25.0;
+    _chartMarginTop      = 25.0;
+    _chartMarginBottom   = 25.0;
+    
+    _yLabelFormat = @"%1.f";
 
-    _chartCavanWidth = self.frame.size.width - _chartMargin * 2;
-    _chartCavanHeight = self.frame.size.height - _chartMargin * 2;
+    _chartCavanWidth = self.frame.size.width - _chartMarginLeft - _chartMarginRight;
+    _chartCavanHeight = self.frame.size.height - _chartMarginBottom - _chartMarginTop;
 
     // Coordinate Axis Default Values
     _showCoordinateAxis = NO;
     _axisColor = [UIColor colorWithRed:0.4f green:0.4f blue:0.4f alpha:1.f];
     _axisWidth = 1.f;
+
 }
 
 #pragma mark - tools
@@ -1001,36 +1008,38 @@
 
 #pragma mark setter and getter
 
--(CATextLayer*)createTextLayer
+-(CATextLayer*) createPointLabelFor:(CGFloat)grade pointCenter:(CGPoint)pointCenter width:(CGFloat)width withChartData:(PNLineChartData*)chartData
 {
-    CATextLayer * textLayer = [[CATextLayer alloc]init];
-    [textLayer setString:@"0"];
+    CATextLayer *textLayer = [[CATextLayer alloc]init];
     [textLayer setAlignmentMode:kCAAlignmentCenter];
-    [textLayer setForegroundColor:[[UIColor blackColor] CGColor]];
-    return textLayer;
-}
-
--(void)setGradeFrame:(CATextLayer*)textLayer grade:(CGFloat)grade pointCenter:(CGPoint)pointCenter width:(CGFloat)width
-{
-    CGFloat textheigt = width*3;
+    [textLayer setForegroundColor:[chartData.pointLabelColor CGColor]];
+    [textLayer setBackgroundColor:[[[UIColor whiteColor] colorWithAlphaComponent:0.8] CGColor]];
+    [textLayer setCornerRadius:textLayer.fontSize/8.0];
+    
+    if (chartData.pointLabelFont != nil) {
+        [textLayer setFont:(__bridge CFTypeRef)(chartData.pointLabelFont)];
+        textLayer.fontSize = [chartData.pointLabelFont pointSize];
+    }
+    
+    CGFloat textHeight = textLayer.fontSize * 1.1;
     CGFloat textWidth = width*8;
     CGFloat textStartPosY;
     
-    if (pointCenter.y > textheigt) {
-        textStartPosY = pointCenter.y - textheigt;
-    }
-    else {
-        textStartPosY = pointCenter.y;
-    }
-    
+    textStartPosY = pointCenter.y - textLayer.fontSize;
+
     [self.layer addSublayer:textLayer];
-    [textLayer setFontSize:textheigt/2];
     
-    [textLayer setString:[[NSString alloc]initWithFormat:@"%d",(int)(grade*100)]];
-    [textLayer setFrame:CGRectMake(0, 0, textWidth,  textheigt)];
+    if (chartData.pointLabelFormat != nil) {
+        [textLayer setString:[[NSString alloc]initWithFormat:chartData.pointLabelFormat, grade]];
+    } else {
+        [textLayer setString:[[NSString alloc]initWithFormat:_yLabelFormat, grade]];
+    }
+    
+    [textLayer setFrame:CGRectMake(0, 0, textWidth,  textHeight)];
     [textLayer setPosition:CGPointMake(pointCenter.x, textStartPosY)];
     textLayer.contentsScale = [UIScreen mainScreen].scale;
 
+    return textLayer;
 }
 
 -(CABasicAnimation*)fadeAnimation
