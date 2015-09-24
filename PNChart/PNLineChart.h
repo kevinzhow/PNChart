@@ -45,11 +45,14 @@
 @property (nonatomic) UIColor *yLabelColor;
 @property (nonatomic) CGFloat chartCavanHeight;
 @property (nonatomic) CGFloat chartCavanWidth;
-@property (nonatomic) CGFloat chartMargin;
 @property (nonatomic) BOOL showLabel;
 @property (nonatomic) BOOL showGenYLabels;
 @property (nonatomic) BOOL thousandsSeparator;
 
+@property (nonatomic) CGFloat chartMarginLeft;
+@property (nonatomic) CGFloat chartMarginRight;
+@property (nonatomic) CGFloat chartMarginTop;
+@property (nonatomic) CGFloat chartMarginBottom;
 
 /**
  * Controls whether to show the coordinate axis. Default is NO.
