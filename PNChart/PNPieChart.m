@@ -57,11 +57,8 @@
         _descriptionTextShadowOffset =  CGSizeMake(0, 1);
         _duration = 1.0;
         _shouldHighlightSectorOnTouch = YES;
-<<<<<<< Updated upstream
-=======
         _enableMultipleSelection = NO;
         _hideValues = NO;
->>>>>>> Stashed changes
         
         [super setupDefaultValues];
         [self loadDefault];
