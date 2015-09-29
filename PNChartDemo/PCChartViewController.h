@@ -25,12 +25,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *changeValueButton;
 
 @property (weak, nonatomic) IBOutlet UISwitch *leftSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *centerSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *rightSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *leftLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rightLabel;
 
 - (IBAction)rightSwitchChanged:(id)sender;
 - (IBAction)leftSwitchChanged:(id)sender;
-
+- (IBAction)rightSwitchChanged:(id)sender;
 
 @end

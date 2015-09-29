@@ -46,7 +46,7 @@
                        current:current
                      clockwise:clockwise
                         shadow:shadow
-                   shadowColor:PNGreen
+                   shadowColor:backgroundShadowColor
           displayCountingLabel:displayCountingLabel
              overrideLineWidth:@8.0f];
     
@@ -130,6 +130,12 @@ displayCountingLabel:(BOOL)displayCountingLabel
                 break;
             case PNChartFormatTypeDollar:
                 format = @"$%d";
+                break;
+            case PNChartFormatTypeDecimal:
+                format = @"%.1f";
+                break;
+            case PNChartFormatTypeDecimalTwoPlaces:
+                format = @"%.2f";
                 break;
             case PNChartFormatTypeNone:
             default:

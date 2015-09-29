@@ -26,6 +26,9 @@
 @property (nonatomic) CAShapeLayer *gradeLayer;
 @property (nonatomic) CATextLayer* textLayer;
 
+/** Text color for all bars in the chart. */
+@property (nonatomic) UIColor * labelTextColor;
+
 @property (nonatomic, assign) BOOL isNegative;          //!< 是否是负数
 @property (nonatomic, assign) BOOL isShowNumber;        //!< 是否显示numbers
 @end

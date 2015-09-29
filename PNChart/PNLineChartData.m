@@ -23,6 +23,9 @@
     _inflexionPointWidth = 6.f;
     _lineWidth = 2.f;
     _alpha = 1.f;
+    _showPointLabel = NO;
+    _pointLabelColor = [UIColor blackColor];
+    _pointLabelFormat = @"%1.f";
 }
 
 @end

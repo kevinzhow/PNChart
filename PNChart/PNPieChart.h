@@ -32,9 +32,6 @@
 /** Default is 1.0. */
 @property (nonatomic) NSTimeInterval duration;
 
-/** show only tiles, not values or percentage */
-@property (nonatomic) BOOL hideValues;
-
 /** Show only values, this is useful when legend is present */
 @property (nonatomic) BOOL showOnlyValues;
 
@@ -47,11 +44,29 @@
 /** Default YES. */
 @property (nonatomic) BOOL shouldHighlightSectorOnTouch;
 
+/** Current outer radius. Override recompute() to change this. **/
+@property (nonatomic) CGFloat outerCircleRadius;
+
+/** Current inner radius. Override recompute() to change this. **/
+@property (nonatomic) CGFloat innerCircleRadius;
+
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
+
+/** Update chart items. Does not update chart itself. */
+- (void)updateChartData:(NSArray *)data;
 
 /** Multiple selection */
 @property (nonatomic, assign) BOOL enableMultipleSelection;
 
+/** show only tiles, not values or percentage */
+@property (nonatomic) BOOL hideValues;
+
 - (void)strokeChart;
 
+- (void)recompute;
+
+<<<<<<< Updated upstream
 @end
+=======
+@end
+>>>>>>> Stashed changes
