@@ -65,8 +65,4 @@
 
 - (void)recompute;
 
-<<<<<<< Updated upstream
 @end
-=======
-@end
->>>>>>> Stashed changes

@@ -149,7 +149,7 @@
     }
     
     if (self.hideValues)
-        descriptionLabel.text =  titleText;
+        descriptionLabel.text = titleText;
     else if(!titleText || self.showOnlyValues)
         descriptionLabel.text = titleValue;
     else {
