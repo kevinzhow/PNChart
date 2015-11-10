@@ -47,23 +47,32 @@
     self = [self initWithFrame:frame];
     if(self){
         _items = [NSArray arrayWithArray:items];
-        _selectedItems = [NSMutableDictionary dictionary];
-        _outerCircleRadius  = CGRectGetWidth(self.bounds) / 2;
-        _innerCircleRadius  = CGRectGetWidth(self.bounds) / 6;
-        _descriptionTextColor = [UIColor whiteColor];
-        _descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
-        _descriptionTextShadowColor  = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-        _descriptionTextShadowOffset =  CGSizeMake(0, 1);
-        _duration = 1.0;
-        _shouldHighlightSectorOnTouch = YES;
-        _enableMultipleSelection = NO;
-        _hideValues = NO;
-        
-        [super setupDefaultValues];
-        [self loadDefault];
+        [self baseInit];
     }
     
     return self;
+}
+
+- (void)awakeFromNib{
+    [self baseInit];
+}
+
+- (void)baseInit{
+    _selectedItems = [NSMutableDictionary dictionary];
+    _outerCircleRadius  = CGRectGetWidth(self.bounds) / 2;
+    _innerCircleRadius  = CGRectGetWidth(self.bounds) / 6;
+    _descriptionTextColor = [UIColor whiteColor];
+    _descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
+    _descriptionTextShadowColor  = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+    _descriptionTextShadowOffset =  CGSizeMake(0, 1);
+    _duration = 1.0;
+    _shouldHighlightSectorOnTouch = YES;
+    _enableMultipleSelection = NO;
+    _hideValues = NO;
+    _displayAnimated = YES;
+    
+    [super setupDefaultValues];
+    [self loadDefault];
 }
 
 - (void)loadDefault{
@@ -129,6 +138,8 @@
         [_contentView addSubview:descriptionLabel];
         [_descriptionLabels addObject:descriptionLabel];
     }
+    
+    [self addAnimationIfNeeded];
 }
 
 - (UILabel *)descriptionLabelForItemAtIndex:(NSUInteger)index{
@@ -244,14 +255,25 @@
                                                endPercentage:1];
     
     _pieLayer.mask = maskLayer;
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    animation.duration  = _duration;
-    animation.fromValue = @0;
-    animation.toValue   = @1;
-    animation.delegate  = self;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    animation.removedOnCompletion = YES;
-    [maskLayer addAnimation:animation forKey:@"circleAnimation"];
+}
+
+- (void)addAnimationIfNeeded{
+    if (_displayAnimated) {
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        animation.duration  = _duration;
+        animation.fromValue = @0;
+        animation.toValue   = @1;
+        animation.delegate  = self;
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.removedOnCompletion = YES;
+        [_pieLayer.mask addAnimation:animation forKey:@"circleAnimation"];
+    }
+    else {
+        // Add description labels since no animation is required
+        [_descriptionLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [obj setAlpha:1];
+        }];
+    }
 }
 
 - (void)createArcAnimationForLayer:(CAShapeLayer *)layer
