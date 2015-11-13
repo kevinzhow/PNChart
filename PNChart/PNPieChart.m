@@ -116,7 +116,7 @@
         currentItem = [self dataItemForIndex:i];
         
         
-        CGFloat startPercnetage = [self startPercentageForItemAtIndex:i];
+        CGFloat startPercentage = [self startPercentageForItemAtIndex:i];
         CGFloat endPercentage   = [self endPercentageForItemAtIndex:i];
         
         CGFloat radius = _innerCircleRadius + (_outerCircleRadius - _innerCircleRadius) / 2;
@@ -126,7 +126,7 @@
                                                            borderWidth:borderWidth
                                                              fillColor:[UIColor clearColor]
                                                            borderColor:currentItem.color
-                                                       startPercentage:startPercnetage
+                                                       startPercentage:startPercentage
                                                          endPercentage:endPercentage];
         [_pieLayer addSublayer:currentPieLayer];
     }
@@ -338,14 +338,14 @@
         alpha /= 2;
         UIColor *newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
         
-        CGFloat startPercnetage = [self startPercentageForItemAtIndex:index];
+        CGFloat startPercentage = [self startPercentageForItemAtIndex:index];
         CGFloat endPercentage   = [self endPercentageForItemAtIndex:index];
         
         self.sectorHighlight = [self newCircleLayerWithRadius:_outerCircleRadius + 5
                                                   borderWidth:10
                                                     fillColor:[UIColor clearColor]
                                                   borderColor:newColor
-                                              startPercentage:startPercnetage
+                                              startPercentage:startPercentage
                                                 endPercentage:endPercentage];
         
         if (self.enableMultipleSelection)
