@@ -57,6 +57,7 @@
         _duration = 1.0;
         _shouldHighlightSectorOnTouch = YES;
         _enableMultipleSelection = NO;
+        _hideValues = NO;
         
         [super setupDefaultValues];
         [self loadDefault];
@@ -138,6 +139,7 @@
     
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
     NSString *titleText = currentDataItem.textDescription;
+    
     NSString *titleValue;
     
     if (self.showAbsoluteValues) {
@@ -145,9 +147,11 @@
     }else{
         titleValue = [NSString stringWithFormat:@"%.0f%%",[self ratioForItemAtIndex:index] * 100];
     }
-    if(!titleText || self.showOnlyValues){
+    
+    if (self.hideValues)
+        descriptionLabel.text = titleText;
+    else if(!titleText || self.showOnlyValues)
         descriptionLabel.text = titleValue;
-    }
     else {
         NSString* str = [titleValue stringByAppendingString:[NSString stringWithFormat:@"\n%@",titleText]];
         descriptionLabel.text = str ;

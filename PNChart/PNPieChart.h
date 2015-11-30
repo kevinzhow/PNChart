@@ -58,6 +58,9 @@
 /** Multiple selection */
 @property (nonatomic, assign) BOOL enableMultipleSelection;
 
+/** show only tiles, not values or percentage */
+@property (nonatomic) BOOL hideValues;
+
 - (void)strokeChart;
 
 - (void)recompute;
