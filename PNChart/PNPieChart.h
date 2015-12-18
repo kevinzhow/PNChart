@@ -52,9 +52,6 @@
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 
-/** Display the pie chart with or without animation. Default is YES. **/
-@property (nonatomic) BOOL displayAnimated;
-
 /** Update chart items. Does not update chart itself. */
 - (void)updateChartData:(NSArray *)data;
 

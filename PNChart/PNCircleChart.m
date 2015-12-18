@@ -235,7 +235,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
 {
     double percentageValue = [_current floatValue]/([_total floatValue]/100.0);
     
-    if (_displayAnimated) {
+    if (self.displayAnimated) {
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathAnimation.duration = self.duration;
         pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];

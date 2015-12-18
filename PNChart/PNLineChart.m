@@ -755,7 +755,6 @@
     self.chartLineArray  = [NSMutableArray new];
     _showLabel           = YES;
     _showGenYLabels      = YES;
-    _displayAnimated     = YES;
     _pathPoints          = [[NSMutableArray alloc] init];
     _endPointsOfPath     = [[NSMutableArray alloc] init];
     self.userInteractionEnabled = YES;
@@ -1054,7 +1053,7 @@
 
 -(CABasicAnimation *)pathAnimation
 {
-    if (_displayAnimated && !_pathAnimation) {
+    if (self.displayAnimated && !_pathAnimation) {
         _pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         _pathAnimation.duration = 1.0;
         _pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];

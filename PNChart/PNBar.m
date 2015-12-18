@@ -252,7 +252,7 @@
 
 -(void)addAnimationIfNeededWithProgressLine:(UIBezierPath *)progressline
 {
-    if (_displayAnimated) {
+    if (self.displayAnimated) {
         CABasicAnimation *pathAnimation = nil;
         
         if (_grade) {

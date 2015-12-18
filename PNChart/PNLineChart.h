@@ -74,9 +74,6 @@
  */
 @property (nonatomic, copy) NSString* (^yLabelBlockFormatter)(CGFloat);
 
-/** Display the line chart with or without animation. Default is YES. **/
-@property (nonatomic) BOOL displayAnimated;
-
 - (void)setXLabels:(NSArray *)xLabels withWidth:(CGFloat)width;
 
 /**

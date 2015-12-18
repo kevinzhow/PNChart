@@ -258,7 +258,7 @@
 }
 
 - (void)addAnimationIfNeeded{
-    if (_displayAnimated) {
+    if (self.displayAnimated) {
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         animation.duration  = _duration;
         animation.fromValue = @0;

@@ -69,8 +69,6 @@ displayCountingLabel:(BOOL)displayCountingLabel
 @property (nonatomic) CAShapeLayer *circleBackground;
 
 @property (nonatomic) BOOL displayCountingLabel;
-
-/** Display the circle chart with or without animation. Default is YES. **/
 @property (nonatomic) BOOL displayAnimated;
 
 @end
