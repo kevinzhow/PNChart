@@ -1041,11 +1041,13 @@
 
 -(CABasicAnimation*)fadeAnimation
 {
-    CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
-    fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
-    fadeAnimation.duration = 2.0;
-    
+    CABasicAnimation *fadeAnimation = nil;
+    if (self.displayAnimated) {
+        fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+        fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
+        fadeAnimation.duration = 2.0;
+    }
     return fadeAnimation;
 }
 

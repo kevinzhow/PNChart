@@ -232,17 +232,14 @@
 
 -(CABasicAnimation*)fadeAnimation
 {
+    CABasicAnimation* fadeAnimation = nil;
     if (self.displayAnimated) {
-        CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
         fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
         fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
         fadeAnimation.duration = 2.0;
-        
-        return fadeAnimation;
     }
-    else {
-        return nil;
-    }
+    return fadeAnimation;
 }
 
 -(void)addAnimationIfNeededWithProgressLine:(UIBezierPath *)progressline
