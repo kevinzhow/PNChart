@@ -374,7 +374,7 @@
         // Make a circular shape
         circle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(X - radius, Y - radius, 2.0*radius, 2.0*radius)
                                                  cornerRadius:radius].CGPath;
-        // Configure the apperence of the circle
+        // Configure the appearence of the circle
         circle.fillColor = [chartData.fillColor CGColor];
         circle.strokeColor = [chartData.strokeColor CGColor];
         circle.lineWidth = 1;
@@ -396,7 +396,7 @@
         return square;
     }
     else {
-        // you cann add your own scatter chart poin here
+        // you cann add your own scatter chart point here
     }
     return nil ;
 }
