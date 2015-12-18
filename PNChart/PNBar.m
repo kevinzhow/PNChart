@@ -225,29 +225,24 @@
     frame.origin.x = (self.bounds.size.width - size.width)/2.0;
     frame.size = size;
     self.textLayer.frame = frame;
-    
-    CABasicAnimation* rotationAnimation;
-    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI];
-    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    rotationAnimation.duration = 0.1;
-    rotationAnimation.repeatCount = 0;//你可以设置到最大的整数值
-    rotationAnimation.cumulative = NO;
-    rotationAnimation.removedOnCompletion = NO;
-    rotationAnimation.fillMode = kCAFillModeForwards;
-    [self.textLayer addAnimation:rotationAnimation forKey:@"Rotation"];
-    
+      
+    [self addRotationAnimationIfNeeded];
   }
 }
 
 -(CABasicAnimation*)fadeAnimation
 {
-    CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
-    fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
-    fadeAnimation.duration = 2.0;
-    
-    return fadeAnimation;
+    if (self.displayAnimated) {
+        CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+        fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
+        fadeAnimation.duration = 2.0;
+        
+        return fadeAnimation;
+    }
+    else {
+        return nil;
+    }
 }
 
 -(void)addAnimationIfNeededWithProgressLine:(UIBezierPath *)progressline
@@ -274,6 +269,22 @@
         }
         
         [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
+    }
+}
+
+- (void)addRotationAnimationIfNeeded
+{
+    if (self.displayAnimated) {
+        CABasicAnimation* rotationAnimation;
+        rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI];
+        [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        rotationAnimation.duration = 0.1;
+        rotationAnimation.repeatCount = 0;//你可以设置到最大的整数值
+        rotationAnimation.cumulative = NO;
+        rotationAnimation.removedOnCompletion = NO;
+        rotationAnimation.fillMode = kCAFillModeForwards;
+        [self.textLayer addAnimation:rotationAnimation forKey:@"Rotation"];
     }
 }
 
