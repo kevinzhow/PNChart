@@ -64,11 +64,13 @@ displayCountingLabel:(BOOL)displayCountingLabel
 @property (nonatomic) NSTimeInterval duration;
 @property (nonatomic) PNChartFormatType chartType;
 
-
 @property (nonatomic) CAShapeLayer *circle;
 @property (nonatomic) CAShapeLayer *gradientMask;
 @property (nonatomic) CAShapeLayer *circleBackground;
 
 @property (nonatomic) BOOL displayCountingLabel;
+
+/** Display the circle chart with or without animation. Default is YES. **/
+@property (nonatomic) BOOL displayAnimated;
 
 @end

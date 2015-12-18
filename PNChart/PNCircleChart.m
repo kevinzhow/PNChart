@@ -69,6 +69,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
         _strokeColor = PNFreshGreen;
         _duration = 1.0;
         _chartType = PNChartFormatTypePercent;
+        _displayAnimated = YES;
         
         _displayCountingLabel = displayCountingLabel;
 
@@ -153,18 +154,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
     _circleBackground.lineWidth = [_lineWidth floatValue];
     _circleBackground.strokeEnd = 1.0;
     _circle.strokeColor = _strokeColor.CGColor;
-
-    // Add Animation
-    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    pathAnimation.duration = self.duration;
-    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    pathAnimation.fromValue = @0.0f;
-    pathAnimation.toValue = @([_current floatValue] / [_total floatValue]);
-    [_circle addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     _circle.strokeEnd   = [_current floatValue] / [_total floatValue];
-
-    [_countingLabel countFrom:0 to:[_current floatValue]/([_total floatValue]/100.0) withDuration:self.duration];
-
 
     // Check if user wants to add a gradient from the start color to the bar color
     if (_strokeColorGradientStart) {
@@ -195,9 +185,9 @@ displayCountingLabel:(BOOL)displayCountingLabel
         [_circle addSublayer:gradientLayer];
 
         self.gradientMask.strokeEnd = [_current floatValue] / [_total floatValue];
-
-        [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
     }
+    
+    [self addAnimationIfNeeded];
 }
 
 
@@ -239,6 +229,28 @@ displayCountingLabel:(BOOL)displayCountingLabel
     
     _current = current;
     _total = total;
+}
+
+- (void)addAnimationIfNeeded
+{
+    double percentageValue = [_current floatValue]/([_total floatValue]/100.0);
+    
+    if (_displayAnimated) {
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        pathAnimation.duration = self.duration;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        pathAnimation.fromValue = @(0.0f);
+        pathAnimation.toValue = @([_current floatValue] / [_total floatValue]);
+        [_circle addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        [_countingLabel countFrom:0 to:percentageValue withDuration:self.duration];
+        
+        if (self.gradientMask && _strokeColorGradientStart) {
+            [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        }
+    }
+    else {
+        [_countingLabel countFrom:percentageValue to:percentageValue withDuration:self.duration];
+    }
 }
 
 @end
