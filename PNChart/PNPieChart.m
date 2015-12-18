@@ -275,20 +275,6 @@
     }
 }
 
-- (void)createArcAnimationForLayer:(CAShapeLayer *)layer
-                            forKey:(NSString *)key
-                         fromValue:(NSNumber *)from
-                           toValue:(NSNumber *)to
-                          delegate:(id)delegate{
-    CABasicAnimation *arcAnimation = [CABasicAnimation animationWithKeyPath:key];
-    arcAnimation.fromValue         = @0;
-    arcAnimation.toValue           = to;
-    arcAnimation.delegate          = delegate;
-    arcAnimation.timingFunction    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    [layer addAnimation:arcAnimation forKey:key];
-    [layer setValue:to forKey:key];
-}
-
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
     [_descriptionLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [UIView animateWithDuration:0.2 animations:^(){
