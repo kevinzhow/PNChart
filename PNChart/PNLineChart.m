@@ -22,12 +22,16 @@
 @property (nonatomic) NSMutableArray *pointPath;       // Array of point path, one for each line
 @property (nonatomic) NSMutableArray *endPointsOfPath;      // Array of start and end points of each line path, one for each line
 
+@property (nonatomic) CABasicAnimation *pathAnimation; // will be set to nil if _displayAnimation is NO
+
 // display grade
 @property (nonatomic) NSMutableArray *gradeStringPaths;
 
 @end
 
 @implementation PNLineChart
+
+@synthesize pathAnimation = _pathAnimation;
 
 #pragma mark initialization
 
@@ -340,18 +344,13 @@
         pointLayer.path = pointPath.CGPath;
 
         [CATransaction begin];
-        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        pathAnimation.duration = 1.0;
-        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        pathAnimation.fromValue = @0.0f;
-        pathAnimation.toValue   = @1.0f;
 
-        [chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        [chartLine addAnimation:self.pathAnimation forKey:@"strokeEndAnimation"];
         chartLine.strokeEnd = 1.0;
 
         // if you want cancel the point animation, conment this code, the point will show immediately
         if (chartData.inflexionPointStyle != PNLineChartPointStyleNone) {
-            [pointLayer addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+            [pointLayer addAnimation:self.pathAnimation forKey:@"strokeEndAnimation"];
         }
 
         [CATransaction commit];
@@ -754,8 +753,9 @@
     self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds   = YES;
     self.chartLineArray  = [NSMutableArray new];
-    _showLabel            = YES;
-    _showGenYLabels        = YES;
+    _showLabel           = YES;
+    _showGenYLabels      = YES;
+    _displayAnimated     = YES;
     _pathPoints          = [[NSMutableArray alloc] init];
     _endPointsOfPath     = [[NSMutableArray alloc] init];
     self.userInteractionEnabled = YES;
@@ -1050,6 +1050,18 @@
     fadeAnimation.duration = 2.0;
     
     return fadeAnimation;
+}
+
+-(CABasicAnimation *)pathAnimation
+{
+    if (_displayAnimated && !_pathAnimation) {
+        _pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        _pathAnimation.duration = 1.0;
+        _pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        _pathAnimation.fromValue = @0.0f;
+        _pathAnimation.toValue   = @1.0f;
+    }
+    return _pathAnimation;
 }
 
 @end
