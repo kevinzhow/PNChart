@@ -69,7 +69,6 @@
     _shouldHighlightSectorOnTouch = YES;
     _enableMultipleSelection = NO;
     _hideValues = NO;
-    _displayAnimated = YES;
     
     [super setupDefaultValues];
     [self loadDefault];
