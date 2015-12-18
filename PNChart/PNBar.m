@@ -55,6 +55,7 @@
 
     [progressline setLineWidth:1.0];
     [progressline setLineCapStyle:kCGLineCapSquare];
+    [self addAnimationIfNeededWithProgressLine:progressline];
 
 
     if (_barColor) {
@@ -66,20 +67,11 @@
 
     if (_grade) {
         
-        CABasicAnimation * pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-        pathAnimation.fromValue = (id)_chartLine.path;
-        pathAnimation.toValue = (id)[progressline CGPath];
-        pathAnimation.duration = 0.5f;
-        pathAnimation.autoreverses = NO;
-        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        [_chartLine addAnimation:pathAnimation forKey:@"animationKey"];
-        
         _chartLine.path = progressline.CGPath;
         
         if (_barColorGradientStart) {
             
             // Add gradient
-            [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
             self.gradientMask.path = progressline.CGPath;
   
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
@@ -88,13 +80,6 @@
         }
         
     }else{
-        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        pathAnimation.duration = 1.0;
-        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        pathAnimation.fromValue = @0.0f;
-        pathAnimation.toValue = @1.0f;
-        [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-        
         _chartLine.strokeEnd = 1.0;
         
         _chartLine.path = progressline.CGPath;
@@ -108,7 +93,6 @@
             self.gradientMask.lineWidth    = self.frame.size.width;
             self.gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
             self.gradientMask.path = progressline.CGPath;
-            
             
             CAGradientLayer *gradientLayer = [CAGradientLayer layer];
             gradientLayer.startPoint = CGPointMake(0.0,0.0);
@@ -127,7 +111,6 @@
             [_chartLine addSublayer:gradientLayer];
             
             self.gradientMask.strokeEnd = 1.0;
-            [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
 
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
             [self.textLayer addAnimation:opacityAnimation forKey:nil];
@@ -265,6 +248,33 @@
     fadeAnimation.duration = 2.0;
     
     return fadeAnimation;
+}
+
+-(void)addAnimationIfNeededWithProgressLine:(UIBezierPath *)progressline
+{
+    if (_displayAnimated) {
+        CABasicAnimation *pathAnimation = nil;
+        
+        if (_grade) {
+            pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+            pathAnimation.fromValue = (id)_chartLine.path;
+            pathAnimation.toValue = (id)[progressline CGPath];
+            pathAnimation.duration = 0.5f;
+            pathAnimation.autoreverses = NO;
+            pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            [_chartLine addAnimation:pathAnimation forKey:@"animationKey"];
+        }
+        else {
+            pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+            pathAnimation.duration = 1.0;
+            pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            pathAnimation.fromValue = @0.0f;
+            pathAnimation.toValue = @1.0f;
+            [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        }
+        
+        [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
+    }
 }
 
 @end

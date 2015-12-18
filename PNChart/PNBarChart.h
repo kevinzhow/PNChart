@@ -112,6 +112,9 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Controls whether text for x-axis be straight or rotate 45 degree. */
 @property (nonatomic) BOOL rotateForXAxisText;
 
+/** Display the bar chart with or without animation. Default is YES. **/
+@property (nonatomic) BOOL displayAnimated;
+
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 
 /**whether show gradient bar*/

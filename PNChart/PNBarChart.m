@@ -68,6 +68,7 @@
     _rotateForXAxisText  = false;
     _isGradientShow      = YES;
     _isShowNumbers       = YES;
+    _displayAnimated     = YES;
     _yLabelPrefix        = @"";
     _yLabelSuffix        = @"";
 	_yLabelFormatter = ^(CGFloat yValue){
@@ -241,6 +242,9 @@
 
             //Change Bar Radius
             bar.barRadius = _barRadius;
+            
+            //Set Bar Animation
+            bar.displayAnimated = _displayAnimated;
 
             //Change Bar Background color
             bar.backgroundColor = _barBackgroundColor;
