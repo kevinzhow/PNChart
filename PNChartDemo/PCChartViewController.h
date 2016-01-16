@@ -32,6 +32,5 @@
 
 - (IBAction)rightSwitchChanged:(id)sender;
 - (IBAction)leftSwitchChanged:(id)sender;
-- (IBAction)rightSwitchChanged:(id)sender;
 
 @end

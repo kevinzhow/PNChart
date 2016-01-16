@@ -22,6 +22,7 @@
 		0AF7A8AF182AAEEF003645C4 /* PCChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7A8AE182AAEEF003645C4 /* PCChartViewController.m */; };
 		5C728F7B8AACCC0864A63B26 /* libPods-PNChartTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0A0D7DDAB496680487BF1E5 /* libPods-PNChartTests.a */; };
 		5C9B4AA31B05BBCB00093EBE /* PNBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B4AA21B05BBCB00093EBE /* PNBarChart.m */; };
+		6A35C46F1C4A0D22004AB51A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A35C46E1C4A0D22004AB51A /* Launch Screen.storyboard */; };
 		6E984E5D1AE2B00600E817A0 /* PNBarChartTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E984E5C1AE2B00600E817A0 /* PNBarChartTests.m */; };
 		6E984E5E1AE2B03800E817A0 /* PNBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 91177EC9198DFAC400017E27 /* PNBar.m */; };
 		91177ED8198DFAC400017E27 /* PNBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 91177EC9198DFAC400017E27 /* PNBar.m */; };
@@ -77,6 +78,7 @@
 		3BA6321352024B1FBA0158B0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D54B84CA1CAEB2BBBC9DCFA /* Pods-PNChartTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PNChartTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PNChartTests/Pods-PNChartTests.release.xcconfig"; sourceTree = "<group>"; };
 		5C9B4AA21B05BBCB00093EBE /* PNBarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNBarChart.m; sourceTree = "<group>"; };
+		6A35C46E1C4A0D22004AB51A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		6E984E511AE2AF2D00E817A0 /* PNChartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PNChartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E984E541AE2AF2D00E817A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E984E5C1AE2B00600E817A0 /* PNBarChartTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNBarChartTests.m; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				0AF7A879182AA9F6003645C4 /* Main.storyboard */,
 				0AF7A87F182AA9F6003645C4 /* Images.xcassets */,
 				0AF7A86E182AA9F6003645C4 /* Supporting Files */,
+				6A35C46E1C4A0D22004AB51A /* Launch Screen.storyboard */,
 			);
 			path = PNChartDemo;
 			sourceTree = "<group>";
@@ -328,7 +331,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PC;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = kevinzhow;
 				TargetAttributes = {
 					6E984E501AE2AF2D00E817A0 = {
@@ -363,6 +366,7 @@
 			files = (
 				0AF7A880182AA9F6003645C4 /* Images.xcassets in Resources */,
 				0AF7A872182AA9F6003645C4 /* InfoPlist.strings in Resources */,
+				6A35C46F1C4A0D22004AB51A /* Launch Screen.storyboard in Resources */,
 				0AF7A87B182AA9F6003645C4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,6 +558,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -611,11 +616,11 @@
 			baseConfigurationReference = EFE4F6360943ED4001072124 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PNChartDemo/PNChartDemo-Prefix.pch";
 				INFOPLIST_FILE = "PNChartDemo/PNChartDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Piner.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -626,11 +631,11 @@
 			baseConfigurationReference = 2980CA20C29DC029B2D0B926 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PNChartDemo/PNChartDemo-Prefix.pch";
 				INFOPLIST_FILE = "PNChartDemo/PNChartDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Piner.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -658,6 +663,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "vila.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PNChartDemo.app/PNChartDemo";
 			};
@@ -682,6 +688,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "vila.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PNChartDemo.app/PNChartDemo";
 			};
