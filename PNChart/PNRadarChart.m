@@ -202,26 +202,8 @@
     [plotline setLineCapStyle:kCGLineCapButt];
     
     _chartPlot.path = plotline.CGPath;
-    
-    CABasicAnimation *animateScale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    animateScale.fromValue = [NSNumber numberWithFloat:0.f];
-    animateScale.toValue = [NSNumber numberWithFloat:1.0f];
-    
-    CABasicAnimation *animateMove = [CABasicAnimation animationWithKeyPath:@"position"];
-    animateMove.fromValue = [NSValue valueWithCGPoint:CGPointMake(_centerX, _centerY)];
-    animateMove.toValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
-    
-    CABasicAnimation *animateAlpha = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    animateAlpha.fromValue = [NSNumber numberWithFloat:0.f];
-    
-    CAAnimationGroup *aniGroup = [CAAnimationGroup animation];
-    aniGroup.duration = 1.f;
-    aniGroup.repeatCount = 1;
-    aniGroup.animations = [NSArray arrayWithObjects:animateScale,animateMove,animateAlpha, nil];
-    aniGroup.removedOnCompletion = YES;
-    
-    [_chartPlot addAnimation:aniGroup forKey:nil];
-    
+
+    [self addAnimationIfNeeded];
     [self showGraduation];
 }
 
@@ -363,6 +345,28 @@
     return ceil(max);
 }
 
-
+- (void)addAnimationIfNeeded
+{
+    if (self.displayAnimated) {
+        CABasicAnimation *animateScale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        animateScale.fromValue = [NSNumber numberWithFloat:0.f];
+        animateScale.toValue = [NSNumber numberWithFloat:1.0f];
+        
+        CABasicAnimation *animateMove = [CABasicAnimation animationWithKeyPath:@"position"];
+        animateMove.fromValue = [NSValue valueWithCGPoint:CGPointMake(_centerX, _centerY)];
+        animateMove.toValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+        
+        CABasicAnimation *animateAlpha = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        animateAlpha.fromValue = [NSNumber numberWithFloat:0.f];
+        
+        CAAnimationGroup *aniGroup = [CAAnimationGroup animation];
+        aniGroup.duration = 1.f;
+        aniGroup.repeatCount = 1;
+        aniGroup.animations = [NSArray arrayWithObjects:animateScale,animateMove,animateAlpha, nil];
+        aniGroup.removedOnCompletion = YES;
+        
+        [_chartPlot addAnimation:aniGroup forKey:nil];
+    }
+}
 
 @end

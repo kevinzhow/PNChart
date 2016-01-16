@@ -183,6 +183,8 @@
     }
     else if ([self.title isEqualToString:@"Scatter Chart"])
     {
+        self.animationsSwitch.hidden = YES;
+        
         self.titleLabel.text = @"Scatter Chart";
         
         self.scatterChart = [[PNScatterChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /6.0 - 30, 135, 280, 200)];
@@ -387,4 +389,29 @@
         [self.radarChart strokeChart];
     }
 }
+
+- (IBAction)animationsSwitchChanged:(UISwitch *)sender
+{
+    if ([self.title isEqualToString:@"Circle Chart"]) {
+        self.circleChart.displayAnimated = sender.on;
+        [self.circleChart strokeChart];
+    }
+    else if ([self.title isEqualToString:@"Line Chart"]) {
+        self.lineChart.displayAnimated = sender.on;
+        [self.lineChart strokeChart];
+    }
+    else if ([self.title isEqualToString:@"Bar Chart"]) {
+        self.barChart.displayAnimated = sender.on;
+        [self.barChart strokeChart];
+    }
+    else if ([self.title isEqualToString:@"Pie Chart"]) {
+        self.pieChart.displayAnimated = sender.on;
+        [self.pieChart strokeChart];
+    }
+    else if ([self.title isEqualToString:@"Radar Chart"]) {
+        self.radarChart.displayAnimated = sender.on;
+        [self.radarChart strokeChart];
+    }
+}
+
 @end

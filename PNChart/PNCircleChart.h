@@ -64,11 +64,11 @@ displayCountingLabel:(BOOL)displayCountingLabel
 @property (nonatomic) NSTimeInterval duration;
 @property (nonatomic) PNChartFormatType chartType;
 
-
 @property (nonatomic) CAShapeLayer *circle;
 @property (nonatomic) CAShapeLayer *gradientMask;
 @property (nonatomic) CAShapeLayer *circleBackground;
 
 @property (nonatomic) BOOL displayCountingLabel;
+@property (nonatomic) BOOL displayAnimated;
 
 @end

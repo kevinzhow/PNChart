@@ -30,6 +30,9 @@ typedef NS_ENUM(NSUInteger, PNLegendItemStyle) {
 @property (assign, nonatomic) UIColor *legendFontColor;
 @property (assign, nonatomic) NSUInteger labelRowsInSerialMode;
 
+/** Display the chart with or without animation. Default is YES. **/
+@property (nonatomic) BOOL displayAnimated;
+
 /**
  *  returns the Legend View, or nil if no chart data is present.
  *  The origin of the legend frame is 0,0 but you can set it with setFrame:(CGRect)

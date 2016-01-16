@@ -81,6 +81,8 @@
 
 - (void)setupDefaultValues
 {
+    [super setupDefaultValues];
+    
     // Initialization code
     self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds   = YES;
@@ -231,16 +233,11 @@
 {
     __block CGFloat yFinilizeValue , xFinilizeValue;
     __block CGFloat yValue , xValue;
-    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    pathAnimation.duration = _duration;
-    pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    pathAnimation.fromValue = @(0.0f);
-    pathAnimation.toValue = @(1.0f);
-    pathAnimation.fillMode = kCAFillModeForwards;
-    self.layer.opacity = 1;
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [NSThread sleepForTimeInterval:1];
+        if (self.displayAnimated) {
+            [NSThread sleepForTimeInterval:1];
+        }
         // update UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             for (PNScatterChartData *chartData in data) {
@@ -256,11 +253,26 @@
                     CAShapeLayer *shape = [self drawingPointsForChartData:chartData AndWithX:xFinilizeValue AndWithY:yFinilizeValue];
                     self.pathLayer = shape ;
                     [self.layer addSublayer:self.pathLayer];
-                    [self.pathLayer addAnimation:pathAnimation forKey:@"fade"];
+                    
+                    [self addAnimationIfNeeded];
                 }
             }
         });
     });
+}
+
+- (void)addAnimationIfNeeded{
+    
+    if (self.displayAnimated) {
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        pathAnimation.duration = _duration;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        pathAnimation.fromValue = @(0.0f);
+        pathAnimation.toValue = @(1.0f);
+        pathAnimation.fillMode = kCAFillModeForwards;
+        self.layer.opacity = 1;
+        [self.pathLayer addAnimation:pathAnimation forKey:@"fade"];
+    }
 }
 
 - (CGFloat) mappingIsForAxisX : (BOOL) isForAxisX WithValue : (CGFloat) value{
@@ -362,7 +374,7 @@
         // Make a circular shape
         circle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(X - radius, Y - radius, 2.0*radius, 2.0*radius)
                                                  cornerRadius:radius].CGPath;
-        // Configure the apperence of the circle
+        // Configure the appearence of the circle
         circle.fillColor = [chartData.fillColor CGColor];
         circle.strokeColor = [chartData.strokeColor CGColor];
         circle.lineWidth = 1;
@@ -384,7 +396,7 @@
         return square;
     }
     else {
-        // you cann add your own scatter chart poin here
+        // you cann add your own scatter chart point here
     }
     return nil ;
 }
@@ -393,7 +405,9 @@
     
     // call the same method on a background thread
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [NSThread sleepForTimeInterval:2];
+        if (self.displayAnimated) {
+            [NSThread sleepForTimeInterval:2];
+        }
         // calculating start and end point
         __block CGFloat startX = [self mappingIsForAxisX:true WithValue:startPoint.x];
         __block CGFloat startY = [self mappingIsForAxisX:false WithValue:startPoint.y];
@@ -411,14 +425,21 @@
             shapeLayer.lineWidth = lineWidth;
             shapeLayer.fillColor = [color CGColor];
             // adding animation to path
-            CABasicAnimation *animateStrokeEnd = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-            animateStrokeEnd.duration  = _duration;
-            animateStrokeEnd.fromValue = [NSNumber numberWithFloat:0.0f];
-            animateStrokeEnd.toValue   = [NSNumber numberWithFloat:1.0f];
-            [shapeLayer addAnimation:animateStrokeEnd forKey:nil];
+            [self addStrokeEndAnimationIfNeededToLayer:shapeLayer];
             [self.layer addSublayer:shapeLayer];
         });
     });
+}
+
+- (void)addStrokeEndAnimationIfNeededToLayer:(CAShapeLayer *)shapeLayer{
+    
+    if (self.displayAnimated) {
+        CABasicAnimation *animateStrokeEnd = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        animateStrokeEnd.duration  = _duration;
+        animateStrokeEnd.fromValue = [NSNumber numberWithFloat:0.0f];
+        animateStrokeEnd.toValue   = [NSNumber numberWithFloat:1.0f];
+        [shapeLayer addAnimation:animateStrokeEnd forKey:nil];
+    }
 }
 
 @end

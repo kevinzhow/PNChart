@@ -55,6 +55,7 @@
 
     [progressline setLineWidth:1.0];
     [progressline setLineCapStyle:kCGLineCapSquare];
+    [self addAnimationIfNeededWithProgressLine:progressline];
 
 
     if (_barColor) {
@@ -66,20 +67,11 @@
 
     if (_grade) {
         
-        CABasicAnimation * pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-        pathAnimation.fromValue = (id)_chartLine.path;
-        pathAnimation.toValue = (id)[progressline CGPath];
-        pathAnimation.duration = 0.5f;
-        pathAnimation.autoreverses = NO;
-        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        [_chartLine addAnimation:pathAnimation forKey:@"animationKey"];
-        
         _chartLine.path = progressline.CGPath;
         
         if (_barColorGradientStart) {
             
             // Add gradient
-            [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
             self.gradientMask.path = progressline.CGPath;
   
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
@@ -88,13 +80,6 @@
         }
         
     }else{
-        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        pathAnimation.duration = 1.0;
-        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        pathAnimation.fromValue = @0.0f;
-        pathAnimation.toValue = @1.0f;
-        [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
-        
         _chartLine.strokeEnd = 1.0;
         
         _chartLine.path = progressline.CGPath;
@@ -108,7 +93,6 @@
             self.gradientMask.lineWidth    = self.frame.size.width;
             self.gradientMask.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
             self.gradientMask.path = progressline.CGPath;
-            
             
             CAGradientLayer *gradientLayer = [CAGradientLayer layer];
             gradientLayer.startPoint = CGPointMake(0.0,0.0);
@@ -127,7 +111,6 @@
             [_chartLine addSublayer:gradientLayer];
             
             self.gradientMask.strokeEnd = 1.0;
-            [self.gradientMask addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
 
             CABasicAnimation* opacityAnimation = [self fadeAnimation];
             [self.textLayer addAnimation:opacityAnimation forKey:nil];
@@ -242,29 +225,64 @@
     frame.origin.x = (self.bounds.size.width - size.width)/2.0;
     frame.size = size;
     self.textLayer.frame = frame;
-    
-    CABasicAnimation* rotationAnimation;
-    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI];
-    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    rotationAnimation.duration = 0.1;
-    rotationAnimation.repeatCount = 0;//你可以设置到最大的整数值
-    rotationAnimation.cumulative = NO;
-    rotationAnimation.removedOnCompletion = NO;
-    rotationAnimation.fillMode = kCAFillModeForwards;
-    [self.textLayer addAnimation:rotationAnimation forKey:@"Rotation"];
-    
+      
+    [self addRotationAnimationIfNeeded];
   }
 }
 
 -(CABasicAnimation*)fadeAnimation
 {
-    CABasicAnimation* fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
-    fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
-    fadeAnimation.duration = 2.0;
-    
+    CABasicAnimation* fadeAnimation = nil;
+    if (self.displayAnimated) {
+        fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+        fadeAnimation.toValue = [NSNumber numberWithFloat:1.0];
+        fadeAnimation.duration = 2.0;
+    }
     return fadeAnimation;
+}
+
+-(void)addAnimationIfNeededWithProgressLine:(UIBezierPath *)progressline
+{
+    if (self.displayAnimated) {
+        CABasicAnimation *pathAnimation = nil;
+        
+        if (_grade) {
+            pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+            pathAnimation.fromValue = (id)_chartLine.path;
+            pathAnimation.toValue = (id)[progressline CGPath];
+            pathAnimation.duration = 0.5f;
+            pathAnimation.autoreverses = NO;
+            pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            [_chartLine addAnimation:pathAnimation forKey:@"animationKey"];
+        }
+        else {
+            pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+            pathAnimation.duration = 1.0;
+            pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            pathAnimation.fromValue = @0.0f;
+            pathAnimation.toValue = @1.0f;
+            [_chartLine addAnimation:pathAnimation forKey:@"strokeEndAnimation"];
+        }
+        
+        [self.gradientMask addAnimation:pathAnimation forKey:@"animationKey"];
+    }
+}
+
+- (void)addRotationAnimationIfNeeded
+{
+    if (self.displayAnimated) {
+        CABasicAnimation* rotationAnimation;
+        rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI];
+        [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        rotationAnimation.duration = 0.1;
+        rotationAnimation.repeatCount = 0;//你可以设置到最大的整数值
+        rotationAnimation.cumulative = NO;
+        rotationAnimation.removedOnCompletion = NO;
+        rotationAnimation.fillMode = kCAFillModeForwards;
+        [self.textLayer addAnimation:rotationAnimation forKey:@"Rotation"];
+    }
 }
 
 @end

@@ -31,4 +31,7 @@
 
 @property (nonatomic, assign) BOOL isNegative;          //!< 是否是负数
 @property (nonatomic, assign) BOOL isShowNumber;        //!< 是否显示numbers
+
+/** Display the bar with or without animation. Default is YES. **/
+@property (nonatomic) BOOL displayAnimated;
 @end

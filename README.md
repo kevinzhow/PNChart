@@ -248,6 +248,21 @@ lineChart.delegate = self;
 
 ```
 
+#### Animation
+
+Animation is enabled by default when drawing all charts. It can be disabled by setting `displayAnimation = NO`.
+
+```objective-c
+#import "PNChart.h"
+
+//For LineChart
+
+lineChart.displayAnimation = NO;
+
+```
+
+
+
 ```objective-c
 
 //For DelegateMethod
