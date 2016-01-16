@@ -289,6 +289,7 @@
 				0AF7A861182AA9F6003645C4 /* Frameworks */,
 				0AF7A862182AA9F6003645C4 /* Resources */,
 				D88503D158FE4481990323A3 /* Copy Pods Resources */,
+				A8B785A06CB6BF27AECBDC26 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -308,6 +309,7 @@
 				6E984E4E1AE2AF2D00E817A0 /* Frameworks */,
 				6E984E4F1AE2AF2D00E817A0 /* Resources */,
 				E9476F7ACBE0CF34D0798C4E /* Copy Pods Resources */,
+				C45F3EDD4BB541269329CDF0 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -390,6 +392,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A8B785A06CB6BF27AECBDC26 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AE92DF55A4F844AB9D718B75 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,6 +420,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C45F3EDD4BB541269329CDF0 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PNChartTests/Pods-PNChartTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D88503D158FE4481990323A3 /* Copy Pods Resources */ = {
