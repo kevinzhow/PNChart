@@ -612,10 +612,6 @@
         yMax = 5.0f;
     }
     
-    if (yMin < 0) {
-        yMin = 0.0f;
-    }
-    
     _yValueMin = (_yFixedValueMin > -FLT_MAX) ? _yFixedValueMin : yMin ;
     _yValueMax = (_yFixedValueMax > -FLT_MAX) ? _yFixedValueMax : yMax + yMax / 10.0;
     
