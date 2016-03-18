@@ -735,6 +735,21 @@
             CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMarginLeft + 5, _chartMarginBottom + _chartCavanHeight - height / 2, 25.f, height);
             [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
         }
+
+        if (self.showYGridLines) {
+            CGPoint point;
+            CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+            CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
+            for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
+                point = CGPointMake(_chartMarginBottom + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
+                CGContextMoveToPoint(ctx, point.x, point.y);
+                if (self.yGridLinesColor) {
+                    CGContextSetStrokeColorWithColor(ctx, self.yGridLinesColor.CGColor);
+                }
+                CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMarginLeft + 5, point.y);
+                CGContextStrokePath(ctx);
+            }
+        }
     }
 
     [super drawRect:rect];

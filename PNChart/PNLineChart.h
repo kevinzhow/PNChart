@@ -47,6 +47,8 @@
 @property (nonatomic) CGFloat chartCavanWidth;
 @property (nonatomic) BOOL showLabel;
 @property (nonatomic) BOOL showGenYLabels;
+@property (nonatomic) BOOL showYGridLines;
+@property (nonatomic) UIColor *yGridLinesColor;
 @property (nonatomic) BOOL thousandsSeparator;
 
 @property (nonatomic) CGFloat chartMarginLeft;
