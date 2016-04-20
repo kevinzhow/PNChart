@@ -60,6 +60,7 @@
         data01.color = PNFreshGreen;
         data01.alpha = 0.3f;
         data01.itemCount = data01Array.count;
+        data01.inflexionPointColor = PNRed;
         data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
         data01.getData = ^(NSUInteger index) {
             CGFloat yValue = [data01Array[index] floatValue];
@@ -271,6 +272,7 @@
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
         data01.itemCount = data01Array.count;
+        data01.inflexionPointColor = PNRed;
         data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
         data01.getData = ^(NSUInteger index) {
             CGFloat yValue = [data01Array[index] floatValue];

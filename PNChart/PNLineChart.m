@@ -332,6 +332,10 @@
         // setup the color of the chart line
         if (chartData.color) {
             chartLine.strokeColor = [[chartData.color colorWithAlphaComponent:chartData.alpha]CGColor];
+            if (chartData.inflexionPointColor) {
+                pointLayer.strokeColor = [[chartData.inflexionPointColor
+                                           colorWithAlphaComponent:chartData.alpha]CGColor];
+            }
         } else {
             chartLine.strokeColor = [PNGreen CGColor];
             pointLayer.strokeColor = [PNGreen CGColor];
@@ -936,11 +940,15 @@
         }
 
         // Add inflexion type
+        UIColor *inflexionPointColor = pdata.inflexionPointColor;
+        if(!inflexionPointColor) {
+            inflexionPointColor = pdata.color;
+        }
         [legendViews addObject:[self drawInflexion:pdata.inflexionPointWidth
                                                 center:CGPointMake(x + legendLineWidth / 2, y + singleRowHeight / 2)
                                            strokeWidth:pdata.lineWidth
                                         inflexionStyle:pdata.inflexionPointStyle
-                                              andColor:pdata.color
+                                              andColor:inflexionPointColor
                                               andAlpha:pdata.alpha]];
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x + legendLineWidth, y, labelsize.width, labelsize.height)];

@@ -31,6 +31,7 @@ typedef PNLineChartDataItem *(^LCLineChartDataGetter)(NSUInteger item);
 @property (nonatomic) NSString *pointLabelFormat;
 
 @property (nonatomic, assign) PNLineChartPointStyle inflexionPointStyle;
+@property (nonatomic) UIColor *inflexionPointColor;
 
 /**
  * If PNLineChartPointStyle is circle, this returns the circle's diameter.
