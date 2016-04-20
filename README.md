@@ -69,6 +69,14 @@ lineChart.chartData = @[data01, data02];
 [lineChart strokeChart];
 ```
 
+[![](https://www.dropbox.com/s/ra9ivyh2e0hkbqt/pnchart-linechart-smooth.png)](https://www.dropbox.com/s/ra9ivyh2e0hkbqt/pnchart-linechart-smooth.png)
+
+You can choose to show smooth lines.
+
+```objective-c
+lineChart.showSmoothLines = YES;
+```
+
 [![](https://dl.dropboxusercontent.com/u/1599662/bar.png)](https://dl.dropboxusercontent.com/u/1599662/bar.png)
 
 ```objective-c
@@ -191,6 +199,16 @@ UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
 [self.view addSubview:legend];
 ```
 
+#### Grid Lines
+
+Grid lines have been added to PNChart for Line Chart.
+
+```objective-c
+lineChart.showYGridLines = YES;
+lineChart.yGridLinesColor = [UIColor grayColor];
+```
+
+[![](https://www.dropbox.com/s/sxptjpwgtk32sod/pnchart-gridline.png)](https://www.dropbox.com/s/sxptjpwgtk32sod/pnchart-gridline.png)
 
 #### Update Value
 

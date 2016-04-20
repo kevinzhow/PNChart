@@ -403,8 +403,9 @@
         NSMutableArray *lineStartEndPointsArray = [[NSMutableArray alloc] init];
         int last_x = 0;
         int last_y = 0;
+        NSMutableArray<NSDictionary<NSString *, NSValue *> *> *progrssLinePaths = [NSMutableArray new];
         CGFloat inflexionWidth = chartData.inflexionPointWidth;
-        
+
         for (NSUInteger i = 0; i < chartData.itemCount; i++) {
             
             yValue = chartData.getData(i).y;
@@ -429,11 +430,11 @@
                 [pointPath addArcWithCenter:circleCenter radius:inflexionWidth / 2 startAngle:0 endAngle:2 * M_PI clockwise:YES];
                 
                 //jet text display text
-                if (chartData.showPointLabel == YES) {
+                if (chartData.showPointLabel) {
                     [gradePathArray addObject:[self createPointLabelFor:chartData.getData(i).rawY pointCenter:circleCenter width:inflexionWidth withChartData:chartData]];
                 }
                 
-                if ( i != 0 ) {
+                if ( i > 0 ) {
                     
                     // calculate the point for line
                     float distance = sqrt(pow(x - last_x, 2) + pow(y - last_y, 2) );
@@ -441,16 +442,10 @@
                     float last_y1 = last_y + (inflexionWidth / 2) / distance * (y - last_y);
                     float x1 = x - (inflexionWidth / 2) / distance * (x - last_x);
                     float y1 = y - (inflexionWidth / 2) / distance * (y - last_y);
-                    
-                    [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
-                    [progressline addLineToPoint:CGPointMake(x1, y1)];
-                    
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)]];
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x1, y1)]];
+
+                    [progrssLinePaths addObject:@{@"from" : [NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)],
+                            @"to" : [NSValue valueWithCGPoint:CGPointMake(x1, y1)]}];
                 }
-                
-                last_x = x;
-                last_y = y;
             }
             // Square point
             else if (chartData.inflexionPointStyle == PNLineChartPointStyleSquare) {
@@ -465,11 +460,11 @@
                 [pointPath closePath];
                 
                 // text display text
-                if (chartData.showPointLabel == YES) {
+                if (chartData.showPointLabel) {
                     [gradePathArray addObject:[self createPointLabelFor:chartData.getData(i).rawY pointCenter:squareCenter width:inflexionWidth withChartData:chartData]];
                 }
                 
-                if ( i != 0 ) {
+                if ( i > 0 ) {
                     
                     // calculate the point for line
                     float distance = sqrt(pow(x - last_x, 2) + pow(y - last_y, 2) );
@@ -477,16 +472,10 @@
                     float last_y1 = last_y + (inflexionWidth / 2) / distance * (y - last_y);
                     float x1 = x - (inflexionWidth / 2);
                     float y1 = y - (inflexionWidth / 2) / distance * (y - last_y);
-                    
-                    [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
-                    [progressline addLineToPoint:CGPointMake(x1, y1)];
-                    
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)]];
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x1, y1)]];
+
+                    [progrssLinePaths addObject:@{@"from" : [NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)],
+                            @"to" : [NSValue valueWithCGPoint:CGPointMake(x1, y1)]}];
                 }
-                
-                last_x = x;
-                last_y = y;
             }
             // Triangle point
             else if (chartData.inflexionPointStyle == PNLineChartPointStyleTriangle) {
@@ -503,44 +492,57 @@
                 [pointPath closePath];
                 
                 // text display text
-                if (chartData.showPointLabel == YES) {
+                if (chartData.showPointLabel) {
                     [gradePathArray addObject:[self createPointLabelFor:chartData.getData(i).rawY pointCenter:middlePoint width:inflexionWidth withChartData:chartData]];
                 }
                 
-                if ( i != 0 ) {
+                if ( i > 0 ) {
                     // calculate the point for triangle
                     float distance = sqrt(pow(x - last_x, 2) + pow(y - last_y, 2) ) * 1.4 ;
                     float last_x1 = last_x + (inflexionWidth / 2) / distance * (x - last_x);
                     float last_y1 = last_y + (inflexionWidth / 2) / distance * (y - last_y);
                     float x1 = x - (inflexionWidth / 2) / distance * (x - last_x);
                     float y1 = y - (inflexionWidth / 2) / distance * (y - last_y);
-                    
-                    [progressline moveToPoint:CGPointMake(last_x1, last_y1)];
-                    [progressline addLineToPoint:CGPointMake(x1, y1)];
-                    
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)]];
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x1, y1)]];
+
+                    [progrssLinePaths addObject:@{@"from" : [NSValue valueWithCGPoint:CGPointMake(last_x1, last_y1)],
+                            @"to" : [NSValue valueWithCGPoint:CGPointMake(x1, y1)]}];
                 }
-                
-                last_x = x;
-                last_y = y;
-                
             } else {
-                
-                if ( i != 0 ) {
-                    [progressline addLineToPoint:CGPointMake(x, y)];
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
-                }
-                
-                [progressline moveToPoint:CGPointMake(x, y)];
-                if(i != chartData.itemCount - 1){
-                    [lineStartEndPointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+
+                if ( i > 0 ) {
+                    [progrssLinePaths addObject:@{@"from" : [NSValue valueWithCGPoint:CGPointMake(last_x, last_y)],
+                            @"to" : [NSValue valueWithCGPoint:CGPointMake(x, y)]}];
                 }
             }
-            
             [linePointsArray addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+            last_x = x;
+            last_y = y;
         }
-        
+
+        if (self.showSmoothLines && chartData.itemCount >= 4) {
+            [progressline moveToPoint:[progrssLinePaths[0][@"from"] CGPointValue]];
+            for (NSDictionary<NSString *, NSValue *> *item in progrssLinePaths) {
+                CGPoint p1 = [item[@"from"] CGPointValue];
+                CGPoint p2 = [item[@"to"] CGPointValue];
+                [progressline moveToPoint:p1];
+                CGPoint midPoint = [PNLineChart midPointBetweenPoint1:p1 andPoint2:p2];
+                [progressline addQuadCurveToPoint:midPoint
+                                     controlPoint:[PNLineChart controlPointBetweenPoint1:midPoint andPoint2:p1]];
+                [progressline addQuadCurveToPoint:p2
+                                     controlPoint:[PNLineChart controlPointBetweenPoint1:midPoint andPoint2:p2]];
+            }
+        } else {
+            for (NSDictionary<NSString *, NSValue *> *item in progrssLinePaths) {
+                if (item[@"from"]) {
+                    [progressline moveToPoint:[item[@"from"] CGPointValue]];
+                    [lineStartEndPointsArray addObject:item[@"from"]];
+                }
+                if (item[@"to"]) {
+                    [progressline addLineToPoint:[item[@"to"] CGPointValue]];
+                    [lineStartEndPointsArray addObject:item[@"to"]];
+                }
+            }
+        }
         [pathPoints addObject:[linePointsArray copy]];
         [pointsOfPath addObject:[lineStartEndPointsArray copy]];
     }
@@ -739,20 +741,28 @@
             CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMarginLeft + 5, _chartMarginBottom + _chartCavanHeight - height / 2, 25.f, height);
             [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
         }
-
-        if (self.showYGridLines) {
-            CGPoint point;
-            CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+    }
+    if (self.showYGridLines) {
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGFloat yAxisOffset = 10.f;
+        CGPoint point;
+        CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+        if (self.yGridLinesColor) {
+            CGContextSetStrokeColorWithColor(ctx, self.yGridLinesColor.CGColor);
+        } else {
             CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
-            for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(_chartMarginBottom + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
-                CGContextMoveToPoint(ctx, point.x, point.y);
-                if (self.yGridLinesColor) {
-                    CGContextSetStrokeColorWithColor(ctx, self.yGridLinesColor.CGColor);
-                }
-                CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMarginLeft + 5, point.y);
-                CGContextStrokePath(ctx);
-            }
+        }
+        for (NSUInteger i = 0; i < _yLabelNum; i++) {
+            point = CGPointMake(_chartMarginBottom + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
+            CGContextMoveToPoint(ctx, point.x, point.y);
+            // add dotted style grid
+            CGFloat dash[] = {6,5};
+            // dot diameter is 20 points
+            CGContextSetLineWidth(ctx, 0.5);
+            CGContextSetLineCap(ctx, kCGLineCapRound);
+            CGContextSetLineDash(ctx, 0.0, dash, 2);
+            CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMarginLeft + 5, point.y);
+            CGContextStrokePath(ctx);
         }
     }
 
@@ -796,6 +806,9 @@
     _axisColor = [UIColor colorWithRed:0.4f green:0.4f blue:0.4f alpha:1.f];
     _axisWidth = 1.f;
 
+    // do not create curved line chart by default
+    _showSmoothLines = NO;
+
 }
 
 #pragma mark - tools
@@ -818,6 +831,20 @@
     }
  
     return size;
+}
+
++ (CGPoint)midPointBetweenPoint1:(CGPoint)point1 andPoint2:(CGPoint)point2 {
+    return CGPointMake((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+}
+
++ (CGPoint)controlPointBetweenPoint1:(CGPoint)point1 andPoint2:(CGPoint)point2 {
+    CGPoint controlPoint = [self midPointBetweenPoint1:point1 andPoint2:point2];
+    CGFloat diffY = abs((int) (point2.y - controlPoint.y));
+    if (point1.y < point2.y)
+        controlPoint.y += diffY;
+    else if (point1.y > point2.y)
+        controlPoint.y -= diffY;
+    return controlPoint;
 }
 
 - (void)drawTextInContext:(CGContextRef )ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font
