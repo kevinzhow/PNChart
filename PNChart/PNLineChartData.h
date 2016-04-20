@@ -17,6 +17,16 @@ typedef NS_ENUM(NSUInteger, PNLineChartPointStyle) {
 
 typedef PNLineChartDataItem *(^LCLineChartDataGetter)(NSUInteger item);
 
+@interface PNLineChartColorRange : NSObject<NSCopying>
+
+@property(nonatomic) NSRange range;
+@property(nonatomic) BOOL inclusive;
+@property(nonatomic, retain) UIColor *color;
+
+- (id)initWithRange:(NSRange)range color:(UIColor *)color;
+
+@end
+
 @interface PNLineChartData : NSObject
 
 @property (strong) UIColor *color;
@@ -32,6 +42,13 @@ typedef PNLineChartDataItem *(^LCLineChartDataGetter)(NSUInteger item);
 
 @property (nonatomic, assign) PNLineChartPointStyle inflexionPointStyle;
 @property (nonatomic) UIColor *inflexionPointColor;
+
+/**
+ * if rangeColor is set and the lineChartData values are within any
+ * of the given range then use the rangeColor.color otherwise use
+ * self.color for the rest of the graph
+ */
+@property(strong) NSArray<PNLineChartColorRange *> *rangeColors;
 
 /**
  * If PNLineChartPointStyle is circle, this returns the circle's diameter.
