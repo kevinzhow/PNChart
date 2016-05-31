@@ -15,11 +15,13 @@
 {
     [super viewDidLoad];
     self.titleLabel.textColor = PNFreshGreen;
-    
     self.leftSwitch.hidden = YES;
     self.rightSwitch.hidden = YES;
     self.leftLabel.hidden = YES;
     self.rightLabel.hidden = YES;
+    self.centerSwitch.hidden = YES;
+    self.centerSwitchLabel.hidden = YES;
+    
     self.changeValueButton.hidden = YES;
     
     if ([self.title isEqualToString:@"Line Chart"]) {
@@ -161,6 +163,8 @@
         self.rightSwitch.hidden = NO;
         self.leftLabel.hidden = NO;
         self.rightLabel.hidden = NO;
+        self.centerSwitch.hidden = NO;
+        self.centerSwitchLabel.hidden = NO;
         
         
         NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNLightGreen],
