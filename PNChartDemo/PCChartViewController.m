@@ -25,12 +25,17 @@
     if ([self.title isEqualToString:@"Line Chart"]) {
 
         self.titleLabel.text = @"Line Chart";
-        
+
         self.lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
         self.lineChart.yLabelFormat = @"%1.1f";
         self.lineChart.backgroundColor = [UIColor clearColor];
         [self.lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
         self.lineChart.showCoordinateAxis = YES;
+
+        // added an examle to show how yGridLines can be enabled
+        // the color is set to clearColor so that the demo remains the same
+        self.lineChart.yGridLinesColor = [UIColor clearColor];
+        self.lineChart.showYGridLines = YES;
         
         //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
         //Only if you needed
@@ -55,6 +60,7 @@
         data01.color = PNFreshGreen;
         data01.alpha = 0.3f;
         data01.itemCount = data01Array.count;
+        data01.inflexionPointColor = PNRed;
         data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
         data01.getData = ^(NSUInteger index) {
             CGFloat yValue = [data01Array[index] floatValue];
@@ -73,7 +79,7 @@
             CGFloat yValue = [data02Array[index] floatValue];
             return [PNLineChartDataItem dataItemWithY:yValue];
         };
-        
+
         self.lineChart.chartData = @[data01, data02];
         [self.lineChart strokeChart];
         self.lineChart.delegate = self;
@@ -260,12 +266,13 @@
 - (IBAction)changeValue:(id)sender {
     
     if ([self.title isEqualToString:@"Line Chart"]) {
-        
+
         // Line Chart #1
         NSArray * data01Array = @[@(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300), @(arc4random() % 300)];
         PNLineChartData *data01 = [PNLineChartData new];
         data01.color = PNFreshGreen;
         data01.itemCount = data01Array.count;
+        data01.inflexionPointColor = PNRed;
         data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
         data01.getData = ^(NSUInteger index) {
             CGFloat yValue = [data01Array[index] floatValue];
