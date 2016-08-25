@@ -1,0 +1,15 @@
+PODS:
+  - Expecta (1.0.5)
+  - UICountingLabel (1.2.0)
+
+DEPENDENCIES:
+  - Expecta
+  - UICountingLabel (~> 1.2.0)
+
+SPEC CHECKSUMS:
+  Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
+  UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
+
+PODFILE CHECKSUM: a2ad849180c6289b9e04815ed9b8d8562244eae0
+
+COCOAPODS: 1.0.0

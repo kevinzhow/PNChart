@@ -1,0 +1,8 @@
+language: objective-c
+osx_image: xcode7.2
+before_install:
+    - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
+    - pod install
+before_script:
+  - export LANG=en_US.UTF-8
+xcode_workspace: PNChartDemo.xcworkspace
