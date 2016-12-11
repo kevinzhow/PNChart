@@ -179,7 +179,6 @@ data02.dataTitle = @"Beta Beta Beta Beta";
 
 //Build the legend
 self.lineChart.legendStyle = PNLegendItemStyleSerial;
-self.lineChart.legendFontSize = 12.0;        
 UIView *legend = [self.lineChart getLegendWithMaxWidth:320];
 
 //Move legend to the desired position and add to view
@@ -191,7 +190,6 @@ UIView *legend = [self.lineChart getLegendWithMaxWidth:320];
 
 //Build the legend
 self.pieChart.legendStyle = PNLegendItemStyleStacked;
-self.pieChart.legendFontSize = 12.0;
 UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
 
 //Move legend to the desired position and add to view

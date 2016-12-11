@@ -94,7 +94,11 @@
         NSInteger num = _yLabelNum + 1;
 
         while (num > 0) {
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger) (_chartCavanHeight - index * yStepHeight), (NSInteger) _chartMarginBottom, (NSInteger) _yLabelHeight)];
+            CGRect labelFrame = CGRectMake(0.0,
+                    (NSInteger) (_chartCavanHeight + _chartMarginTop - index * yStepHeight),
+                    (NSInteger) _chartMarginLeft * 0.9,
+                    (NSInteger) _yLabelHeight);
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:labelFrame];
             [label setTextAlignment:NSTextAlignmentRight];
             label.text = [self formatYLabel:_yValueMin + (yStep * index)];
             [self setCustomStyleForYLabel:label];
@@ -139,7 +143,7 @@
         for (int index = 0; index < yLabels.count; index++) {
             labelText = yLabels[index];
 
-            NSInteger y = (NSInteger) (_chartCavanHeight - index * yStepHeight);
+            NSInteger y = (NSInteger) (_chartCavanHeight + _chartMarginTop - index * yStepHeight);
 
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y, (NSInteger) _chartMarginLeft * 0.9, (NSInteger) _yLabelHeight)];
             [label setTextAlignment:NSTextAlignmentRight];
@@ -193,7 +197,7 @@
         for (int index = 0; index < xLabels.count; index++) {
             labelText = xLabels[index];
 
-            NSInteger x = (index * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0);
+            NSInteger x = (index * _xLabelWidth + _chartMarginLeft);
             NSInteger y = _chartMarginBottom + _chartCavanHeight;
 
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger) _xLabelWidth, (NSInteger) _chartMarginBottom)];
@@ -394,8 +398,7 @@
 
             int x = i * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0;
 
-            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2) + _chartMarginTop - _chartMarginBottom;
-
+            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) - (_yLabelHeight / 2) + _chartMarginTop;
             // Circular point
             if (chartData.inflexionPointStyle == PNLineChartPointStyleCircle) {
 
@@ -564,17 +567,18 @@
 
         _chartData = data;
 
-        [self prepareYLabelsWithData:data];
         // Cavan height and width needs to be set before
         // setNeedsDisplay is invoked because setNeedsDisplay
         // will invoke drawRect and if Cavan dimensions is not
         // set the chart will be misplaced
+        _chartCavanHeight = self.frame.size.height - _chartMarginBottom - _chartMarginTop;
         if (!_showLabel) {
             _chartCavanHeight = self.frame.size.height - 2 * _yLabelHeight;
             _chartCavanWidth = self.frame.size.width;
             //_chartMargin = chartData.inflexionPointWidth;
             _xLabelWidth = (_chartCavanWidth / ([_xLabels count]));
         }
+        [self prepareYLabelsWithData:data];
         [self setNeedsDisplay];
     }
 }
@@ -596,13 +600,12 @@
     }
 
 
-    // Min value for Y label
-    if (yMax < 5) {
-        yMax = 5.0f;
+    if(_yValueMin == -FLT_MAX) {
+        _yValueMin = (_yFixedValueMin > -FLT_MAX) ? _yFixedValueMin : yMin;
     }
-
-    _yValueMin = (_yFixedValueMin > -FLT_MAX) ? _yFixedValueMin : yMin;
-    _yValueMax = (_yFixedValueMax > -FLT_MAX) ? _yFixedValueMax : yMax + yMax / 10.0;
+    if(_yValueMax == -FLT_MAX) {
+        _yValueMax = (_yFixedValueMax > -FLT_MAX) ? _yFixedValueMax : yMax + yMax / 10.0;
+    }
 
     if (_showGenYLabels) {
         [self setYLabels];
@@ -766,6 +769,8 @@
 
     _yFixedValueMin = -FLT_MAX;
     _yFixedValueMax = -FLT_MAX;
+    _yValueMax = -FLT_MAX;
+    _yValueMin = -FLT_MAX;
     _yLabelNum = 5.0;
     _yLabelHeight = [[[[PNChartLabel alloc] init] font] pointSize];
 
