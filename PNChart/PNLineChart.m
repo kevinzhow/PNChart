@@ -546,7 +546,7 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
                                        rangeColors:chartData.rangeColors
                                       defaultColor:defaultColor];
                 for (NSDictionary *range in calculatedRanges) {
-                    NSLog(@"range : %@ range: %@ color %@", range[@"from"], range[@"to"], range[@"color"]);
+//                    NSLog(@"range : %@ range: %@ color %@", range[@"from"], range[@"to"], range[@"color"]);
                     UIBezierPath *currentProgressLine = [UIBezierPath bezierPath];
                     CGPoint segmentP1 = [range[@"from"] CGPointValue];
                     CGPoint segmentP2 = [range[@"to"] CGPointValue];
@@ -568,7 +568,7 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
                                        rangeColors:chartData.rangeColors
                                       defaultColor:defaultColor];
                 for (NSDictionary *range in calculatedRanges) {
-                    NSLog(@"range : %@ range: %@ color %@", range[@"from"], range[@"to"], range[@"color"]);
+//                    NSLog(@"range : %@ range: %@ color %@", range[@"from"], range[@"to"], range[@"color"]);
                     UIBezierPath *currentProgressLine = [UIBezierPath bezierPath];
                     [currentProgressLine moveToPoint:[range[@"from"] CGPointValue]];
                     [currentProgressLine addLineToPoint:[range[@"to"] CGPointValue]];
