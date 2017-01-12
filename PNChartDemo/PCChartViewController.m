@@ -56,11 +56,19 @@
          ];
         
         // Line Chart #1
-        NSArray * data01Array = @[@60.1, @160.1, @126.4, @0.0, @186.2, @127.2, @176.2];
+        NSArray * data01Array = @[@15.1, @60.1, @110.4, @10.0, @186.2, @197.2, @276.2];
+        data01Array = [[data01Array reverseObjectEnumerator] allObjects];
         PNLineChartData *data01 = [PNLineChartData new];
+
+        data01.rangeColors = @[
+                [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(10, 30) color:[UIColor redColor]],
+                [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(100, 200) color:[UIColor purpleColor]]
+        ];
         data01.dataTitle = @"Alpha";
         data01.color = PNFreshGreen;
         data01.alpha = 0.3f;
+        data01.showPointLabel = YES;
+        data01.pointLabelFont = [UIFont fontWithName:@"Helvetica-Light" size:9.0];
         data01.itemCount = data01Array.count;
         data01.inflexionPointColor = PNRed;
         data01.inflexionPointStyle = PNLineChartPointStyleTriangle;
@@ -83,6 +91,9 @@
         };
 
         self.lineChart.chartData = @[data01, data02];
+//        self.lineChart.showSmoothLines = YES;
+        self.lineChart.showYGridLines = YES;
+        self.lineChart.yGridLinesColor = [UIColor grayColor];
         [self.lineChart strokeChart];
         self.lineChart.delegate = self;
         
@@ -112,7 +123,7 @@
 //        self.barChart.showLabel = NO;
         self.barChart.backgroundColor = [UIColor clearColor];
         self.barChart.yLabelFormatter = ^(CGFloat yValue){
-            return [barChartFormatter stringFromNumber:[NSNumber numberWithFloat:yValue]];
+            return [barChartFormatter stringFromNumber:@(yValue)];
         };
         
         self.barChart.yChartLabelWidth = 20.0;
@@ -172,7 +183,7 @@
                            [PNPieChartDataItem dataItemWithValue:40 color:PNDeepGreen description:@"GOOG I/O"],
                            ];
         
-        self.pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /2.0 - 100, 135, 200.0, 200.0) items:items];
+        self.pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake((CGFloat) (SCREEN_WIDTH /2.0 - 100), 135, 200.0, 200.0) items:items];
         self.pieChart.descriptionTextColor = [UIColor whiteColor];
         self.pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
         self.pieChart.descriptionTextShadowColor = [UIColor clearColor];
@@ -197,7 +208,7 @@
         
         self.titleLabel.text = @"Scatter Chart";
         
-        self.scatterChart = [[PNScatterChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /6.0 - 30, 135, 280, 200)];
+        self.scatterChart = [[PNScatterChart alloc] initWithFrame:CGRectMake((CGFloat) (SCREEN_WIDTH /6.0 - 30), 135, 280, 200)];
 //        self.scatterChart.yLabelFormat = @"xxx %1.1f";
         [self.scatterChart setAxisXWithMinimumValue:20 andMaxValue:100 toTicks:6];
         [self.scatterChart setAxisYWithMinimumValue:30 andMaxValue:50 toTicks:5];
@@ -209,14 +220,15 @@
         data01.strokeColor = PNGreen;
         data01.fillColor = PNFreshGreen;
         data01.size = 2;
-        data01.itemCount = [[data01Array objectAtIndex:0] count];
+        data01.itemCount = [data01Array[0] count];
         data01.inflexionPointStyle = PNScatterChartPointStyleCircle;
-        __block NSMutableArray *XAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:0]];
-        __block NSMutableArray *YAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:1]];
+        __block NSMutableArray *XAr1 = [NSMutableArray arrayWithArray:data01Array[0]];
+        __block NSMutableArray *YAr1 = [NSMutableArray arrayWithArray:data01Array[1]];
 
         data01.getData = ^(NSUInteger index) {
-            CGFloat xValue = [[XAr1 objectAtIndex:index] floatValue];
-            CGFloat yValue = [[YAr1 objectAtIndex:index] floatValue];
+            CGFloat xValue;
+            xValue = [XAr1[index] floatValue];
+            CGFloat yValue = [YAr1[index] floatValue];
             return [PNScatterChartDataItem dataItemWithX:xValue AndWithY:yValue];
         };
         
@@ -324,7 +336,7 @@
     
     NSLog(@"Click on bar %@", @(barIndex));
     
-    PNBar * bar = [self.barChart.bars objectAtIndex:barIndex];
+    PNBar * bar = self.barChart.bars[(NSUInteger) barIndex];
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     
@@ -352,26 +364,18 @@
     }
     [array addObject:XAr];
     [array addObject:YAr];
-    return (NSArray*) array;
+    return array;
 }
 
 - (IBAction)rightSwitchChanged:(id)sender {
     if ([self.title isEqualToString:@"Pie Chart"]){
         UISwitch *showLabels = (UISwitch*) sender;
-        if (showLabels.on) {
-            self.pieChart.showOnlyValues = NO;
-        }else{
-            self.pieChart.showOnlyValues = YES;
-        }
+        self.pieChart.showOnlyValues = !showLabels.on;
         [self.pieChart strokeChart];
     }
     if ([self.title isEqualToString:@"Radar Chart"]){
         UISwitch *showLabels = (UISwitch*) sender;
-        if (showLabels.on) {
-            self.radarChart.isShowGraduation = NO;
-        }else{
-            self.radarChart.isShowGraduation = YES;
-        }
+        self.radarChart.isShowGraduation = !showLabels.on;
         [self.radarChart strokeChart];
     }
 }
@@ -388,11 +392,7 @@
 - (IBAction)leftSwitchChanged:(id)sender {
     if ([self.title isEqualToString:@"Pie Chart"]){
         UISwitch *showRelative = (UISwitch*) sender;
-        if (showRelative.on) {
-            self.pieChart.showAbsoluteValues = NO;
-        }else{
-            self.pieChart.showAbsoluteValues = YES;
-        }
+        self.pieChart.showAbsoluteValues = !showRelative.on;
         [self.pieChart strokeChart];
     }
     if ([self.title isEqualToString:@"Radar Chart"]){
@@ -413,6 +413,7 @@
         [self.circleChart strokeChart];
     }
     else if ([self.title isEqualToString:@"Line Chart"]) {
+        self.lineChart.showSmoothLines = YES;
         self.lineChart.displayAnimated = sender.on;
         [self.lineChart strokeChart];
     }

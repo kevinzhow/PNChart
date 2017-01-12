@@ -338,7 +338,7 @@
 				ORGANIZATIONNAME = kevinzhow;
 				TargetAttributes = {
 					0AF7A863182AA9F6003645C4 = {
-						DevelopmentTeam = 67559VR9J5;
+						DevelopmentTeam = VR4682XU3B;
 					};
 					6E984E501AE2AF2D00E817A0 = {
 						CreatedOnToolsVersion = 6.3;
@@ -623,7 +623,7 @@
 			baseConfigurationReference = B9566E1E0D31408BDFBA8A58 /* Pods-PNChartDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 67559VR9J5;
+				DEVELOPMENT_TEAM = VR4682XU3B;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PNChartDemo/PNChartDemo-Prefix.pch";
 				INFOPLIST_FILE = "PNChartDemo/PNChartDemo-Info.plist";
@@ -639,7 +639,7 @@
 			baseConfigurationReference = 4C519A2B2B515B4587050D06 /* Pods-PNChartDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 67559VR9J5;
+				DEVELOPMENT_TEAM = VR4682XU3B;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PNChartDemo/PNChartDemo-Prefix.pch";
 				INFOPLIST_FILE = "PNChartDemo/PNChartDemo-Info.plist";

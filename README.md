@@ -69,7 +69,8 @@ lineChart.chartData = @[data01, data02];
 [lineChart strokeChart];
 ```
 
-[![](https://www.dropbox.com/s/ra9ivyh2e0hkbqt/pnchart-linechart-smooth.png)](https://www.dropbox.com/s/ra9ivyh2e0hkbqt/pnchart-linechart-smooth.png)
+[![](https://goo.gl/c9oSXJ)](https://goo.gl/c9oSXJ)
+
 
 You can choose to show smooth lines.
 
@@ -77,7 +78,21 @@ You can choose to show smooth lines.
 lineChart.showSmoothLines = YES;
 ```
 
-[![](https://dl.dropboxusercontent.com/u/1599662/bar.png)](https://dl.dropboxusercontent.com/u/1599662/bar.png)
+[![](https://goo.gl/c9oSXJ)](https://goo.gl/c9oSXJ)
+
+
+You can set different colors for the same PNLineChartData item. for instance you can use "color" red for values less than 50 and use purple for values greater than 150.
+
+
+[![](https://goo.gl/d9EmPL)](https://goo.gl/d9EmPL)
+
+
+```objective-c
+lineChartData.rangeColors = @[
+        [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(10, 30) color:[UIColor redColor]],
+        [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(100, 200) color:[UIColor purpleColor]]
+];
+```
 
 ```objective-c
 #import "PNChart.h"
