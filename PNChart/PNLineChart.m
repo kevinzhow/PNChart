@@ -314,13 +314,14 @@
         // we need ot draw each path with different color
         // if there is not rangeColors then there is only one progressLinePath per chart
         NSArray<UIColor *> *progressLineColors = self.progressLinePathsColors[lineIndex];
+        [self.chartLineArray[lineIndex] removeAllObjects];
         NSUInteger progressLineIndex = 0;;
         for (UIBezierPath *progressLinePath in progressLines) {
             PNLineChartData *chartData = self.chartData[lineIndex];
             CAShapeLayer *chartLine = [CAShapeLayer layer];
             chartLine.lineCap = kCALineCapButt;
             chartLine.lineJoin = kCALineJoinMiter;
-            chartLine.fillColor = [[UIColor whiteColor] CGColor];
+            chartLine.fillColor = self.backgroundColor.CGColor;
             chartLine.lineWidth = chartData.lineWidth;
             chartLine.path = progressLinePath.CGPath;
             chartLine.strokeEnd = 0.0;
@@ -332,7 +333,21 @@
     }
 }
 
+/*
+ * strokeChart should remove the previously drawn chart lines and points
+ * and then proceed to draw the new lines
+ */
 - (void)strokeChart {
+    [self removeLayers];
+    // remove all shape layers before adding new ones
+    [self recreatePointLayers];
+    // Cavan height and width needs to be set before
+    // setNeedsDisplay is invoked because setNeedsDisplay
+    // will invoke drawRect and if Cavan dimensions is not
+    // set the chart will be misplaced
+    [self resetCavanHeight];
+    [self prepareYLabelsWithData:_chartData];
+
     _chartPath = [[NSMutableArray alloc] init];
     _pointPath = [[NSMutableArray alloc] init];
     _gradeStringPaths = [NSMutableArray array];
@@ -385,6 +400,7 @@
 
         UIGraphicsEndImageContext();
     }
+    [self setNeedsDisplay];
 }
 
 
@@ -584,50 +600,48 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
 
 - (void)setChartData:(NSArray *)data {
     if (data != _chartData) {
+        _chartData = data;
+    }
+}
 
-        // remove all shape layers before adding new ones
-        for (NSArray<CALayer *> *layers in self.chartLineArray) {
-            for (CALayer *layer in layers) {
-                [layer removeFromSuperlayer];
-            }
-        }
-        for (CALayer *layer in self.chartPointArray) {
+
+- (void)removeLayers {
+    for (NSArray<CALayer *> *layers in self.chartLineArray) {
+        for (CALayer *layer in layers) {
             [layer removeFromSuperlayer];
         }
+    }
+    for (CALayer *layer in self.chartPointArray) {
+        [layer removeFromSuperlayer];
+    }
+    self.chartLineArray = [NSMutableArray arrayWithCapacity:_chartData.count];
+    self.chartPointArray = [NSMutableArray arrayWithCapacity:_chartData.count];
+}
 
-        self.chartLineArray = [NSMutableArray arrayWithCapacity:data.count];
-        self.chartPointArray = [NSMutableArray arrayWithCapacity:data.count];
+-(void) resetCavanHeight {
+    _chartCavanHeight = self.frame.size.height - _chartMarginBottom - _chartMarginTop;
+    if (!_showLabel) {
+        _chartCavanHeight = self.frame.size.height - 2 * _yLabelHeight;
+        _chartCavanWidth = self.frame.size.width;
+        //_chartMargin = chartData.inflexionPointWidth;
+        _xLabelWidth = (_chartCavanWidth / ([_xLabels count]));
+    }
+}
 
-        for (PNLineChartData *chartData in data) {
-            // create as many chart line layers as there are data-lines
-            [self.chartLineArray addObject:[NSMutableArray new]];
+- (void)recreatePointLayers {
+    for (PNLineChartData *chartData in _chartData) {
+        // create as many chart line layers as there are data-lines
+        [self.chartLineArray addObject:[NSMutableArray new]];
 
-            // create point
-            CAShapeLayer *pointLayer = [CAShapeLayer layer];
-            pointLayer.strokeColor = [[chartData.color colorWithAlphaComponent:chartData.alpha] CGColor];
-            pointLayer.lineCap = kCALineCapRound;
-            pointLayer.lineJoin = kCALineJoinBevel;
-            pointLayer.fillColor = nil;
-            pointLayer.lineWidth = chartData.lineWidth;
-            [self.layer addSublayer:pointLayer];
-            [self.chartPointArray addObject:pointLayer];
-        }
-
-        _chartData = data;
-
-        // Cavan height and width needs to be set before
-        // setNeedsDisplay is invoked because setNeedsDisplay
-        // will invoke drawRect and if Cavan dimensions is not
-        // set the chart will be misplaced
-        _chartCavanHeight = self.frame.size.height - _chartMarginBottom - _chartMarginTop;
-        if (!_showLabel) {
-            _chartCavanHeight = self.frame.size.height - 2 * _yLabelHeight;
-            _chartCavanWidth = self.frame.size.width;
-            //_chartMargin = chartData.inflexionPointWidth;
-            _xLabelWidth = (_chartCavanWidth / ([_xLabels count]));
-        }
-        [self prepareYLabelsWithData:data];
-        [self setNeedsDisplay];
+        // create point
+        CAShapeLayer *pointLayer = [CAShapeLayer layer];
+        pointLayer.strokeColor = [[chartData.color colorWithAlphaComponent:chartData.alpha] CGColor];
+        pointLayer.lineCap = kCALineCapRound;
+        pointLayer.lineJoin = kCALineJoinBevel;
+        pointLayer.fillColor = nil;
+        pointLayer.lineWidth = chartData.lineWidth;
+        [self.layer addSublayer:pointLayer];
+        [self.chartPointArray addObject:pointLayer];
     }
 }
 
@@ -769,14 +783,14 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
         if ([self.yUnit length]) {
             CGFloat height = [PNLineChart sizeOfString:self.yUnit withWidth:30.f font:font].height;
             CGRect drawRect = CGRectMake(_chartMarginLeft + 10 + 5, 0, 30.f, height);
-            [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
+            [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font color:self.yLabelColor];
         }
 
         // draw x unit
         if ([self.xUnit length]) {
             CGFloat height = [PNLineChart sizeOfString:self.xUnit withWidth:30.f font:font].height;
             CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMarginLeft + 5, _chartMarginBottom + _chartCavanHeight - height / 2, 25.f, height);
-            [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
+            [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font color:self.xLabelColor];
         }
     }
     if (self.showYGridLines) {
@@ -1002,14 +1016,20 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
     return controlPoint;
 }
 
-- (void)drawTextInContext:(CGContextRef)ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font {
+- (void)drawTextInContext:(CGContextRef)ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font color:(UIColor *)color {
     if (IOS7_OR_LATER) {
         NSMutableParagraphStyle *priceParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         priceParagraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
         priceParagraphStyle.alignment = NSTextAlignmentLeft;
 
-        [text drawInRect:rect
-          withAttributes:@{NSParagraphStyleAttributeName: priceParagraphStyle, NSFontAttributeName: font}];
+        if (color != nil) {
+            [text drawInRect:rect
+              withAttributes:@{NSParagraphStyleAttributeName: priceParagraphStyle, NSFontAttributeName: font,
+                      NSForegroundColorAttributeName: color}];
+        } else {
+            [text drawInRect:rect
+              withAttributes:@{NSParagraphStyleAttributeName: priceParagraphStyle, NSFontAttributeName: font}];
+        }
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1205,8 +1225,9 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
     CATextLayer *textLayer = [[CATextLayer alloc] init];
     [textLayer setAlignmentMode:kCAAlignmentCenter];
     [textLayer setForegroundColor:[chartData.pointLabelColor CGColor]];
-    [textLayer setBackgroundColor:[[[UIColor whiteColor] colorWithAlphaComponent:0.8] CGColor]];
-    [textLayer setCornerRadius:(CGFloat) (textLayer.fontSize / 8.0)];
+    [textLayer setBackgroundColor:self.backgroundColor.CGColor];
+//    [textLayer setBackgroundColor:[self.backgroundColor colorWithAlphaComponent:0.8].CGColor];
+//    [textLayer setCornerRadius:(CGFloat) (textLayer.fontSize / 8.0)];
 
     if (chartData.pointLabelFont != nil) {
         [textLayer setFont:(__bridge CFTypeRef) (chartData.pointLabelFont)];
@@ -1214,6 +1235,7 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
     }
 
     CGFloat textHeight = (CGFloat) (textLayer.fontSize * 1.1);
+    // FIXME: convert the grade to string and use its length instead of hardcoding 8
     CGFloat textWidth = width * 8;
     CGFloat textStartPosY;
 
@@ -1252,6 +1274,9 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
         _pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         _pathAnimation.fromValue = @0.0f;
         _pathAnimation.toValue = @1.0f;
+    }
+    if(!self.displayAnimated) {
+        _pathAnimation = nil;
     }
     return _pathAnimation;
 }

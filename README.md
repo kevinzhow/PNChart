@@ -69,8 +69,6 @@ lineChart.chartData = @[data01, data02];
 [lineChart strokeChart];
 ```
 
-[![](https://goo.gl/c9oSXJ)](https://goo.gl/c9oSXJ)
-
 
 You can choose to show smooth lines.
 
@@ -78,13 +76,13 @@ You can choose to show smooth lines.
 lineChart.showSmoothLines = YES;
 ```
 
-[![](https://goo.gl/c9oSXJ)](https://goo.gl/c9oSXJ)
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-linechart-smooth.png)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-linechart-smooth.png)
 
 
 You can set different colors for the same PNLineChartData item. for instance you can use "color" red for values less than 50 and use purple for values greater than 150.
 
 
-[![](https://goo.gl/d9EmPL)](https://goo.gl/d9EmPL)
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-rangecolors-2.png)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-rangecolors-2.png)
 
 
 ```objective-c
@@ -221,7 +219,7 @@ lineChart.showYGridLines = YES;
 lineChart.yGridLinesColor = [UIColor grayColor];
 ```
 
-[![](https://www.dropbox.com/s/sxptjpwgtk32sod/pnchart-gridline.png)](https://www.dropbox.com/s/sxptjpwgtk32sod/pnchart-gridline.png)
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gridline.png)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gridline.png)
 
 #### Update Value
 
