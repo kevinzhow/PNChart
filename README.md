@@ -6,7 +6,7 @@ You can also find swift version at here https://github.com/kevinzhow/PNChart-Swi
 
 A simple and beautiful chart lib with **animation** used in [Piner](https://itunes.apple.com/us/app/piner/id637706410) and [CoinsMan](https://itunes.apple.com/us/app/coinsman/id772163893) for iOS
 
-[![](https://dl.dropboxusercontent.com/u/1599662/pnchart.gif)](https://dl.dropboxusercontent.com/u/1599662/pnchart.gif)
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gif.gif)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gif.gif)
 
 ## Requirements
 
