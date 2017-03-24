@@ -11,7 +11,11 @@
 #import "PNGenericChart.h"
 #import "PNChartDelegate.h"
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_10_0
 @interface PNPieChart : PNGenericChart
+#else
+@interface PNPieChart : PNGenericChart <CAAnimationDelegate>
+#endif
 
 - (id)initWithFrame:(CGRect)frame items:(NSArray *)items;
 
