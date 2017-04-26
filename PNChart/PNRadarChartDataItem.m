@@ -19,8 +19,8 @@
 }
 
 - (void)setValue:(CGFloat)value {
-    if (value<0) {
-        _value = 0;
+    if (value < 0) {
+        value = 0;
         NSLog(@"Value value can not be negative");
     }
     _value = value;

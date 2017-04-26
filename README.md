@@ -6,7 +6,7 @@ You can also find swift version at here https://github.com/kevinzhow/PNChart-Swi
 
 A simple and beautiful chart lib with **animation** used in [Piner](https://itunes.apple.com/us/app/piner/id637706410) and [CoinsMan](https://itunes.apple.com/us/app/coinsman/id772163893) for iOS
 
-[![](https://dl.dropboxusercontent.com/u/1599662/pnchart.gif)](https://dl.dropboxusercontent.com/u/1599662/pnchart.gif)
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gif.gif)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gif.gif)
 
 ## Requirements
 
@@ -69,7 +69,6 @@ lineChart.chartData = @[data01, data02];
 [lineChart strokeChart];
 ```
 
-[![](https://www.dropbox.com/s/ra9ivyh2e0hkbqt/pnchart-linechart-smooth.png)](https://www.dropbox.com/s/ra9ivyh2e0hkbqt/pnchart-linechart-smooth.png)
 
 You can choose to show smooth lines.
 
@@ -77,7 +76,21 @@ You can choose to show smooth lines.
 lineChart.showSmoothLines = YES;
 ```
 
-[![](https://dl.dropboxusercontent.com/u/1599662/bar.png)](https://dl.dropboxusercontent.com/u/1599662/bar.png)
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-linechart-smooth.png)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-linechart-smooth.png)
+
+
+You can set different colors for the same PNLineChartData item. for instance you can use "color" red for values less than 50 and use purple for values greater than 150.
+
+
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-rangecolors-2.png)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-rangecolors-2.png)
+
+
+```objective-c
+lineChartData.rangeColors = @[
+        [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(10, 30) color:[UIColor redColor]],
+        [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(100, 200) color:[UIColor purpleColor]]
+];
+```
 
 ```objective-c
 #import "PNChart.h"
@@ -179,7 +192,6 @@ data02.dataTitle = @"Beta Beta Beta Beta";
 
 //Build the legend
 self.lineChart.legendStyle = PNLegendItemStyleSerial;
-self.lineChart.legendFontSize = 12.0;        
 UIView *legend = [self.lineChart getLegendWithMaxWidth:320];
 
 //Move legend to the desired position and add to view
@@ -191,7 +203,6 @@ UIView *legend = [self.lineChart getLegendWithMaxWidth:320];
 
 //Build the legend
 self.pieChart.legendStyle = PNLegendItemStyleStacked;
-self.pieChart.legendFontSize = 12.0;
 UIView *legend = [self.pieChart getLegendWithMaxWidth:200];
 
 //Move legend to the desired position and add to view
@@ -208,7 +219,7 @@ lineChart.showYGridLines = YES;
 lineChart.yGridLinesColor = [UIColor grayColor];
 ```
 
-[![](https://www.dropbox.com/s/sxptjpwgtk32sod/pnchart-gridline.png)](https://www.dropbox.com/s/sxptjpwgtk32sod/pnchart-gridline.png)
+[![](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gridline.png)](https://s3.amazonaws.com/farshid.ghods.github/pnchart-gridline.png)
 
 #### Update Value
 
