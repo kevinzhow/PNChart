@@ -10,7 +10,7 @@
 //needed for the expected label size
 #import "PNLineChart.h"
 
-@interface PNPieChart()
+@interface PNPieChart()<CAAnimationDelegate>
 
 @property (nonatomic) NSArray *items;
 @property (nonatomic) NSArray *endPercentages;
