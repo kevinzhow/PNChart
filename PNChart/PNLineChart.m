@@ -410,6 +410,17 @@
      andPathStartEndPoints:(NSMutableArray *)pointsOfPath
 andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
 
+    // remove old point label
+    for (NSArray *ary in _gradeStringPaths) {
+        @autoreleasepool {
+            for (CATextLayer *textLayer in ary) {
+                [textLayer removeFromSuperlayer];
+            }
+        }
+    }
+    [self.gradeStringPaths removeAllObjects];
+    
+    
     // Draw each line
 
     for (NSUInteger lineIndex = 0; lineIndex < self.chartData.count; lineIndex++) {
