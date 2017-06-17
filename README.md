@@ -1,4 +1,4 @@
-#PNChart
+# PNChart
 
 [![Build Status](https://travis-ci.org/kevinzhow/PNChart.png?branch=master)](https://travis-ci.org/kevinzhow/PNChart)
 
@@ -35,9 +35,6 @@ You will need LLVM 3.0 or later in order to build PNChart.
 
 
 ### Copy the PNChart folder to your project
-
-
-[![](https://dl.dropboxusercontent.com/u/1599662/line.png)](https://dl.dropboxusercontent.com/u/1599662/line.png)
 
 ```objective-c
 #import "PNChart.h"
@@ -103,9 +100,6 @@ PNBarChart * barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, S
 
 ```
 
-[![](https://dl.dropboxusercontent.com/u/1599662/circle.png)](https://dl.dropboxusercontent.com/u/1599662/circle.png)
-
-
 ```objective-c
 #import "PNChart.h"
 
@@ -118,8 +112,6 @@ circleChart.backgroundColor = [UIColor clearColor];
 
 ```
 
-
-[![](https://dl.dropboxusercontent.com/u/1599662/pie.png)](https://dl.dropboxusercontent.com/u/1599662/pie.png)
 
 ```objective-c
 # import "PNChart.h"
@@ -136,8 +128,6 @@ pieChart.descriptionTextColor = [UIColor whiteColor];
 pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0];
 [pieChart strokeChart];
 ```
-
-[![](https://dl.dropboxusercontent.com/u/1599662/scatter.png)](https://dl.dropboxusercontent.com/u/1599662/scatter.png)
 
 ```objective-c
 # import "PNChart.h"
@@ -176,10 +166,6 @@ scatterChart.delegate = self;
 #### Legend
 
 Legend has been added to PNChart for Line and Pie Charts. Legend items position can be stacked or in series.
-
-[![](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_1.png)](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_1.png)
-
-[![](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_2.png)](https://dl.dropboxusercontent.com/u/4904447/pnchart_legend_2.png)
 
 ```objective-c
 #import "PNChart.h"
