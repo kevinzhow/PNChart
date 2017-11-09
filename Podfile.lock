@@ -1,15 +1,15 @@
 PODS:
-  - Expecta (1.0.5)
-  - UICountingLabel (1.4.0)
+  - Expecta (1.0.6)
+  - UICountingLabel (1.4.1)
 
 DEPENDENCIES:
   - Expecta
-  - UICountingLabel (~> 1.4.0)
+  - UICountingLabel (~> 1.4.1)
 
 SPEC CHECKSUMS:
-  Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
-  UICountingLabel: ed5ce5b6d5ef278ff40d99cfa49577a30ab0c87b
+  Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
+  UICountingLabel: faf890b505d96312e324a86718f031fafffb0ccb
 
-PODFILE CHECKSUM: 7209bd5d1245966227cdec5c2ff3dc1e6f972956
+PODFILE CHECKSUM: de6be598c24bcfa6bcb5d22972adde29af718156
 
 COCOAPODS: 1.3.1
