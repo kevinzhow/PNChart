@@ -71,13 +71,13 @@
         self.lineChart.yFixedValueMin = 0.0;
 
         [self.lineChart setYLabels:@[
-                @"0 min",
-                @"50 min",
-                @"100 min",
-                @"150 min",
-                @"200 min",
-                @"250 min",
-                @"300 min",
+                @"0",
+                @"50",
+                @"100",
+                @"150",
+                @"200",
+                @"250",
+                @"300",
         ]
         ];
 
