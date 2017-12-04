@@ -226,6 +226,7 @@
         self.changeValueButton.hidden = YES;
     } else if ([self.title isEqualToString:@"Scatter Chart"]) {
         self.animationsSwitch.hidden = YES;
+        self.animationsLabel.hidden = YES;
 
         self.titleLabel.text = @"Scatter Chart";
 
