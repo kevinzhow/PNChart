@@ -116,6 +116,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="PNChart" id="Ukg-Sg-E2z"/>
                     <connections>
+                        <outlet property="animationsLabel" destination="lc1-oP-FNw" id="9Ij-Ku-pOt"/>
                         <outlet property="animationsSwitch" destination="Mnm-Is-oih" id="haB-27-exI"/>
                         <outlet property="centerSwitch" destination="kav-3r-blI" id="aDA-mR-FhR"/>
                         <outlet property="centerSwitchLabel" destination="sMF-o9-dZX" id="Epf-8v-NeL"/>

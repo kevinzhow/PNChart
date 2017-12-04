@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *changeValueButton;
 
 @property (weak, nonatomic) IBOutlet UISwitch *animationsSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *animationsLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *leftSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *centerSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *rightSwitch;
