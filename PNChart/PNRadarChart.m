@@ -206,6 +206,8 @@
 
     [self addAnimationIfNeeded];
     [self showGraduation];
+
+    self.transform = CGAffineTransformMakeRotation(-M_PI_2);
 }
 
 #pragma mark - Helper
@@ -239,16 +241,31 @@
                 label.frame = CGRectMake(x-5*_fontSize/2, y-_fontSize/2, 5*_fontSize, _fontSize);
                 label.transform = CGAffineTransformMakeRotation(((float)section/[labelArray count])*(2*M_PI)+M_PI_2);
                 label.textAlignment = NSTextAlignmentCenter;
-                
                 break;
             case PNRadarChartLabelStyleHorizontal:
-                if (x<_centerX) {
-                    label.frame = CGRectMake(x-detailSize.width, y-detailSize.height/2, detailSize.width, detailSize.height);
+                if (x < _centerX) {
+                    if (y < _centerY) {
+                        label.layer.anchorPoint = CGPointMake(1, 0.5);
+                        label.frame = CGRectMake(x - detailSize.width, y, detailSize.width, detailSize.height);
+                    }else{
+                        label.layer.anchorPoint = CGPointMake(0, 0.5);
+                        label.frame = CGRectMake(x, y - detailSize.height / 2, detailSize.width, detailSize.height);
+                    }
                     label.textAlignment = NSTextAlignmentRight;
                 }else{
-                    label.frame = CGRectMake(x, y-detailSize.height/2, detailSize.width , detailSize.height);
+                    if (y < _centerY) {
+                        label.layer.anchorPoint = CGPointMake(0, 0.5);
+                        label.frame = CGRectMake(x, y - detailSize.width - 5, detailSize.width , detailSize.height);
+                    }else{
+                        label.layer.anchorPoint = CGPointMake(0, 0.5);
+                        label.frame = CGRectMake(x, y - detailSize.height / 2, detailSize.width , detailSize.height);
+                    }
                     label.textAlignment = NSTextAlignmentLeft;
                 }
+                if (y == _centerY) {
+                    label.layer.anchorPoint = CGPointMake(0.5, 0.5);
+                }
+                label.transform = CGAffineTransformMakeRotation(M_PI_2);
                 break;
             case PNRadarChartLabelStyleHidden:
                 [label setHidden:YES];

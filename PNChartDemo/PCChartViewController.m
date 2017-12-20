@@ -277,14 +277,16 @@
 
 
         NSArray *items = @[[PNRadarChartDataItem dataItemWithValue:3 description:@"Art"],
-                [PNRadarChartDataItem dataItemWithValue:2 description:@"Math"],
-                [PNRadarChartDataItem dataItemWithValue:8 description:@"Sports"],
-                [PNRadarChartDataItem dataItemWithValue:5 description:@"Literature"],
-                [PNRadarChartDataItem dataItemWithValue:4 description:@"Other"],
+                           [PNRadarChartDataItem dataItemWithValue:4 description:@"Math"],
+                           [PNRadarChartDataItem dataItemWithValue:7 description:@"Sports"],
+                           [PNRadarChartDataItem dataItemWithValue:6 description:@"Music"],
+                           [PNRadarChartDataItem dataItemWithValue:5 description:@"Health"],
         ];
         self.radarChart = [[PNRadarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 300.0) items:items valueDivider:1];
-
-        self.radarChart.plotColor = [UIColor redColor];
+        self.radarChart.maxValue = 10;
+        self.radarChart.webColor = [UIColor redColor];
+        self.radarChart.graduationColor = [UIColor yellowColor];
+        self.radarChart.plotColor = [UIColor blackColor];
 
         [self.radarChart strokeChart];
 
