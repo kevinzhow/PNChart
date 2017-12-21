@@ -263,9 +263,11 @@
         }
         [label sizeToFit];
         
-        label.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tapLabelGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
-        [label addGestureRecognizer:tapLabelGesture];
+        if (_isLabelTouchable) {
+            label.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tapLabelGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
+            [label addGestureRecognizer:tapLabelGesture];
+        }
         [self addSubview:label];
         
         section ++;
@@ -283,7 +285,6 @@
         }
     }
     [_detailLabel setHidden:NO];
-    
 }
 
 - (void)showGraduation {
