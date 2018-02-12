@@ -874,72 +874,67 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
 - (NSArray *)colorRangesBetweenP1:(CGPoint)p1 P2:(CGPoint)p2
                       rangeColors:(NSArray<PNLineChartColorRange *> *)rangeColors
                      defaultColor:(UIColor *)defaultColor {
+    PNLineChartColorRange* bestMatchColorForRangeInfo = nil;
     if (rangeColors && rangeColors.count > 0 && p2.x > p1.x) {
-        PNLineChartColorRange *colorForRangeInfo = [[rangeColors firstObject] copy];
-        NSArray *remainingRanges = nil;
-        if (rangeColors.count > 1) {
-            remainingRanges = [rangeColors subarrayWithRange:NSMakeRange(1, rangeColors.count - 1)];
+        for (PNLineChartColorRange* aColorForRangeInfo in rangeColors) {
+//            NSArray *remainingRanges = nil;
+            // tRange : convert the rangeColors.range values to value between yValueMin and yValueMax
+            CGFloat transformedStart = [self yValuePositionInLineChart:(CGFloat)
+                                        aColorForRangeInfo.range.location];
+            CGFloat transformedEnd = [self yValuePositionInLineChart:(CGFloat)
+                                      (aColorForRangeInfo.range.location + aColorForRangeInfo.range.length)];
+            
+            NSRange pathRange = NSMakeRange((NSUInteger) fmin(p1.y, p2.y), (NSUInteger) fabs(p2.y - p1.y));
+            NSRange tRange = NSMakeRange((NSUInteger) fmin(transformedStart, transformedEnd),
+                                         (NSUInteger) fabs(transformedEnd - transformedStart));
+            if (NSIntersectionRange(tRange, pathRange).length > 0) {
+                bestMatchColorForRangeInfo = aColorForRangeInfo;
+                CGPoint partition1EndPoint;
+                CGPoint partition2EndPoint;
+                NSArray *partition1 = @[];
+                NSDictionary *partition2 = nil;
+                NSArray *partition3 = @[];
+                if (p2.y >= p1.y) {
+                    partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p1.y, tRange.location)
+                                                         betweenPoint1:p1
+                                                             andPoint2:p2], (CGFloat) fmax(p1.y, tRange.location));
+                    partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p2.y, tRange.location + tRange.length)
+                                                         betweenPoint1:p1
+                                                             andPoint2:p2], (CGFloat) fmin(p2.y, tRange.location + tRange.length));
+                } else {
+                    partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p1.y, tRange.location + tRange.length)
+                                                         betweenPoint1:p1
+                                                             andPoint2:p2], (CGFloat) fmin(p1.y, tRange.location + tRange.length));
+                    partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p2.y, tRange.location)
+                                                         betweenPoint1:p1
+                                                             andPoint2:p2], (CGFloat) fmax(p2.y, tRange.location));
+                }
+                if (p1.y != partition1EndPoint.y) {
+                    partition1 = [self colorRangesBetweenP1:p1
+                                                         P2:partition1EndPoint
+                                                rangeColors:rangeColors
+                                               defaultColor:defaultColor];
+                }
+                partition2 = @{
+                               @"color": aColorForRangeInfo.color,
+                               @"from": [NSValue valueWithCGPoint:partition1EndPoint],
+                               @"to": [NSValue valueWithCGPoint:partition2EndPoint]};
+                if (p2.y != partition2EndPoint.y) {
+                    partition3 = [self colorRangesBetweenP1:partition2EndPoint
+                                                         P2:p2
+                                                rangeColors:rangeColors
+                                               defaultColor:defaultColor];
+                }
+                return [[partition1 arrayByAddingObject:partition2] arrayByAddingObjectsFromArray:partition3];
+            }
         }
-        // tRange : convert the rangeColors.range values to value between yValueMin and yValueMax
-        CGFloat transformedStart = [self yValuePositionInLineChart:(CGFloat)
-                colorForRangeInfo.range.location];
-        CGFloat transformedEnd = [self yValuePositionInLineChart:(CGFloat)
-                (colorForRangeInfo.range.location + colorForRangeInfo.range.length)];
-
-        NSRange pathRange = NSMakeRange((NSUInteger) fmin(p1.y, p2.y), (NSUInteger) fabs(p2.y - p1.y));
-        NSRange tRange = NSMakeRange((NSUInteger) fmin(transformedStart, transformedEnd),
-                (NSUInteger) fabs(transformedEnd - transformedStart));
-        if (NSIntersectionRange(tRange, pathRange).length > 0) {
-            CGPoint partition1EndPoint;
-            CGPoint partition2EndPoint;
-            NSArray *partition1 = @[];
-            NSDictionary *partition2 = nil;
-            NSArray *partition3 = @[];
-            if (p2.y >= p1.y) {
-                partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p1.y, tRange.location)
-                                                     betweenPoint1:p1
-                                                         andPoint2:p2], (CGFloat) fmax(p1.y, tRange.location));
-                partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p2.y, tRange.location + tRange.length)
-                                                     betweenPoint1:p1
-                                                         andPoint2:p2], (CGFloat) fmin(p2.y, tRange.location + tRange.length));
-            } else {
-                partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p1.y, tRange.location + tRange.length)
-                                                     betweenPoint1:p1
-                                                         andPoint2:p2], (CGFloat) fmin(p1.y, tRange.location + tRange.length));
-                partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p2.y, tRange.location)
-                                                     betweenPoint1:p1
-                                                         andPoint2:p2], (CGFloat) fmax(p2.y, tRange.location));
-            }
-            if (p1.y != partition1EndPoint.y) {
-                partition1 = [self colorRangesBetweenP1:p1
-                                                     P2:partition1EndPoint
-                                            rangeColors:remainingRanges
-                                           defaultColor:defaultColor];
-            }
-            partition2 = @{
-                    @"color": colorForRangeInfo.color,
-                    @"from": [NSValue valueWithCGPoint:partition1EndPoint],
-                    @"to": [NSValue valueWithCGPoint:partition2EndPoint]};
-            if (p2.y != partition2EndPoint.y) {
-                partition3 = [self colorRangesBetweenP1:partition2EndPoint
-                                                     P2:p2
-                                            rangeColors:remainingRanges
-                                           defaultColor:defaultColor];
-            }
-            return [[partition1 arrayByAddingObject:partition2] arrayByAddingObjectsFromArray:partition3];
-        } else {
-
-            return [self colorRangesBetweenP1:p1
-                                           P2:p2
-                                  rangeColors:remainingRanges
-                                 defaultColor:defaultColor];
-        }
-    } else {
-        return @[@{
-                @"color": defaultColor,
-                @"from": [NSValue valueWithCGPoint:p1],
-                @"to": [NSValue valueWithCGPoint:p2]}];
     }
+
+    return @[@{
+                 @"color": defaultColor,
+                 @"from": [NSValue valueWithCGPoint:p1],
+                 @"to": [NSValue valueWithCGPoint:p2]}];
+
 }
 
 

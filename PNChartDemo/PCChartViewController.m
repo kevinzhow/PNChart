@@ -56,7 +56,8 @@
         self.lineChart.showCoordinateAxis = YES;
         self.lineChart.yLabelFormat = @"%1.1f";
         self.lineChart.xLabelFont = [UIFont fontWithName:@"Helvetica-Light" size:8.0];
-        [self.lineChart setXLabels:@[@"SEP 1", @"SEP 2", @"SEP 3", @"SEP 4", @"SEP 5", @"SEP 6", @"SEP 7"]];
+//        [self.lineChart setXLabels:@[@"SEP 1", @"SEP 2", @"SEP 3", @"SEP 4", @"SEP 5", @"SEP 6", @"SEP 7"]];
+        [self.lineChart setXLabels:@[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11"]];
         self.lineChart.yLabelColor = [UIColor blackColor];
         self.lineChart.xLabelColor = [UIColor blackColor];
 
@@ -67,7 +68,7 @@
 
         //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
         //Only if you needed
-        self.lineChart.yFixedValueMax = 300.0;
+        self.lineChart.yFixedValueMax = 600.0;
         self.lineChart.yFixedValueMin = 0.0;
 
         [self.lineChart setYLabels:@[
@@ -82,14 +83,17 @@
         ];
 
         // Line Chart #1
-        NSArray *data01Array = @[@15.1, @60.1, @110.4, @10.0, @186.2, @197.2, @276.2];
-        data01Array = [[data01Array reverseObjectEnumerator] allObjects];
+//        NSArray *data01Array = @[@40, @24, @55, @70, @115, @140, @40, @35];
+        NSArray *data01Array = @[@40, @47, @24, @55, @70, @110, @115, @130, @150, @600, @135];
+//        data01Array = [[data01Array reverseObjectEnumerator] allObjects];
         PNLineChartData *data01 = [PNLineChartData new];
 
         data01.rangeColors = @[
-                [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(10, 30) color:[UIColor redColor]],
-                [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(100, 200) color:[UIColor purpleColor]]
-        ];
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(1, 55) color:[UIColor redColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(56, 53) color:[UIColor lightGrayColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(110, 19) color:[UIColor yellowColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(130, 471) color:[UIColor redColor]]
+                               ];
         data01.dataTitle = @"Alpha";
         data01.color = PNFreshGreen;
         data01.pointLabelColor = [UIColor blackColor];
