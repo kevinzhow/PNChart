@@ -83,16 +83,14 @@
         ];
 
         // Line Chart #1
-//        NSArray *data01Array = @[@40, @24, @55, @70, @115, @140, @40, @35];
-        NSArray *data01Array = @[@40, @47, @24, @55, @70, @110, @115, @130, @150, @600, @135];
-//        data01Array = [[data01Array reverseObjectEnumerator] allObjects];
+        NSArray *data01Array = @[@20, @47, @24, @55, @70, @110, @115, @130, @150, @600, @135];
         PNLineChartData *data01 = [PNLineChartData new];
 
         data01.rangeColors = @[
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(1, 55) color:[UIColor redColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(56, 53) color:[UIColor lightGrayColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(110, 19) color:[UIColor yellowColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(130, 471) color:[UIColor redColor]]
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(30, 55) color:[UIColor redColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(56, 54) color:[UIColor lightGrayColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(110, 50) color:[UIColor orangeColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(160, 471) color:[UIColor redColor]]
                                ];
         data01.dataTitle = @"Alpha";
         data01.color = PNFreshGreen;

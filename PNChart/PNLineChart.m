@@ -562,6 +562,17 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
 
         [pointsOfPath addObject:[lineStartEndPointsArray copy]];
         [pathPoints addObject:[linePointsArray copy]];
+        chartData.rangeColors = [chartData.rangeColors sortedArrayUsingComparator:^NSComparisonResult(PNLineChartColorRange *a, PNLineChartColorRange *b) {
+            if (a.range.location > b.range.location) {
+                return (NSComparisonResult)NSOrderedAscending;
+            } else if (a.range.location < b.range.location) {
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            return (NSComparisonResult)NSOrderedSame;
+        }];
+        
+        chartData.rangeColors = [[chartData.rangeColors reverseObjectEnumerator] allObjects];
+
         // if rangeColors is not nil then it means we need to draw the chart
         // with different colors. colorRangesBetweenP1.. function takes care of
         // partitioning the p1->p2 into segments from which we can create UIBezierPath
@@ -877,17 +888,16 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
     PNLineChartColorRange* bestMatchColorForRangeInfo = nil;
     if (rangeColors && rangeColors.count > 0 && p2.x > p1.x) {
         for (PNLineChartColorRange* aColorForRangeInfo in rangeColors) {
-//            NSArray *remainingRanges = nil;
-            // tRange : convert the rangeColors.range values to value between yValueMin and yValueMax
             CGFloat transformedStart = [self yValuePositionInLineChart:(CGFloat)
                                         aColorForRangeInfo.range.location];
             CGFloat transformedEnd = [self yValuePositionInLineChart:(CGFloat)
                                       (aColorForRangeInfo.range.location + aColorForRangeInfo.range.length)];
-            
-            NSRange pathRange = NSMakeRange((NSUInteger) fmin(p1.y, p2.y), (NSUInteger) fabs(p2.y - p1.y));
-            NSRange tRange = NSMakeRange((NSUInteger) fmin(transformedStart, transformedEnd),
-                                         (NSUInteger) fabs(transformedEnd - transformedStart));
-            if (NSIntersectionRange(tRange, pathRange).length > 0) {
+//            NSLog(@"transformedStart %f transformedEnd %f", transformedStart, transformedEnd);
+            double tfRangeMin = fmin(transformedStart, transformedEnd);
+            double tfRangeMax = fmax(transformedStart, transformedEnd);
+            double p1p2Min = fmin(p1.y, p2.y);
+            double p1p2Max = fmax(p1.y, p2.y);
+            if ( (tfRangeMin <= p1p2Min && p1p2Min <= tfRangeMax) || (p1p2Min <= tfRangeMin && tfRangeMin <= p1p2Max)) {
                 bestMatchColorForRangeInfo = aColorForRangeInfo;
                 CGPoint partition1EndPoint;
                 CGPoint partition2EndPoint;
@@ -895,21 +905,26 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
                 NSDictionary *partition2 = nil;
                 NSArray *partition3 = @[];
                 if (p2.y >= p1.y) {
-                    partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p1.y, tRange.location)
+                    partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p1.y, fmin(transformedStart, transformedEnd))
                                                          betweenPoint1:p1
-                                                             andPoint2:p2], (CGFloat) fmax(p1.y, tRange.location));
-                    partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p2.y, tRange.location + tRange.length)
+                                                             andPoint2:p2], (CGFloat) fmax(p1.y, fmin(transformedStart, transformedEnd)));
+                    partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p2.y, fmin(transformedStart, transformedEnd) + fabs(transformedEnd - transformedStart))
                                                          betweenPoint1:p1
-                                                             andPoint2:p2], (CGFloat) fmin(p2.y, tRange.location + tRange.length));
+                                                             andPoint2:p2], (CGFloat) fmin(p2.y, fmin(transformedStart, transformedEnd) + fabs(transformedEnd - transformedStart)));
                 } else {
-                    partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p1.y, tRange.location + tRange.length)
+                    partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmin(p1.y, fmin(transformedStart, transformedEnd) + fabs(transformedEnd - transformedStart))
                                                          betweenPoint1:p1
-                                                             andPoint2:p2], (CGFloat) fmin(p1.y, tRange.location + tRange.length));
-                    partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p2.y, tRange.location)
+                                                             andPoint2:p2], (CGFloat) fmin(p1.y, fmin(transformedStart, transformedEnd) + fabs(transformedEnd - transformedStart)));
+                    partition2EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p2.y, fmin(transformedStart, transformedEnd))
                                                          betweenPoint1:p1
-                                                             andPoint2:p2], (CGFloat) fmax(p2.y, tRange.location));
+                                                             andPoint2:p2], (CGFloat) fmax(p2.y, fmin(transformedStart, transformedEnd)));
                 }
                 if (p1.y != partition1EndPoint.y) {
+                    if (p1.y <= partition1EndPoint.y) {
+                        partition1EndPoint.y = partition1EndPoint.y - 0.001;
+                    } else {
+                        partition1EndPoint.y = partition1EndPoint.y + 0.001;
+                    }
                     partition1 = [self colorRangesBetweenP1:p1
                                                          P2:partition1EndPoint
                                                 rangeColors:rangeColors
@@ -920,6 +935,12 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
                                @"from": [NSValue valueWithCGPoint:partition1EndPoint],
                                @"to": [NSValue valueWithCGPoint:partition2EndPoint]};
                 if (p2.y != partition2EndPoint.y) {
+                    if (p2.y <= partition2EndPoint.y) {
+                        partition2EndPoint.y = partition2EndPoint.y - 0.001;
+                    } else {
+                        partition2EndPoint.y = partition2EndPoint.y + 0.001;
+                    }
+                    
                     partition3 = [self colorRangesBetweenP1:partition2EndPoint
                                                          P2:p2
                                                 rangeColors:rangeColors
