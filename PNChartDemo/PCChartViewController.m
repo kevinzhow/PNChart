@@ -68,7 +68,7 @@
 
         //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
         //Only if you needed
-        self.lineChart.yFixedValueMax = 600.0;
+        self.lineChart.yFixedValueMax = 100;
         self.lineChart.yFixedValueMin = 0.0;
 
         [self.lineChart setYLabels:@[
@@ -83,14 +83,15 @@
         ];
 
         // Line Chart #1
-        NSArray *data01Array = @[@20, @47, @24, @55, @70, @110, @115, @130, @150, @600, @135];
+        NSArray *data01Array = @[@61, @60, @63, @63, @64, @63, @64, @66];
         PNLineChartData *data01 = [PNLineChartData new];
 
         data01.rangeColors = @[
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(30, 55) color:[UIColor redColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(56, 54) color:[UIColor lightGrayColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(110, 50) color:[UIColor orangeColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(160, 471) color:[UIColor redColor]]
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(1, 54) color:[UIColor redColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(56, 14) color:[UIColor yellowColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(71, 98) color:[UIColor greenColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(170, 29) color:[UIColor yellowColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(200, 400) color:[UIColor redColor]],
                                ];
         data01.dataTitle = @"Alpha";
         data01.color = PNFreshGreen;
@@ -107,7 +108,7 @@
         };
 
         // Line Chart #2
-        NSArray *data02Array = @[@0.0, @180.1, @26.4, @202.2, @126.2, @167.2, @276.2];
+        NSArray *data02Array = @[@0.0, @18.1, @26.4, @30.2, @12.2, @16.2, @27.2];
         PNLineChartData *data02 = [PNLineChartData new];
         data02.dataTitle = @"Beta";
         data02.pointLabelColor = [UIColor blackColor];
@@ -394,7 +395,7 @@
     } else if ([self.title isEqualToString:@"Line Chart"]) {
         UISwitch *showLabels = (UISwitch *) sender;
         self.lineChart.showSmoothLines = showLabels.on;
-        NSLog(@"self.lineChart.showSmoothLines : %d", self.lineChart.showSmoothLines);
+//        NSLog(@"self.lineChart.showSmoothLines : %d", self.lineChart.showSmoothLines);
         [self.lineChart strokeChart];
     }
 }

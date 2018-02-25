@@ -112,7 +112,7 @@
 
 - (void)setYLabels:(NSArray *)yLabels {
     _showGenYLabels = NO;
-    _yLabelNum = yLabels.count - 1;
+    _yLabelNum = yLabels.count;
 
     CGFloat yLabelHeight;
     if (_showLabel) {
@@ -443,8 +443,8 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
 
         NSMutableArray *linePointsArray = [[NSMutableArray alloc] init];
         NSMutableArray *lineStartEndPointsArray = [[NSMutableArray alloc] init];
-        int last_x = 0;
-        int last_y = 0;
+        CGFloat last_x = 0;
+        CGFloat last_y = 0;
         NSMutableArray<NSDictionary<NSString *, NSValue *> *> *progressLinePaths = [NSMutableArray new];
         UIColor *defaultColor = chartData.color != nil ? chartData.color : [UIColor greenColor];
         CGFloat inflexionWidth = chartData.inflexionPointWidth;
@@ -456,8 +456,8 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
 
             yValue = chartData.getData(i).y;
 
-            int x = (int) (i * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0);
-            int y = (int)[self yValuePositionInLineChart:yValue];
+            CGFloat x = (i * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0);
+            CGFloat y = [self yValuePositionInLineChart:yValue];
 
             // Circular point
             if (chartData.inflexionPointStyle == PNLineChartPointStyleCircle) {
@@ -855,7 +855,8 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
     } else {
         innerGrade = ((CGFloat) y - _yValueMin) / (_yValueMax - _yValueMin);
     }
-    return _chartCavanHeight - (innerGrade * _chartCavanHeight) - (_yLabelHeight / 2) + _chartMarginTop;
+    CGFloat projection = _chartCavanHeight - (innerGrade * _chartCavanHeight) - (_yLabelHeight / 2) + _chartMarginTop;
+    return projection;
 }
 
 /**
@@ -904,7 +905,10 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
                 NSArray *partition1 = @[];
                 NSDictionary *partition2 = nil;
                 NSArray *partition3 = @[];
-                if (p2.y >= p1.y) {
+                if (p2.y == p1.y) {
+                    partition1EndPoint = p1;
+                    partition2EndPoint = p2;
+                } else if (p2.y > p1.y) {
                     partition1EndPoint = CGPointMake([PNLineChart xOfY:(CGFloat) fmax(p1.y, fmin(transformedStart, transformedEnd))
                                                          betweenPoint1:p1
                                                              andPoint2:p2], (CGFloat) fmax(p1.y, fmin(transformedStart, transformedEnd)));
@@ -1026,10 +1030,21 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
 }
 
 + (CGFloat)xOfY:(CGFloat)y betweenPoint1:(CGPoint)point1 andPoint2:(CGPoint)point2 {
-    CGFloat m = (point2.y - point1.y) / (point2.x - point1.x);
-    // formulate = y - y1 = m (x - x1) = mx - mx1 -> mx = y - y1 + mx1 ->
-    // x = (y - y1 + mx1) / m
-    return (y - point1.y + m * point1.x) / m;
+    if (point2.x != point1.x) {
+        CGFloat m = (point2.y - point1.y) / (point2.x - point1.x);
+        CGFloat a = point2.y - m * point2.x;
+        // y = mx + a
+        // y2 = mx * a : a = y2 - mx
+        // formulate = y - y1 = m (x - x1) = mx - mx1 -> mx = y - y1 + mx1 ->
+        // y = mx + a : x = (y - a)/m
+        // x = (y - y1 + mx1) / m
+        if (m == 0) {
+            return NAN;
+        } else {
+            return (y - a) / m;
+        }
+    }
+    return point1.x;
 }
 
 
