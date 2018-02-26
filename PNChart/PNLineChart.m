@@ -898,6 +898,12 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
             double tfRangeMax = fmax(transformedStart, transformedEnd);
             double p1p2Min = fmin(p1.y, p2.y);
             double p1p2Max = fmax(p1.y, p2.y);
+            BOOL intersects;
+            if (aColorForRangeInfo.inclusive) {
+                intersects = (tfRangeMin <= p1p2Min && p1p2Min <= tfRangeMax) || (p1p2Min <= tfRangeMin && tfRangeMin <= p1p2Max);
+            } else {
+                intersects = (tfRangeMin <= p1p2Min && p1p2Min < tfRangeMax) || (p1p2Min <= tfRangeMin && tfRangeMin <= p1p2Max);
+            }
             if ( (tfRangeMin <= p1p2Min && p1p2Min <= tfRangeMax) || (p1p2Min <= tfRangeMin && tfRangeMin <= p1p2Max)) {
                 bestMatchColorForRangeInfo = aColorForRangeInfo;
                 CGPoint partition1EndPoint;

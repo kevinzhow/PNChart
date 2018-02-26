@@ -68,7 +68,7 @@
 
         //Use yFixedValueMax and yFixedValueMin to Fix the Max and Min Y Value
         //Only if you needed
-        self.lineChart.yFixedValueMax = 100;
+        self.lineChart.yFixedValueMax = 200;
         self.lineChart.yFixedValueMin = 0.0;
 
         [self.lineChart setYLabels:@[
@@ -83,15 +83,15 @@
         ];
 
         // Line Chart #1
-        NSArray *data01Array = @[@61, @60, @63, @63, @64, @63, @64, @66];
+        NSArray *data01Array = @[@124, @134, @128, @127, @144, @139, @134, @134, @132, @130, @116, @95];
         PNLineChartData *data01 = [PNLineChartData new];
 
         data01.rangeColors = @[
                                [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(1, 54) color:[UIColor redColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(56, 14) color:[UIColor yellowColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(71, 98) color:[UIColor greenColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(170, 29) color:[UIColor yellowColor]],
-                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(200, 400) color:[UIColor redColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(55, 6) color:[UIColor yellowColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(61, 49) color:[UIColor greenColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(110, 20) color:[UIColor yellowColor]],
+                               [[PNLineChartColorRange alloc] initWithRange:NSMakeRange(130, 470) color:[UIColor redColor]]
                                ];
         data01.dataTitle = @"Alpha";
         data01.color = PNFreshGreen;

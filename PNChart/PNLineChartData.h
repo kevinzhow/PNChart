@@ -24,6 +24,7 @@ typedef PNLineChartDataItem *(^LCLineChartDataGetter)(NSUInteger item);
 @property(nonatomic, retain) UIColor *color;
 
 - (id)initWithRange:(NSRange)range color:(UIColor *)color;
+- (id)initWithRange:(NSRange)range color:(UIColor *)color inclusive:(BOOL)isInclusive;
 
 @end
 

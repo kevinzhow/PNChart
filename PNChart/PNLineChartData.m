@@ -13,6 +13,18 @@
     if (self) {
         self.range = range;
         self.color = color;
+        self.inclusive = NO;
+    }
+    return self;
+}
+
+
+- (id)initWithRange:(NSRange)range color:(UIColor *)color inclusive:(BOOL)isInclusive {
+    self = [super init];
+    if (self) {
+        self.range = range;
+        self.color = color;
+        self.inclusive = isInclusive;
     }
     return self;
 }
