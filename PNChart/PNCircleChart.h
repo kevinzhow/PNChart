@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PNColor.h"
-#import <UICountingLabel/UICountingLabel.h>
+#import "UICountingLabel.h"
 
 typedef NS_ENUM (NSUInteger, PNChartFormatType) {
     PNChartFormatTypePercent,
