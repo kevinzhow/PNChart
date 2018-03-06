@@ -421,6 +421,9 @@
     NSUInteger rowMaxHeight = 0;
     
     for (PNPieChartDataItem *pdata in self.items) {
+        if (!pdata.textDescription) {
+            break;
+        }
         /* Expected label size*/
         CGSize labelsize = [PNLineChart sizeOfString:pdata.textDescription
                                            withWidth:maxLabelWidth
