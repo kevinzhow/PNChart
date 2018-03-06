@@ -92,7 +92,7 @@
         PNRadarChartDataItem *item = (PNRadarChartDataItem *)[_chartData objectAtIndex:i];
         [descriptions addObject:item.textDescription];
         [values addObject:[NSNumber numberWithFloat:item.value]];
-        CGFloat angleValue = (float)i/(float)[_chartData count]*2*M_PI;
+        CGFloat angleValue = (float)i/(float)[_chartData count]*2*M_PI + M_PI_2 * 3;
         [angles addObject:[NSNumber numberWithFloat:angleValue]];
     }
     
@@ -206,6 +206,8 @@
 
     [self addAnimationIfNeeded];
     [self showGraduation];
+
+//    self.transform = CGAffineTransformMakeRotation(-M_PI_2);
 }
 
 #pragma mark - Helper
@@ -237,9 +239,8 @@
         switch (_labelStyle) {
             case PNRadarChartLabelStyleCircle:
                 label.frame = CGRectMake(x-5*_fontSize/2, y-_fontSize/2, 5*_fontSize, _fontSize);
-                label.transform = CGAffineTransformMakeRotation(((float)section/[labelArray count])*(2*M_PI)+M_PI_2);
+                label.transform = CGAffineTransformMakeRotation(((float)section/[labelArray count])*(2*M_PI)+M_PI_2 + M_PI_2 * 3);
                 label.textAlignment = NSTextAlignmentCenter;
-                
                 break;
             case PNRadarChartLabelStyleHorizontal:
                 if (x<_centerX) {
@@ -248,6 +249,10 @@
                 }else{
                     label.frame = CGRectMake(x, y-detailSize.height/2, detailSize.width , detailSize.height);
                     label.textAlignment = NSTextAlignmentLeft;
+                }
+                if ((int)x == (int)_centerX) {
+                    label.frame = CGRectMake(x - detailSize.width * 0.5, y - detailSize.height * 0.5, detailSize.width , detailSize.height);
+                    label.textAlignment = NSTextAlignmentCenter;
                 }
                 break;
             case PNRadarChartLabelStyleHidden:
@@ -258,9 +263,11 @@
         }
         [label sizeToFit];
         
-        label.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tapLabelGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
-        [label addGestureRecognizer:tapLabelGesture];
+        if (_isLabelTouchable) {
+            label.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tapLabelGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
+            [label addGestureRecognizer:tapLabelGesture];
+        }
         [self addSubview:label];
         
         section ++;
@@ -278,7 +285,6 @@
         }
     }
     [_detailLabel setHidden:NO];
-    
 }
 
 - (void)showGraduation {

@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, PNRadarChartLabelStyle) {
 @interface PNRadarChart : PNGenericChart
 
 -(id)initWithFrame:(CGRect)frame  items:(NSArray *)items valueDivider:(CGFloat)unitValue;
+
 /** 
  *Draws the chart in an animated fashion.
  */
