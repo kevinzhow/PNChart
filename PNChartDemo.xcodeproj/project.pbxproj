@@ -64,7 +64,7 @@
 		3ED57E0C204F0CFF003D6796 /* PNRadarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD79D011B43700800A7C300 /* PNRadarChart.m */; };
 		3ED57E0D204F0CFF003D6796 /* PNRadarChartDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD79D041B43CF8000A7C300 /* PNRadarChartDataItem.m */; };
 		3ED57E10204F0DC4003D6796 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ED57E0E204F0DC4003D6796 /* UICountingLabel.m */; };
-		3ED57E11204F0DC4003D6796 /* UICountingLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ED57E0F204F0DC4003D6796 /* UICountingLabel.h */; };
+		3ED57E11204F0DC4003D6796 /* UICountingLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ED57E0F204F0DC4003D6796 /* UICountingLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C9B4AA31B05BBCB00093EBE /* PNBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9B4AA21B05BBCB00093EBE /* PNBarChart.m */; };
 		6A35C46F1C4A0D22004AB51A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A35C46E1C4A0D22004AB51A /* Launch Screen.storyboard */; };
 		6E984E5D1AE2B00600E817A0 /* PNBarChartTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E984E5C1AE2B00600E817A0 /* PNBarChartTests.m */; };
@@ -392,7 +392,6 @@
 				3ED57DF2204F0CA2003D6796 /* PNColor.h in Headers */,
 				3ED57DF3204F0CA2003D6796 /* PNBar.h in Headers */,
 				3ED57DF4204F0CA2003D6796 /* PNBarChart.h in Headers */,
-				3ED57E11204F0DC4003D6796 /* UICountingLabel.h in Headers */,
 				3ED57DF5204F0CA2003D6796 /* PNCircleChart.h in Headers */,
 				3ED57DF6204F0CA2003D6796 /* PNLineChart.h in Headers */,
 				3ED57DF7204F0CA2003D6796 /* PNLineChartData.h in Headers */,
@@ -401,6 +400,7 @@
 				3ED57DFA204F0CA2003D6796 /* PNPieChartDataItem.h in Headers */,
 				3ED57DFB204F0CA2003D6796 /* PNGenericChart.h in Headers */,
 				3ED57DFC204F0CA2003D6796 /* PNRadarChart.h in Headers */,
+				3ED57E11204F0DC4003D6796 /* UICountingLabel.h in Headers */,
 				3ED57DFD204F0CA2003D6796 /* PNRadarChartDataItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
