@@ -244,7 +244,7 @@ displayCountingLabel:(BOOL)displayCountingLabel
 
 - (void)addAnimationIfNeeded
 {
-    double percentageValue = [_current floatValue]/([_total floatValue]/100.0);
+    double percentageValue = (_current.floatValue / _total.floatValue) * 100.0f;
     
     if (self.displayAnimated) {
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
