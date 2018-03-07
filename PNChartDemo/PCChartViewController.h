@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PNChartDelegate.h"
-#import "PNChart.h"
+#import "PNChart/PNChart.h"
 
 @interface PCChartViewController : UIViewController<PNChartDelegate>
 
